@@ -160,6 +160,7 @@ assets/templates/
 ├── react-meta-frontend-skeleton/   # DEFAULT — UI only, Meta + DEW
 ├── react-meta-hybrid-skeleton/     # DEFAULT — UI + Backend
 ├── react-meta-oauth-skeleton/      # DEFAULT — UI + OAuth
+├── react-meta-custom-iparams-skeleton/  # Optional — custom Settings (config/iparams.html)
 ├── frontend-skeleton/              # Vanilla opt-in
 ├── serverless-skeleton/            # Backend only
 ├── hybrid-skeleton/                # Vanilla opt-in

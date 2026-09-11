@@ -1166,4 +1166,28 @@ export const FW_APP_DEV_SCENARIOS = [
     },
   },
 
+  // fw-app-dev-51: custom React Settings → iparams.html skeleton, not iparams.json alone
+  {
+    id: 'fw-app-dev-51',
+    skill: 'fw-app-dev',
+    label: 'custom React Settings page → iparams.html skeleton, remove iparams.json',
+    loadContent: () => loadSkill('fw-app-dev'),
+    prompt: 'Developer asks: "Build a React Meta app with a custom installation Settings page — custom form UI with client-side validation, not the default iparams.json fields." According to fw-app-dev: should the agent use config/iparams.html with React under config/assets/ (react-meta-custom-iparams-skeleton), remove config/iparams.json, and include react-error-boundary for the iparams mount?',
+    schema: {
+      type: 'object',
+      required: ['uses_iparams_html', 'removes_iparams_json', 'uses_custom_iparams_skeleton'],
+      properties: {
+        uses_iparams_html: { type: 'boolean' },
+        removes_iparams_json: { type: 'boolean' },
+        uses_custom_iparams_skeleton: { type: 'boolean' },
+        explanation: { type: 'string' },
+      },
+    },
+    assert(output) {
+      assert.equal(output.uses_iparams_html, true, 'custom Settings must use config/iparams.html');
+      assert.equal(output.removes_iparams_json, true, 'must not keep iparams.json alongside iparams.html');
+      assert.equal(output.uses_custom_iparams_skeleton, true, 'must use react-meta-custom-iparams-skeleton or equivalent');
+    },
+  },
+
 ];

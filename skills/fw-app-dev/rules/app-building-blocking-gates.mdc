@@ -64,11 +64,12 @@ alwaysApply: true
 app/
 ├── index.html          ← REQUIRED (or manifest url)
 ├── index.jsx           ← REQUIRED entry
+├── mount.jsx           ← REQUIRED (ErrorBoundary + createRoot)
 ├── icon.svg            ← REQUIRED (or path in manifest icon)
 ├── components/         ← REQUIRED (App, Router with path="*")
 └── styles/
     └── app.css         ← REQUIRED
-package.json            ← REQUIRED (React, DEW — no Crayons)
+package.json            ← REQUIRED (React, DEW, react-error-boundary — no Crayons)
 ```
 
 **Vanilla JS (explicit opt-in):**
@@ -87,8 +88,8 @@ app/
 **Checklist - React Meta - ALL must be YES before marking app complete:**
 - [ ] `metaConfig.framework` is `"react"` in manifest.json
 - [ ] app/index.html exists at app root
-- [ ] app/index.jsx and app/components/ exist
-- [ ] package.json includes `@freshworks/dew-components` and `@freshworks/dew-styles`
+- [ ] app/index.jsx and app/mount.jsx exist
+- [ ] package.json includes `@freshworks/dew-components`, `@freshworks/dew-styles`, and `react-error-boundary`
 - [ ] Router includes fallback route `path="*"`
 - [ ] No `@freshworks/crayons` in package.json or HTML CDN scripts
 - [ ] Icon file exists at manifest-declared path

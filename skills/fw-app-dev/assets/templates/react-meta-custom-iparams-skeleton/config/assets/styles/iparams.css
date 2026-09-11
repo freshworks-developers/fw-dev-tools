@@ -2,11 +2,11 @@
 @import '@freshworks/dew-styles/dist/fonts.css';
 @import '@freshworks/dew-styles/dist/numbers.css';
 
-.app-home,
-.app-demo {
+.iparams-form {
   padding: 16px;
 }
 
-.app-home h1 {
-  margin-bottom: 8px;
+.iparams-form h1 {
+  margin: 0 0 12px;
+  font-size: 1.125rem;
 }

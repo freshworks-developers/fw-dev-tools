@@ -50,3 +50,13 @@ Omit for pure frontend apps with no client SDK needs.
 ## Multi-placeholder
 
 One HTML shell per surface. [Superstack](https://github.com/freshworks-developers/superstack) uses `index.html`, `ticketSidebar.html`, `modal.html`, etc.
+
+## Custom iparams (Settings page)
+
+For a **React-based custom Settings page**, use **`config/iparams.html`** (not `config/iparams.json`):
+
+- Same rules: **`#root`**, HTML at **`config/` root**, **`{{{appclient}}}`** when Request method / SMI / Jobs are used on Settings
+- React entry: `config/assets/components/main.jsx` (bundled by FDK Vite)
+- Expose **`window.getConfigs`**, **`window.postConfigs`**, **`window.validate`**
+
+Full workflow and sample files: **`custom-iparams.md`** · template: `assets/templates/react-meta-custom-iparams-skeleton/`

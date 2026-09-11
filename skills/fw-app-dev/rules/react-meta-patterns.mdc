@@ -26,6 +26,7 @@ globs: ["**/manifest.json", "**/app/**/*.{jsx,tsx,js,ts,html}", "**/vite.config.
 - `@freshworks/crayons`, Crayons CDN, `<fw-*>` web components
 - Plain HTML form controls as primary UI (use DEW React components)
 - `metaConfig` outside `manifest.json`
+- **`<DewTheme>` as a JSX wrapper** — `DewTheme` is a Tailwind config export, not a React component (causes blank UI / invalid element type)
 
 ## Allowed alongside DEW
 
@@ -56,6 +57,7 @@ app/
 ├── index.html              # At app root (name configurable in manifest location.url)
 ├── icon.svg                # Or path declared in manifest
 ├── index.jsx               # Entry (bundled by FDK Vite)
+├── mount.jsx               # ErrorBoundary + createRoot (react-error-boundary)
 ├── components/
 ├── public/
 └── styles/
@@ -66,7 +68,7 @@ package.json
 vite.config.js              # Optional (FDK 10.1.5+)
 ```
 
-HTML entry files may also live at **`config/` root** (e.g. `config/iparams.html`). Do **not** nest manifest-referenced HTML under `app/components/` or `app/scripts/`.
+**Custom iparams (optional):** `config/iparams.html` + `config/assets/` — see **`custom-iparams.md`**. Do **not** nest manifest HTML under `app/components/` or `app/scripts/`.
 
 ## Custom HTML
 
@@ -106,6 +108,7 @@ Home/fallback **must** use `path="*"`. Feature routes use **`/app/...`** prefix.
 | React Meta frontend | `assets/templates/react-meta-frontend-skeleton/` |
 | React Meta hybrid | `assets/templates/react-meta-hybrid-skeleton/` |
 | React Meta OAuth | `assets/templates/react-meta-oauth-skeleton/` |
+| Custom iparams (React Settings) | `assets/templates/react-meta-custom-iparams-skeleton/` |
 
 ## Reference docs
 
@@ -114,6 +117,7 @@ Home/fallback **must** use `path="*"`. Feature routes use **`/app/...`** prefix.
 - `references/react-meta/styling-and-third-party.md`
 - `references/react-meta/vite-config.md`
 - `references/react-meta/custom-html.md`
+- `references/react-meta/custom-iparams.md`
 - `references/react-meta/js-to-react-migration-checklist.md`
 
 ## Related rules

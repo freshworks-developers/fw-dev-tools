@@ -410,6 +410,7 @@ Use this process for every app request so the right features are generated.
 | Migrate vanilla → Meta | **`/fdk-react-migrate`** (Platform **3.0** only; **`/fdk-migrate`** first for **2.x**) |
 | Manifest | **`metaConfig.framework: "react"`** in **`manifest.json` only** |
 | UI | **`@freshworks/dew-components`** + **`@freshworks/dew-styles`** (**required**) |
+| Error handling | **`react-error-boundary`** in `app/mount.jsx` (and iparams `mount.jsx` when custom Settings) |
 | Forbidden (Meta) | **`@freshworks/crayons`**, Crayons CDN, `<fw-*>` — **no Crayons in Meta workflow** |
 | Router | Home/fallback **`path="*"`**; feature routes **`/app/...`** |
 | TypeScript | **Supported** — `.tsx` / `.ts`, optional `tsconfig.json`; React **19+** preferred |
@@ -446,6 +447,7 @@ External API → React Meta Hybrid + `requests.json`; OAuth → `react-meta-oaut
 | `assets/templates/react-meta-frontend-skeleton/` | **Default** UI only | `metaConfig`, `package.json`, DEW, `app/index.jsx`, **`README.md`** |
 | `assets/templates/react-meta-hybrid-skeleton/` | **Default** UI + SMI + API | above + `server/`, `config/requests.json` |
 | `assets/templates/react-meta-oauth-skeleton/` | **Default** UI + OAuth | above + `config/oauth_config.json` |
+| `assets/templates/react-meta-custom-iparams-skeleton/` | Custom React Settings (`config/iparams.html`) | copy `config/` over app; remove `iparams.json` |
 | `assets/templates/serverless-skeleton/` | No UI, events/automation | `server/server.js`, `manifest.json`, **`README.md`** |
 | `assets/templates/frontend-skeleton/` | Vanilla JS opt-in | Crayons CDN, `app/scripts/app.js` |
 | `assets/templates/hybrid-skeleton/` | Vanilla hybrid opt-in | Crayons + server |
@@ -469,7 +471,7 @@ External API → React Meta Hybrid + `requests.json`; OAuth → `react-meta-oaut
    - Fix JSON structure errors (multiple top-level objects → merge)
    - Fix comma placement (missing commas → add, trailing commas → remove)
    - Fix template syntax (`{{variable}}` → `<%= context.variable %>`)
-   - Create missing mandatory files (**Meta:** `app/icon.svg`; **vanilla:** `app/styles/images/icon.svg`; **always:** `config/iparams.json`, `README.md`)
+   - Create missing mandatory files (**Meta:** `app/icon.svg`; **vanilla:** `app/styles/images/icon.svg`; **always:** `config/iparams.json` *or* custom `config/iparams.html` per `references/react-meta/custom-iparams.md`, `README.md`)
    - Fix FQDN issues (host with path → FQDN only)
    - Fix path issues (missing `/` → add `/` prefix)
    - Re-run `fdk validate`

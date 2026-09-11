@@ -9,6 +9,7 @@ Authoritative platform doc: [Create an app with the meta framework](https://deve
 | [styling-and-third-party.md](./styling-and-third-party.md) | Tailwind, MUI, Redux, Superstack patterns |
 | [vite-config.md](./vite-config.md) | Optional `vite.config.js`, FDK merge precedence |
 | [custom-html.md](./custom-html.md) | HTML placement, `{{{appclient}}}`, multi-placeholder |
+| [custom-iparams.md](./custom-iparams.md) | React custom Settings page (`config/iparams.html`) |
 | [superstack-patterns.md](./superstack-patterns.md) | Official demo app patterns |
 | [js-to-react-migration-checklist.md](./js-to-react-migration-checklist.md) | Vanilla → Meta migration |
 

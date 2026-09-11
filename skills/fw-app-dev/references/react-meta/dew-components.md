@@ -20,18 +20,38 @@ npm install @freshworks/dew-components @freshworks/dew-styles
 **Components** — import only from `@freshworks/dew-components`:
 
 ```jsx
-import { DewTheme, TextButton, InputField, Badge } from '@freshworks/dew-components';
+import { TextButton, InputField, Badge } from '@freshworks/dew-components';
 ```
 
-**Styles** — import token stylesheets from `@freshworks/dew-styles`:
+**Styles** — load DEW token CSS **before** React mounts. Preferred pattern (skeleton `app/styles/app.css`):
+
+```css
+@import '@freshworks/dew-styles/dist/colors.css';
+@import '@freshworks/dew-styles/dist/fonts.css';
+@import '@freshworks/dew-styles/dist/numbers.css';
+```
+
+Then in `app/index.jsx`:
 
 ```jsx
-import '@freshworks/dew-styles/dist/colors.css';
-import '@freshworks/dew-styles/dist/fonts.css';
-import '@freshworks/dew-styles/dist/numbers.css';
+import './styles/app.css';
+import { mountApp } from './mount';
+mountApp();
 ```
 
-Wrap the app root with `<DewTheme>` when using DEW components.
+### How DEW styles apply (no `<DewTheme>` wrapper)
+
+| Layer | What applies styling |
+|-------|----------------------|
+| **`@freshworks/dew-styles`** | CSS token files (`colors.css`, `fonts.css`, `numbers.css`) set design variables on `:root` |
+| **`@freshworks/dew-components`** | React components consume those tokens internally |
+| **`DewTheme` export** | Tailwind **theme config object** only — use in `tailwind.config.js` → `theme.extend` when adding Tailwind; **not** a JSX wrapper |
+
+Render `<App />` via `mountApp()` after `import './styles/app.css'`. DEW components (e.g. `TextButton`) pick up tokens automatically once the CSS is loaded.
+
+**Do not** wrap the root in `<DewTheme>` — in `@freshworks/dew-components` v1.x it is **not** a React component. `<DewTheme><App /></DewTheme>` crashes React (`Element type is invalid… got: object`) and leaves a blank UI.
+
+Optional: use `app/mount.jsx` with `react-error-boundary` so runtime errors show a message instead of a white screen.
 
 Browse available exports and usage in Storybook before adding custom UI.
 

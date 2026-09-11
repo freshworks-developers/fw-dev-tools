@@ -12,7 +12,7 @@ Official documentation demo for Meta framework — Tailwind, MUI, Redux, multi-p
 | MUI page | Separate route for Material UI demo |
 | Redux | Global state for demo navigation |
 | Multi-placeholder | Multiple HTML shells at `app/` root |
-| iparams React | `config/iparams.html` with React iparams UI |
+| iparams React | `config/iparams.html` + `config/assets/components/` — see `custom-iparams.md` |
 
 ## Routing
 

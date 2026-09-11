@@ -61,11 +61,7 @@ See `dew-components.md` and [Storybook](https://dew.freshworkscorp.com/dew-3.0/)
 
 ## iparams (React)
 
-Expose on `window` when using custom iparams HTML:
-
-- `getConfigs`
-- `postConfigs`
-- `validate`
+Default: **`config/iparams.json`**. Custom Settings UI: **`custom-iparams.md`** + `assets/templates/react-meta-custom-iparams-skeleton/`.
 
 ## TypeScript
 

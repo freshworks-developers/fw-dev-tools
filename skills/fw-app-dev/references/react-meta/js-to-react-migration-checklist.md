@@ -17,7 +17,8 @@ Use with **`/fdk-react-migrate`**.
 ## Frontend
 
 - [ ] Keep HTML at `app/` or `config/` root
-- [ ] Replace Crayons CDN with React entry (`app/index.jsx`)
+- [ ] Load DEW styles via `app/styles/app.css` `@import` — **no `<DewTheme>` JSX wrapper**
+- [ ] Replace Crayons CDN with React entry (`app/index.jsx` + `app/mount.jsx` + `react-error-boundary`)
 - [ ] Port `app/scripts/app.js` logic to `app/components/*.jsx`
 - [ ] Add React Router: specific `/app/...` routes **before** `path="*"` catch-all
 - [ ] **Remap navigation:** every old link/view path → `/app/...`; update all `Link` / `navigate()` / `href` targets
@@ -28,7 +29,7 @@ Use with **`/fdk-react-migrate`**.
 
 ## package.json
 
-- [ ] Add React 19+, `@freshworks/dew-components`, `@freshworks/dew-styles`, `react-router-dom`
+- [ ] Add React 19+, `@freshworks/dew-components`, `@freshworks/dew-styles`, `react-error-boundary`, `react-router-dom`
 - [ ] Remove `@freshworks/crayons` if present
 - [ ] Keep legitimate third-party deps
 
@@ -37,6 +38,12 @@ Use with **`/fdk-react-migrate`**.
 - [ ] Do not rewrite `server/server.js` unless required
 - [ ] Keep `config/requests.json`, `oauth_config.json`
 - [ ] Update frontend SMI calls to React + `client.request.invoke`
+
+## Config / iparams
+
+- [ ] Keep `config/iparams.json` unless user needs custom Settings UI
+- [ ] Custom Settings: `config/iparams.html` + `config/assets/components/` — see **`custom-iparams.md`**; remove `iparams.json`
+- [ ] Migrate vanilla `config/assets/iparams.js` → React `IparamsForm.jsx` + `window.getConfigs/postConfigs/validate`
 
 ## Validate
 

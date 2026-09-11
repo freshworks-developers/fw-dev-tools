@@ -31,7 +31,7 @@ Document before changing files:
 
 - **Locations** and HTML shells (`app/index.html`, multi-placeholder names)
 - **Server** handlers in `server/server.js` — keep all needed SMI/events
-- **`config/requests.json`**, **`oauth_config.json`**, **`iparams.json`**
+- **`config/requests.json`**, **`oauth_config.json`**, **`iparams.json`** or **`iparams.html`** (+ `config/assets/` if custom)
 - **Frontend logic** in `app/scripts/app.js` — map to React components
 
 See **`references/react-meta/js-to-react-migration-checklist.md`**.
@@ -49,14 +49,14 @@ See **`references/react-meta/js-to-react-migration-checklist.md`**.
 3. Create/update **`package.json`**:
    - `react`, `react-dom` (^19)
    - `@freshworks/dew-components`, `@freshworks/dew-styles`
-   - `react-router-dom`
+   - `react-error-boundary`, `react-router-dom`
    - Preserve other legitimate deps (axios manifest-pinned, etc.)
 
 ## Step 5: Restructure frontend
 
 1. **Keep** `app/index.html` at app root (update to `#root` shell; retain `{{{appclient}}}` if SMI/Data/Request used).
 2. **Remove** Crayons CDN scripts from HTML.
-3. Create **`app/index.jsx`** entry importing DEW styles + App component.
+3. Create **`app/index.jsx`** + **`app/mount.jsx`** — import DEW tokens via `app/styles/app.css`; wrap `<App />` in **`react-error-boundary`**; **do not** wrap root in `<DewTheme>` (not a React component)
 4. Move UI logic from **`app/scripts/app.js`** into **`app/components/`** as React components.
 5. Add **React Router** with `path="*"` home route and `/app/...` feature routes — **specific `/app/...` routes before the `path="*"` catch-all**.
 6. **Remap all navigation paths (CRITICAL — UI breaks if skipped):**
@@ -68,6 +68,8 @@ See **`references/react-meta/js-to-react-migration-checklist.md`**.
 8. Replace Crayons / plain HTML with DEW components from `@freshworks/dew-components` + `@freshworks/dew-styles`.
 9. **Delete or archive** `app/scripts/app.js` after logic is ported (Meta bundles via Vite).
 10. Update icon path in manifest if moving icon to `app/icon.svg`.
+
+**Custom Settings page (`config/iparams.html`):** if the app uses custom iparams (or user requests it), migrate vanilla `config/assets/iparams.js` to Meta React under `config/assets/components/` — copy/adapt from `react-meta-custom-iparams-skeleton/`; remove `iparams.json` if switching. See **`custom-iparams.md`**.
 
 **Do not** move manifest-referenced HTML under `app/components/`.
 
@@ -121,3 +123,4 @@ bash ~/.fw-dev-tools/scripts/meta-update.sh <app-directory> fw-app-dev \
 - `references/react-meta/js-to-react-migration-checklist.md`
 - `references/react-meta/react-meta-fdk-standards.md`
 - `references/react-meta/custom-html.md`
+- `references/react-meta/custom-iparams.md`

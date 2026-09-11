@@ -206,4 +206,5 @@ Same as default iparams:
 
 - **Default iparams**: `references/runtime/installation-parameters-docs.md`
 - **Custom iparams**: `references/runtime/custom-iparams-docs.md`
+- **Meta React custom iparams**: `references/react-meta/custom-iparams.md`
 - **Errors**: `references/errors/installation-parameters-errors.md`

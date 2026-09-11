@@ -1,3 +1,7 @@
+@import '@freshworks/dew-styles/dist/colors.css';
+@import '@freshworks/dew-styles/dist/fonts.css';
+@import '@freshworks/dew-styles/dist/numbers.css';
+
 .app-home,
 .app-demo {
   padding: 16px;

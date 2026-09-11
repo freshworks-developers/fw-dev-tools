@@ -57,15 +57,17 @@ Ensure the app includes:
    - `"platform-version": "3.0"`
    - `"metaConfig": { "framework": "react", "packageManager": "npm" }`
    - `"engines": { "node": "24.11.0", "fdk": "10.1.0" }`
-2. **`package.json`** — React **19+**, `@freshworks/dew-components`, `@freshworks/dew-styles`, `react-router-dom`
+2. **`package.json`** — React **19+**, `@freshworks/dew-components`, `@freshworks/dew-styles`, `react-error-boundary`, `react-router-dom`
 3. **`app/index.html`** at app root with `#root`; add `{{{appclient}}}` for hybrid/OAuth/SMI
 4. **React Router** — `<Route path="*" element={<Home />} />` plus feature routes under `/app/...`
-5. **DEW sample component** — import UI only from `@freshworks/dew-components`; styles from `@freshworks/dew-styles`
-6. **No Crayons** — no `@freshworks/crayons`, no Crayons CDN, no `<fw-*>` in Meta app
-7. **`README.md`** — create before validate (see SKILL.md)
+5. **DEW sample component** — import UI only from `@freshworks/dew-components`; load DEW tokens via `@import` in `app/styles/app.css`, then `import './styles/app.css'` in `app/index.jsx` (see skeleton)
+6. **No `<DewTheme>` JSX wrapper** — `DewTheme` is Tailwind config only; use `app/mount.jsx` with **`react-error-boundary`** (see skeleton)
+7. **No Crayons** — no `@freshworks/crayons`, no Crayons CDN, no `<fw-*>` in Meta app
+8. **`README.md`** — create before validate (see SKILL.md)
 
 **Optional (when user asks):**
 
+- **Custom Settings page** — copy `react-meta-custom-iparams-skeleton/config/`; remove `iparams.json` — see `custom-iparams.md`
 - Tailwind — add deps + `tailwind.config.js`, `postcss.config.js`; see `references/react-meta/styling-and-third-party.md`
 - Custom **`vite.config.js`** — project root; FDK merge rules in `references/react-meta/vite-config.md`
 - TypeScript — `.tsx` files + `tsconfig.json`
@@ -117,4 +119,5 @@ bash ~/.fw-dev-tools/scripts/meta-update.sh <app-directory> fw-app-dev \
 
 - `references/react-meta/react-meta-fdk-standards.md`
 - `references/react-meta/dew-components.md`
+- `references/react-meta/custom-iparams.md`
 - `references/cli/fdk_create.md`

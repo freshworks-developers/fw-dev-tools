@@ -14,6 +14,10 @@ async function readCmd(skillName, command) {
   return readFile(join(SKILLS_DIR, skillName, 'commands', `${command}.md`), 'utf8');
 }
 
+async function readRepo(relPath) {
+  return readFile(join(__dirname, '..', '..', '..', relPath), 'utf8');
+}
+
 describe('Skill Regex Evals — fw-app-dev', { concurrency: true }, () => {
   // ─── fw-app-dev ──────────────────────────────────────────────────────────────
 
@@ -203,6 +207,29 @@ describe('Skill Regex Evals — fw-app-dev', { concurrency: true }, () => {
     const ok = /10\.1\.0/i.test(c) && /React Meta.*10\.1\.0|Meta.*10\.1\.0/i.test(c)
       && /10\.0\.1/i.test(c) && /vanilla|serverless/i.test(c);
     assert.ok(ok, 'SKILL.md must document Meta engines 10.1.0 and vanilla/serverless 10.0.1');
+  });
+
+  test('react-meta docs forbid DewTheme as JSX wrapper', async () => {
+    const dew = await readRepo('skills/fw-app-dev/references/react-meta/dew-components.md');
+    const patterns = await readRepo('skills/fw-app-dev/rules/react-meta-patterns.mdc');
+    const ok = /not a React component|Do not.*DewTheme/i.test(dew)
+      && /DewTheme.*not a React component|Forbidden.*DewTheme/i.test(patterns);
+    assert.ok(ok, 'dew-components.md and react-meta-patterns.mdc must forbid DewTheme JSX wrapper');
+  });
+
+  test('fdk-react-create and migrate require react-error-boundary in Meta apps', async () => {
+    const create = await readCmd('fw-app-dev', 'fdk-react-create');
+    const migrate = await readCmd('fw-app-dev', 'fdk-react-migrate');
+    const ok = /react-error-boundary/i.test(create) && /react-error-boundary/i.test(migrate);
+    assert.ok(ok, 'react create/migrate commands must document react-error-boundary');
+  });
+
+  test('custom-iparams.md documents iparams.html skeleton and npm dep', async () => {
+    const doc = await readRepo('skills/fw-app-dev/references/react-meta/custom-iparams.md');
+    const ok = /react-meta-custom-iparams-skeleton/i.test(doc)
+      && /iparams\.html/i.test(doc)
+      && /react-error-boundary/i.test(doc);
+    assert.ok(ok, 'custom-iparams.md must document skeleton, iparams.html, and react-error-boundary');
   });
 
 });
