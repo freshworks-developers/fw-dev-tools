@@ -25,10 +25,15 @@ user message
   → 1. classify intent (six intents; aliases: create→create-new, update→update-existing)
   → 2. read session (`.fw-session.json` via `bash ~/.fw-dev-tools/scripts/session-read.sh <app-dir>`)
   → 3. ground in ecosystem core (~/.fw-dev-tools/specs/ecosystem-map.md)
+  → 4. write session (session-write.sh), then SHOW the progress checklist before any skill runs:
+       `bash ~/.fw-dev-tools/scripts/session-to-todos.sh <app-dir>` -> paste its stdout into your
+       reply (add --json and hand the array to TodoWrite where the client has that tool).
+       One command, any intent. BLOCKING — Tier 2 §entry-contract "Checklist-first gate" / G8.
+       Running it is not enough: output left in a collapsed tool block is not a shown checklist.
   → single skill fits?
-       yes  → 4. dispatch skill (entry contract in skills/*/SKILL.md)
-       no   → 4. decompose (Tier 2 agent-behaviour.md §decomposition)
-  → 5. advance session (session-write.sh) + chain next step
+       yes  → 5. dispatch skill (entry contract in skills/*/SKILL.md)
+       no   → 5. decompose (Tier 2 agent-behaviour.md §decomposition)
+  → 6. advance session (session-write.sh) + re-render the checklist + chain next step
   → (loop — skills return to controller; do not manual-chain)
 ```
 

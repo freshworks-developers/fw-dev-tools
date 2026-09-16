@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { existsSync } from 'node:fs';
-import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { after, test } from 'node:test';
@@ -11,6 +11,7 @@ process.env.FW_DEV_TOOLS_HOME = join(
 );
 
 const {
+  copyScripts,
   copySkills,
   copySpecs,
   INSTALL_JSON,
@@ -22,6 +23,7 @@ const {
   SHIPPED_SPECS,
   BRAIN_SPEC_INSTALLER,
   BRAIN_SPEC_SRC,
+  SCRIPTS_SRC,
 } = await import('../src/utils.js');
 
 after(async () => {
@@ -127,6 +129,48 @@ test('removeClaudePluginCache removes marketplace cache tree', async () => {
   assert.equal(existsSync(cacheRoot), false);
   assert.equal(await removeClaudePluginCache(cacheRoot), false);
   await rm(tmp, { recursive: true });
+});
+
+// ---------------------------------------------------------------------------
+// copyScripts
+// ---------------------------------------------------------------------------
+
+test('copyScripts installs every shipped script', async () => {
+  await copyScripts();
+  const dest = join(dirname(INSTALL_JSON), 'scripts');
+  for (const file of await readdir(SCRIPTS_SRC)) {
+    assert.ok(existsSync(join(dest, file)), `${file} should be installed`);
+  }
+});
+
+test('copyScripts prunes scripts that no longer ship', async () => {
+  const dest = join(dirname(INSTALL_JSON), 'scripts');
+  await copyScripts();
+
+  // Simulate a script that shipped in an older version (e.g. the separate
+  // per-intent checklist mappers before they were consolidated).
+  const stale = join(dest, 'migrate-to-todos.sh');
+  await writeFile(stale, '#!/usr/bin/env bash\necho stale\n', 'utf8');
+  assert.ok(existsSync(stale), 'precondition: stale script present');
+
+  await copyScripts();
+
+  assert.ok(!existsSync(stale), 'stale script must be pruned on re-install');
+  assert.ok(
+    existsSync(join(dest, 'session-to-todos.sh')),
+    'current scripts must survive the prune'
+  );
+});
+
+test('copyScripts prune keeps the dir identical to source', async () => {
+  const dest = join(dirname(INSTALL_JSON), 'scripts');
+  await writeFile(join(dest, 'orphan.sh'), 'echo orphan\n', 'utf8');
+  await copyScripts();
+  assert.deepEqual(
+    (await readdir(dest)).sort(),
+    (await readdir(SCRIPTS_SRC)).sort(),
+    'installed scripts dir should match shipped scripts exactly'
+  );
 });
 
 // ---------------------------------------------------------------------------
