@@ -251,5 +251,7 @@ if (errors.length > 0) {
 
 fs.mkdirSync(path.dirname(sessionPath), { recursive: true });
 fs.writeFileSync(sessionPath, JSON.stringify(doc, null, 2) + '\n');
-process.stdout.write(JSON.stringify(doc));
+// Trailing newline: this is routinely chained with session-to-todos.sh, and
+// without it the JSON runs into the checklist's "**Progress**" header.
+process.stdout.write(JSON.stringify(doc) + '\n');
 NODE

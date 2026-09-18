@@ -1,5 +1,5 @@
 import { existsSync } from 'node:fs';
-import { cp, mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
+import { cp, mkdir, readdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { createInterface } from 'node:readline';
@@ -119,11 +119,19 @@ export async function copySkills(targetDir) {
 }
 
 /**
- * Write the install state marker file.
+ * Copy shared scripts to ~/.fw-dev-tools/scripts/, pruning any that no longer
+ * ship. Without the prune, a renamed or consolidated script keeps working from
+ * the stale copy and agents can silently bypass the current one.
  */
 export async function copyScripts() {
   const dest = join(FW_DEV_TOOLS_DIR, 'scripts');
   await mkdir(dest, { recursive: true });
+  const shipped = new Set(await readdir(SCRIPTS_SRC));
+  for (const entry of await readdir(dest)) {
+    if (!shipped.has(entry)) {
+      await rm(join(dest, entry), { recursive: true, force: true });
+    }
+  }
   await cp(SCRIPTS_SRC, dest, { recursive: true });
 }
 

@@ -134,16 +134,34 @@ When the user's request is clear but **no single skill** covers the full scope (
 
 ## Skill entry contract {#entry-contract}
 
-Each skill documents §Entry contract in `skills/*/SKILL.md`. Controller invoke/return semantics:
+### Checklist-first gate (blocking — read before anything else in this section)
+
+No skill — not fw-setup, not fw-app-dev, not a single Edit/Write/Bash toolchain command — may be invoked until the current turn has already shown the user the progress checklist for the classified intent. This is not a bookkeeping step that happens *after* work starts; it is a **precondition of dispatch**, same weight as a guardrail (§guardrails G8). Concretely, for the very first skill dispatch of an intent:
+
+1. Classify intent (Tier 1 step 1).
+2. Write the session (`session-write.sh`) so a mapper has something to read.
+3. Run `bash ~/.fw-dev-tools/scripts/session-to-todos.sh <app-dir>` **as its own bash call — not chained behind the session write** — and copy its stdout into the body of your reply. One command, any intent; it picks the right checklist itself and returns finished markdown (§progress-checklist). Your client displaying that stdout in a tool block does **not** count as showing it.
+4. Only after that checklist is visibly in the transcript: dispatch the first skill.
+
+Going from "session written" straight to "implementing the migration" (editing manifest.json, running fdk-migrate, etc.) without a checklist appearing in between is exactly the failure this gate exists to stop. If you notice mid-task that no checklist has been shown yet, stop, render one reflecting the true current state, then continue — don't wait for a natural checkpoint.
+
+**Concrete wrong vs. right** (this exact wrong pattern has actually happened — don't repeat it):
+
+- ❌ **Wrong**: chain it — `session-write.sh ...; agent-telemetry.sh ...; session-to-todos.sh ...` in one bash call — then move straight on to the next tool call (toolchain check, file edit, whatever). The checklist ends up buried after a JSON blob in a collapsed block, and no version of it appears in anything you said. Running the script is necessary but not sufficient, *even though the client printed the output*.
+- ✅ **Right**: session write as one call; the checklist command as its own separate call; then a normal chat sentence — e.g. "Here's where things stand:" — followed by the `**Progress**` block copied from its stdout, before the next tool call. The checklist must appear as something you *said*, not just something a tool *returned*.
+
+### Controller invoke/return semantics
+
+Each skill documents §Entry contract in `skills/*/SKILL.md`.
 
 | Field | Semantics |
 |-------|-----------|
 | **Invoked by** | Tier 1 controller with classified intent + session snapshot |
-| **Preconditions** | Skill-specific (toolchain, manifest, MCP auth) |
+| **Preconditions** | Skill-specific (toolchain, manifest, MCP auth) **plus the universal checklist-first gate above** |
 | **Returns** | `done` \| `blocked` \| `escalate` + optional next-step hint for controller |
 | **On complete** | Skill MUST **not** manually invoke the next skill — **return to controller** for step 5 (advance session + chain) |
 
-After each skill returns `done`, controller runs step 5: `session-write.sh` milestone update, then dispatches the next skill in the intent chain without user nudging.
+After each skill returns `done`, controller runs step 5: `session-write.sh` milestone update, then the §progress-checklist sync, then dispatches the next skill in the intent chain without user nudging. The checklist-first gate above covers the *first* dispatch in the chain; step 5 covers every dispatch after it.
 
 ## Intent: create-new {#create-new}
 
@@ -199,7 +217,7 @@ Update `progress.phase` through `build` → `validate` → `review`; append mile
 1. **Classify error** — capture error text/signature; set session `intent: troubleshoot`, `progress.phase: build`.
 2. **Toolchain check** — verify Node v24 + FDK v10. Run **fw-setup** only if toolchain missing — do **not** re-run full setup for ordinary code errors.
 3. **Route by error type** — use skill commands (e.g. `/fdk-fix`) or targeted fix path from fw-app-dev rules; avoid unrelated file changes.
-4. **Retry tracking** — update `escalation.fix_attempt_count`; set `last_error_signature` to normalized error text. **Reset** fix count when signature changes.
+4. **Retry tracking** — update `escalation.fix_attempt_count`; set `last_error_signature` to normalized error text. **Reset** fix count when signature changes. After each write, re-run the checklist command and show it (§progress-checklist).
 5. **Deploy loop** — increment `escalation.deploy_attempt_count` on each deploy attempt (max **6**).
 6. **Escalate** — at **3** consecutive fixes for the **same** signature, stop automated fixes and use §escalation handoff message.
 7. **Review before publish** — if fix leads to publish, run **fw-review** first.
@@ -232,16 +250,22 @@ Never auto-publish on return visits. Review is mandatory even for "small" fixes.
 
 ### Orchestration chain
 
-1. **Halt other work** — block add-feature, publish, and unrelated edits until migration completes. Set session `intent: migrate`.
-2. **Notify user** — explain migration is required before other changes.
-3. **Toolchain** — run **fw-setup** (Node 24 + FDK 10).
-4. **Migrate** — run **/fdk-migrate** (or fw-setup migrate flow per skill docs).
-5. **Validate** — run post-migration validation; append `validate_passed`.
-6. **Complete** — append milestone `migrate_complete`; set `progress.phase: build` for follow-on work.
+1. **Halt other work** — block add-feature, publish, and unrelated edits until migration completes. Set session `intent: migrate`, `progress.phase: discover`; show the checklist (§progress-checklist).
+2. **Notify user** — explain migration is required before other changes. Set `progress.phase: setup`; show the checklist.
+3. **Toolchain** — run **fw-setup** (Node 24 + FDK 10). No phase change (still `setup`) — but re-show the checklist after the toolchain step completes so "Checking your toolchain" flips to `completed` before step 4 starts.
+4. **Migrate** — run **/fdk-migrate** (or fw-setup migrate flow per skill docs). Set `progress.phase: build` **before** starting the migration edits, not after — show the checklist immediately on that write so "Migrating your app" shows `in_progress` for the duration of this step, not just at its end.
+5. **Validate** — run post-migration validation; append `validate_passed`. Show the checklist.
+6. **Complete** — append milestone `migrate_complete`; set `progress.phase: build` for follow-on work. Show the checklist — this is the write that flips "Migration complete" to `completed`.
+
+**Every step above writes the session before doing the step's actual work, not after** — the checklist should show a step as `in_progress` while it's happening, not only retroactively once it's done. Do not batch session writes to the end of the chain.
 
 ### Session commits
 
 `milestones += migrate_complete` is required before routing to other intents.
+
+### Progress checklist
+
+Same one command as every other intent — `session-to-todos.sh <app-dir>` (§progress-checklist). It detects `intent: migrate` itself and emits the 4-item list: "Checking your toolchain", "Migrating your app", "Checking your app", "Migration complete" — keyed off `progress.phase` plus the `validate_passed` / `migrate_complete` milestones, since migrate reuses build/validate and ends on `migrate_complete` rather than `phase: done`.
 
 ## Intent: publish-status {#publish-status}
 
@@ -275,6 +299,7 @@ Non-negotiable rules — refuse violations and route through the correct skill p
 | G5 | **Publish confirmation** — explicit user consent before fw-publish | Ask yes/no; block submit |
 | G6 | **Deprecated tools** — legacy MCP tools blocked | Exact message in §deprecated-mcp; stop |
 | G7 | **No secrets in session** — see §session | Strip secrets; never persist |
+| G8 | **Checklist-first** — run `session-to-todos.sh` and show its output (§progress-checklist) before dispatching the first skill or making any file/toolchain change for an intent | Stop; render the checklist now, reflecting true current state; log `guardrail_violation` / `guardrail_id: checklist_first`; then continue |
 
 ### Skip-review request (TF9)
 
@@ -294,6 +319,12 @@ If the user asks to skip review ("just publish", "skip review"):
 | `escalation.fix_attempt_count` | **3** | Per **same** `last_error_signature` |
 
 Reset `fix_attempt_count` to 0 when the error signature changes.
+
+### Progress checklist
+
+Same one command as every other intent — `session-to-todos.sh <app-dir>` (§progress-checklist) — run after every `escalation.fix_attempt_count` write (§troubleshoot step 4) and after the deploy loop (step 5). For `intent: troubleshoot` it emits a variable-length list: "Reproducing the error", one "Attempt N — applying a fix" per completed attempt, then either "Attempt N+1 — trying a fix", "Escalating — needs your input" (at the 3-attempt limit), or "Fix confirmed — re-validating" (once `validate_passed` lands).
+
+When the limit is hit and the handoff message below fires, the checklist's last item already reads "Escalating — needs your input" — the handoff message explains *why*, the checklist shows *where*.
 
 ### Handoff message (after limits)
 
@@ -356,6 +387,25 @@ User-facing text must be **plain language** — never expose internal skill name
 | review | Reviewing quality |
 | publish | Submitting to marketplace |
 | done | Complete |
+
+### Progress checklist {#progress-checklist}
+
+**One command, every intent.** After each `session-write.sh` commit, run:
+
+```bash
+bash ~/.fw-dev-tools/scripts/session-to-todos.sh <app-dir>
+```
+
+Its stdout is a finished markdown checklist — **copy it into the body of your reply**. That's the whole procedure. Do not hand-roll the statuses; the script reads `.fw-session.json` and is the single source of truth, so the checklist can never drift from session state.
+
+**"But my client already displays the tool output."** It does, and that is still not sufficient — this is the single most common way this step gets skipped, so read it carefully. Tool output renders as collapsed, dimmed, monospace debug text, visually identical to every `node --version` and `ls` you ran. Users scanning the conversation do not read it as a status display, and in some clients it is collapsed by default. Restating the checklist in your own message is **not** redundant duplication: the tool call is *how you compute* the checklist, your message is *how you communicate* it. Those are different jobs. Treat "the bytes appeared somewhere on screen" as not-yet-shown.
+
+Mechanics that make this work:
+
+- **Run it as its own bash call.** Never chain it behind `session-write.sh`, `agent-telemetry.sh`, or anything else with `;` or `&&`. Chaining buries the checklist under a JSON blob in a shared output block, which is both unreadable and the state that tempts you to skip the restate. One call, one purpose, clean 5-line output.
+- It picks the right checklist from `intent` itself: golden path (`create-new` / `add-feature` / `update-existing`) → the 5 **Step labels** above; `migrate` → toolchain / migrate / validate / complete; `troubleshoot` → reproduce + one line per fix attempt + next-try-or-escalate. `publish-status` and "no session yet" print nothing — if you get empty output, there is genuinely nothing to show, so move on.
+- **Markdown is the path in every client, with no exceptions.** If — and only if — a checklist/to-do tool is genuinely present in your available tools, you may *additionally* call it with `session-to-todos.sh <app-dir> --json` (the `[{content,status}]` array) for a native widget. Do not go looking for such a tool or assume one exists because of the client's name; if it is not in your tool list, the markdown you already pasted is the complete and correct answer.
+- Don't narrate the sync itself ("Updating your checklist now" is chatter) — just show the checklist.
 
 ### Examples
 
