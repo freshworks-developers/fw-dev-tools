@@ -140,15 +140,15 @@ No skill — not fw-setup, not fw-app-dev, not a single Edit/Write/Bash toolchai
 
 1. Classify intent (Tier 1 step 1).
 2. Write the session (`session-write.sh`) so a mapper has something to read.
-3. Run `bash ~/.fw-dev-tools/scripts/session-to-todos.sh <app-dir>` and **paste its stdout into your reply**. One command, any intent — it picks the right checklist itself and returns finished markdown (§progress-checklist). In clients with a native checklist tool, `--json` instead and hand the array to TodoWrite.
+3. Run `bash ~/.fw-dev-tools/scripts/session-to-todos.sh <app-dir>` **as its own bash call — not chained behind the session write** — and copy its stdout into the body of your reply. One command, any intent; it picks the right checklist itself and returns finished markdown (§progress-checklist). Your client displaying that stdout in a tool block does **not** count as showing it.
 4. Only after that checklist is visibly in the transcript: dispatch the first skill.
 
 Going from "session written" straight to "implementing the migration" (editing manifest.json, running fdk-migrate, etc.) without a checklist appearing in between is exactly the failure this gate exists to stop. If you notice mid-task that no checklist has been shown yet, stop, render one reflecting the true current state, then continue — don't wait for a natural checkpoint.
 
 **Concrete wrong vs. right** (this exact wrong pattern has actually happened — don't repeat it):
 
-- ❌ **Wrong**: run the script inside a bash tool call, then move straight on to the next tool call (toolchain check, file edit, whatever). Output left sitting in a collapsed tool block is **not** a rendered checklist — the user cannot see it without expanding that block, and most won't. Running the script is necessary but not sufficient.
-- ✅ **Right**: run the script, then write a normal chat sentence — e.g. "Here's where things stand:" — followed by the `**Progress**` block copied from its stdout, before the next tool call. The checklist must appear as something you *said*, not just something a tool *returned*.
+- ❌ **Wrong**: chain it — `session-write.sh ...; agent-telemetry.sh ...; session-to-todos.sh ...` in one bash call — then move straight on to the next tool call (toolchain check, file edit, whatever). The checklist ends up buried after a JSON blob in a collapsed block, and no version of it appears in anything you said. Running the script is necessary but not sufficient, *even though the client printed the output*.
+- ✅ **Right**: session write as one call; the checklist command as its own separate call; then a normal chat sentence — e.g. "Here's where things stand:" — followed by the `**Progress**` block copied from its stdout, before the next tool call. The checklist must appear as something you *said*, not just something a tool *returned*.
 
 ### Controller invoke/return semantics
 
@@ -396,10 +396,15 @@ User-facing text must be **plain language** — never expose internal skill name
 bash ~/.fw-dev-tools/scripts/session-to-todos.sh <app-dir>
 ```
 
-Its stdout is a finished markdown checklist — **paste it into your reply**. That's the whole procedure. Do not hand-roll the statuses; the script reads `.fw-session.json` and is the single source of truth, so the checklist can never drift from session state.
+Its stdout is a finished markdown checklist — **copy it into the body of your reply**. That's the whole procedure. Do not hand-roll the statuses; the script reads `.fw-session.json` and is the single source of truth, so the checklist can never drift from session state.
 
+**"But my client already displays the tool output."** It does, and that is still not sufficient — this is the single most common way this step gets skipped, so read it carefully. Tool output renders as collapsed, dimmed, monospace debug text, visually identical to every `node --version` and `ls` you ran. Users scanning the conversation do not read it as a status display, and in some clients it is collapsed by default. Restating the checklist in your own message is **not** redundant duplication: the tool call is *how you compute* the checklist, your message is *how you communicate* it. Those are different jobs. Treat "the bytes appeared somewhere on screen" as not-yet-shown.
+
+Mechanics that make this work:
+
+- **Run it as its own bash call.** Never chain it behind `session-write.sh`, `agent-telemetry.sh`, or anything else with `;` or `&&`. Chaining buries the checklist under a JSON blob in a shared output block, which is both unreadable and the state that tempts you to skip the restate. One call, one purpose, clean 5-line output.
 - It picks the right checklist from `intent` itself: golden path (`create-new` / `add-feature` / `update-existing`) → the 5 **Step labels** above; `migrate` → toolchain / migrate / validate / complete; `troubleshoot` → reproduce + one line per fix attempt + next-try-or-escalate. `publish-status` and "no session yet" print nothing — if you get empty output, there is genuinely nothing to show, so move on.
-- Add `--json` **only** when the client has a native checklist tool (Claude Code's TodoWrite): `session-to-todos.sh <app-dir> --json` returns the `[{content,status}]` array to hand that tool verbatim. Everywhere else (Cursor, Codex), use the default markdown.
+- **Markdown is the path in every client, with no exceptions.** If — and only if — a checklist/to-do tool is genuinely present in your available tools, you may *additionally* call it with `session-to-todos.sh <app-dir> --json` (the `[{content,status}]` array) for a native widget. Do not go looking for such a tool or assume one exists because of the client's name; if it is not in your tool list, the markdown you already pasted is the complete and correct answer.
 - Don't narrate the sync itself ("Updating your checklist now" is chatter) — just show the checklist.
 
 ### Examples

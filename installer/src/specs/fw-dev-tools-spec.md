@@ -26,10 +26,11 @@ user message
   → 2. read session (`.fw-session.json` via `bash ~/.fw-dev-tools/scripts/session-read.sh <app-dir>`)
   → 3. ground in ecosystem core (~/.fw-dev-tools/specs/ecosystem-map.md)
   → 4. write session (session-write.sh), then SHOW the progress checklist before any skill runs:
-       `bash ~/.fw-dev-tools/scripts/session-to-todos.sh <app-dir>` -> paste its stdout into your
-       reply (add --json and hand the array to TodoWrite where the client has that tool).
-       One command, any intent. BLOCKING — Tier 2 §entry-contract "Checklist-first gate" / G8.
-       Running it is not enough: output left in a collapsed tool block is not a shown checklist.
+       `bash ~/.fw-dev-tools/scripts/session-to-todos.sh <app-dir>` as its OWN bash call (never
+       chained behind the session write) -> copy its stdout into the body of your reply. Markdown
+       in every client, no exceptions. BLOCKING — Tier 2 §entry-contract / G8.
+       Your client printing that stdout in a tool block does NOT count as showing it: the tool call
+       computes the checklist, your message communicates it. Restating it is not redundant.
   → single skill fits?
        yes  → 5. dispatch skill (entry contract in skills/*/SKILL.md)
        no   → 5. decompose (Tier 2 agent-behaviour.md §decomposition)
