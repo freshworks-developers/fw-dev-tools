@@ -4,7 +4,7 @@ Skill for publishing **Freshworks Platform 3.0** custom apps to the **Freshworks
 
 ## Overview
 
-**fw-publish** guides you through auth preflight, `fdk validate` / `fdk pack`, binary upload, and marketplace API steps without leaving your IDE. MCP server config is **`.mcp.json`** at the **repository root**. Pair with **fw-app-dev** (full UI apps) or **fw-ai-actions-app** (AI Actions / `actions.json` integrations) for manifest and validation fixes before packing. Skill routing: **[AGENTS.md](../../AGENTS.md)**.
+**fw-publish** guides you through auth preflight, `fdk validate` / `fdk pack`, binary upload, and marketplace API steps without leaving your IDE. MCP server config is **`.mcp.json`** at the **repository root**. Pair with **fw-app-dev** (full UI apps) or **fw-build-your-mcp-app** (MCP app / `actions.json` integrations) for manifest and validation fixes before packing. Skill routing: **[AGENTS.md](../../AGENTS.md)**.
 
 ## Install
 

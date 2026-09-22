@@ -46,7 +46,7 @@ Authoritative static map for platform Q&A when MCP is unavailable. Cite this fil
 - **OAuth apps** — secure iparams; never store tokens in `.fw-session.json`.
 - **Platform 3.0** — Node **v24**, FDK **v10**, React Meta or serverless per product.
 - **External HTTP** — only via `$request.invokeTemplate` + `config/requests.json`.
-- **AI Actions** — separate from standard marketplace apps; use **fw-ai-actions-app** skill.
+- **Build your own MCP server (MCP app)** — separate from standard marketplace apps; use **fw-build-your-mcp-app**. Implemented with `actions.json` and SMI handlers.
 
 ---
 

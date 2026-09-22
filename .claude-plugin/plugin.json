@@ -1,7 +1,7 @@
 {
   "name": "freshworks-dev-tools",
   "version": "1.3.0",
-  "description": "Freshworks Platform 3.0 developer toolkit: FDK setup, app development, AI Actions, app review, and marketplace publish via MCP. API key from https://developers.freshworks.com/developer/ - API key for Freddy AI Copilot for VS Code plugin & Agentic Developer Toolkit. or Connect to Developer MCP server (For MCP configuration)",
+  "description": "Freshworks Platform 3.0 developer toolkit: FDK setup, app development, MCP app, app review, and marketplace publish via MCP. API key from https://developers.freshworks.com/developer/ - API key for Freddy AI Copilot for VS Code plugin & Agentic Developer Toolkit. or Connect to Developer MCP server (For MCP configuration)",
   "author": {
     "name": "Freshworks Developers",
     "email": "skills@dev-assist.freshservice.com"

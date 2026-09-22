@@ -4,10 +4,10 @@ export const FW_AI_ACTIONS_SCENARIOS = [
   // fw-ai-actions-01: after fdk validate → write .meta.json before showing result
   {
     id: 'fw-ai-actions-01',
-    skill: 'fw-ai-actions-app',
+    skill: 'fw-build-your-mcp-app',
     label: 'fdk validate completed → write .meta.json before showing result to user',
-    loadContent: () => loadSkill('fw-ai-actions-app'),
-    prompt: 'According to the fw-ai-actions-app skill: fdk validate has just completed. There were 2 validation iterations and 1 fix iteration. What must happen before the final result is shown to the user?',
+    loadContent: () => loadSkill('fw-build-your-mcp-app'),
+    prompt: 'According to the fw-build-your-mcp-app skill: fdk validate has just completed. There were 2 validation iterations and 1 fix iteration. What must happen before the final result is shown to the user?',
     schema: {
       type: 'object',
       required: ['writes_meta_json', 'mentions_meta_json_to_user'],
@@ -28,10 +28,10 @@ export const FW_AI_ACTIONS_SCENARIOS = [
 
   {
     id: 'fw-ai-actions-02',
-    skill: 'fw-ai-actions-app',
+    skill: 'fw-build-your-mcp-app',
     label: 'nested vendor API payload → flat parameters in actions.json, nest in server.js',
-    loadContent: () => loadSkill('fw-ai-actions-app'),
-    prompt: 'According to the fw-ai-actions-app skill: the Stripe API expects a nested object: { "customer": { "email": "...", "name": "..." } }. How should you define the actions.json request parameters schema?',
+    loadContent: () => loadSkill('fw-build-your-mcp-app'),
+    prompt: 'According to the fw-build-your-mcp-app skill: the Stripe API expects a nested object: { "customer": { "email": "...", "name": "..." } }. How should you define the actions.json request parameters schema?',
     schema: {
       type: 'object',
       required: ['parameters_stay_flat', 'nest_in_server_js'],
@@ -49,10 +49,10 @@ export const FW_AI_ACTIONS_SCENARIOS = [
 
   {
     id: 'fw-ai-actions-03',
-    skill: 'fw-ai-actions-app',
+    skill: 'fw-build-your-mcp-app',
     label: 'api_key in actions.json → must use secure iparams instead',
-    loadContent: () => loadSkill('fw-ai-actions-app'),
-    prompt: 'According to the fw-ai-actions-app skill: the developer asks to add api_key directly in actions.json parameters for convenience. Should you do that?',
+    loadContent: () => loadSkill('fw-build-your-mcp-app'),
+    prompt: 'According to the fw-build-your-mcp-app skill: the developer asks to add api_key directly in actions.json parameters for convenience. Should you do that?',
     schema: {
       type: 'object',
       required: ['allows_api_key_in_actions_json', 'uses_secure_iparams'],
@@ -70,10 +70,10 @@ export const FW_AI_ACTIONS_SCENARIOS = [
 
   {
     id: 'fw-ai-actions-04',
-    skill: 'fw-ai-actions-app',
+    skill: 'fw-build-your-mcp-app',
     label: 'external HTTP in server → $request.invokeTemplate only',
-    loadContent: () => loadSkill('fw-ai-actions-app'),
-    prompt: 'According to the fw-ai-actions-app skill: you need to call a third-party REST API from the AI Actions server.js handler. Can you use axios or fetch directly?',
+    loadContent: () => loadSkill('fw-build-your-mcp-app'),
+    prompt: 'According to the fw-build-your-mcp-app skill: you need to call a third-party REST API from the MCP app server.js handler. Can you use axios or fetch directly?',
     schema: {
       type: 'object',
       required: ['allows_axios_or_fetch', 'uses_invoke_template'],
@@ -91,10 +91,10 @@ export const FW_AI_ACTIONS_SCENARIOS = [
 
   {
     id: 'fw-ai-actions-05',
-    skill: 'fw-ai-actions-app',
+    skill: 'fw-build-your-mcp-app',
     label: 'AI-only app → no app/ folder or Crayons UI',
-    loadContent: () => loadSkill('fw-ai-actions-app'),
-    prompt: 'According to the fw-ai-actions-app skill: building a pure AI Actions integration (actions.json + server only). Should you create an app/ folder with Crayons UI and icon.svg?',
+    loadContent: () => loadSkill('fw-build-your-mcp-app'),
+    prompt: 'According to the fw-build-your-mcp-app skill: building a pure MCP app integration (actions.json + server only). Should you create an app/ folder with Crayons UI and icon.svg?',
     schema: {
       type: 'object',
       required: ['creates_app_folder', 'ai_actions_only_layout'],
@@ -112,10 +112,10 @@ export const FW_AI_ACTIONS_SCENARIOS = [
 
   {
     id: 'fw-ai-actions-06',
-    skill: 'fw-ai-actions-app',
+    skill: 'fw-build-your-mcp-app',
     label: 'multiple manifest.json → ask which app (Q1)',
-    loadContent: () => loadSkill('fw-ai-actions-app'),
-    prompt: 'According to the fw-ai-actions-app skill: the workspace has ./slack-bot/manifest.json and ./teams-bot/manifest.json. User says "build the AI action". Should you pick one silently or ask which app directory to use?',
+    loadContent: () => loadSkill('fw-build-your-mcp-app'),
+    prompt: 'According to the fw-build-your-mcp-app skill: the workspace has ./slack-bot/manifest.json and ./teams-bot/manifest.json. User says "build the action". Should you pick one silently or ask which app directory to use?',
     schema: {
       type: 'object',
       required: ['asks_which_app', 'picks_silently'],
@@ -133,10 +133,10 @@ export const FW_AI_ACTIONS_SCENARIOS = [
 
   {
     id: 'fw-ai-actions-07',
-    skill: 'fw-ai-actions-app',
+    skill: 'fw-build-your-mcp-app',
     label: 'actions.json handler name mismatch → must align case-sensitively',
-    loadContent: () => loadSkill('fw-ai-actions-app'),
-    prompt: 'According to the fw-ai-actions-app skill: actions.json defines handler "createTicket" but server.js exports "createticket". Is this acceptable?',
+    loadContent: () => loadSkill('fw-build-your-mcp-app'),
+    prompt: 'According to the fw-build-your-mcp-app skill: actions.json defines handler "createTicket" but server.js exports "createticket". Is this acceptable?',
     schema: {
       type: 'object',
       required: ['acceptable_mismatch', 'must_match_case_sensitive'],
@@ -154,10 +154,10 @@ export const FW_AI_ACTIONS_SCENARIOS = [
 
   {
     id: 'fw-ai-actions-08',
-    skill: 'fw-ai-actions-app',
+    skill: 'fw-build-your-mcp-app',
     label: 'array of objects in parameters → forbidden',
-    loadContent: () => loadSkill('fw-ai-actions-app'),
-    prompt: 'According to the fw-ai-actions-app skill: the API needs a list of tag objects [{name, color}]. Can you define parameters.tags as an array of objects in actions.json?',
+    loadContent: () => loadSkill('fw-build-your-mcp-app'),
+    prompt: 'According to the fw-build-your-mcp-app skill: the API needs a list of tag objects [{name, color}]. Can you define parameters.tags as an array of objects in actions.json?',
     schema: {
       type: 'object',
       required: ['allows_array_of_objects', 'build_in_server_js'],
@@ -175,10 +175,10 @@ export const FW_AI_ACTIONS_SCENARIOS = [
 
   {
     id: 'fw-ai-actions-09',
-    skill: 'fw-ai-actions-app',
+    skill: 'fw-build-your-mcp-app',
     label: 'no manifest.json in workspace → inform user and stop',
-    loadContent: () => loadSkill('fw-ai-actions-app'),
-    prompt: 'According to the fw-ai-actions-app skill: user asks to build an AI Actions integration but a workspace search finds no manifest.json files. What should you do?',
+    loadContent: () => loadSkill('fw-build-your-mcp-app'),
+    prompt: 'According to the fw-build-your-mcp-app skill: user asks to build an MCP app integration but a workspace search finds no manifest.json files. What should you do?',
     schema: {
       type: 'object',
       required: ['informs_user_and_stops', 'creates_manifest_anyway'],
@@ -196,10 +196,10 @@ export const FW_AI_ACTIONS_SCENARIOS = [
 
   {
     id: 'fw-ai-actions-10',
-    skill: 'fw-ai-actions-app',
-    label: 'fw-setup-status prerequisite before building AI Actions app',
-    loadContent: () => loadSkill('fw-ai-actions-app'),
-    prompt: 'According to the fw-ai-actions-app skill: Developer asks you to build an AI Actions integration. You have NOT checked the toolchain yet. What is the prerequisite check you must run before creating any files?',
+    skill: 'fw-build-your-mcp-app',
+    label: 'fw-setup-status prerequisite before building MCP app',
+    loadContent: () => loadSkill('fw-build-your-mcp-app'),
+    prompt: 'According to the fw-build-your-mcp-app skill: Developer asks you to build an MCP app integration. You have NOT checked the toolchain yet. What is the prerequisite check you must run before creating any files?',
     schema: {
       type: 'object',
       required: ['runs_fw_setup_status_first', 'proceeds_without_toolchain_check'],
@@ -217,10 +217,10 @@ export const FW_AI_ACTIONS_SCENARIOS = [
 
   {
     id: 'fw-ai-actions-11',
-    skill: 'fw-ai-actions-app',
+    skill: 'fw-build-your-mcp-app',
     label: 'actions.json description field — must be concise (<200 chars) for LLM tool selection',
-    loadContent: () => loadSkill('fw-ai-actions-app'),
-    prompt: "According to the fw-ai-actions-app skill: you are writing the 'description' field for an AI action. The developer asks for a 500-character description. Should you write a 500-character description, or keep it concise (under 200 chars) for reliable LLM tool selection?",
+    loadContent: () => loadSkill('fw-build-your-mcp-app'),
+    prompt: "According to the fw-build-your-mcp-app skill: you are writing the 'description' field for an action. The developer asks for a 500-character description. Should you write a 500-character description, or keep it concise (under 200 chars) for reliable LLM tool selection?",
     schema: {
       type: 'object',
       required: ['writes_long_description', 'keeps_description_concise'],
@@ -239,10 +239,10 @@ export const FW_AI_ACTIONS_SCENARIOS = [
   // fw-ai-actions-12: test_data directory with sample JSON fixtures created for each action
   {
     id: 'fw-ai-actions-12',
-    skill: 'fw-ai-actions-app',
+    skill: 'fw-build-your-mcp-app',
     label: 'Generates test_data/ directory with sample JSON fixtures for each action',
-    loadContent: () => loadSkill('fw-ai-actions-app'),
-    prompt: 'According to the fw-ai-actions-app skill: when building an AI actions app for Freshservice with two actions getTicket and createNote, should the generated app structure include a server/test_data/ directory (creates_test_data_dir = true) containing sample JSON fixture files for each action (includes_sample_json_fixtures = true)?',
+    loadContent: () => loadSkill('fw-build-your-mcp-app'),
+    prompt: 'According to the fw-build-your-mcp-app skill: when building an MCP app for Freshservice with two actions getTicket and createNote, should the generated app structure include a server/test_data/ directory (creates_test_data_dir = true) containing sample JSON fixture files for each action (includes_sample_json_fixtures = true)?',
     schema: {
       type: 'object',
       required: ['creates_test_data_dir', 'includes_sample_json_fixtures'],
@@ -260,10 +260,10 @@ export const FW_AI_ACTIONS_SCENARIOS = [
 
   {
     id: 'fw-ai-actions-13',
-    skill: 'fw-ai-actions-app',
+    skill: 'fw-build-your-mcp-app',
     label: 'manifest.json includes modules section; ai_actions defined in actions.json',
-    loadContent: () => loadSkill('fw-ai-actions-app'),
-    prompt: 'According to the fw-ai-actions-app skill: when the manifest.json is generated for an AI actions app with a Freshdesk action createTicketFromEmail (taking email_subject, email_body, customer_email), must that manifest.json include a modules section declaring product modules (includes_modules_section = true), and are the ai_actions / action definitions placed in actions.json rather than in the manifest (includes_ai_actions_in_manifest = false)?',
+    loadContent: () => loadSkill('fw-build-your-mcp-app'),
+    prompt: 'According to the fw-build-your-mcp-app skill: when the manifest.json is generated for an MCP app with a Freshdesk action createTicketFromEmail (taking email_subject, email_body, customer_email), must that manifest.json include a modules section declaring product modules (includes_modules_section = true), and are the ai_actions / action definitions placed in actions.json rather than in the manifest (includes_ai_actions_in_manifest = false)?',
     schema: {
       type: 'object',
       required: ['includes_modules_section', 'includes_ai_actions_in_manifest'],
@@ -282,9 +282,9 @@ export const FW_AI_ACTIONS_SCENARIOS = [
   // fw-ai-actions-14: broken endpoint detection — model surfaces 404 and does not proceed
   {
     id: 'fw-ai-actions-14',
-    skill: 'fw-ai-actions-app',
+    skill: 'fw-build-your-mcp-app',
     label: 'Surfaces broken external API endpoint and does not proceed with integration',
-    loadContent: () => Promise.all([loadSkill('fw-ai-actions-app'), loadRef('fw-ai-actions-app', 'references/ai-actions-guide')]).then(parts => parts.join('\n\n---\n\n')),
+    loadContent: () => Promise.all([loadSkill('fw-build-your-mcp-app'), loadRef('fw-build-your-mcp-app', 'references/ai-actions-guide')]).then(parts => parts.join('\n\n---\n\n')),
     prompt: 'According to the fw-ai-actions skill: when an external API endpoint consistently returns 404 Not Found (the endpoint appears broken or non-existent), should the skill surface this as a broken endpoint issue (surfaces_broken_endpoint = true) and NOT proceed with building the integration assuming the endpoint works (does_not_assume_endpoint_works = true)?',
     schema: {
       type: 'object',
@@ -304,10 +304,10 @@ export const FW_AI_ACTIONS_SCENARIOS = [
   // fw-ai-actions-15: README.md generated documenting actions and parameters
   {
     id: 'fw-ai-actions-15',
-    skill: 'fw-ai-actions-app',
+    skill: 'fw-build-your-mcp-app',
     label: 'Generates README.md documenting available actions and their parameters',
-    loadContent: () => loadSkill('fw-ai-actions-app'),
-    prompt: 'According to the fw-ai-actions-app skill: when building a complete AI actions app for Freshservice that integrates with PagerDuty (with actions triggerIncident and resolveIncident), should the generated app include a README.md (generates_readme = true) that documents the available actions and their parameters (documents_actions_in_readme = true)?',
+    loadContent: () => loadSkill('fw-build-your-mcp-app'),
+    prompt: 'According to the fw-build-your-mcp-app skill: when building a complete MCP app for Freshservice that integrates with PagerDuty (with actions triggerIncident and resolveIncident), should the generated app include a README.md (generates_readme = true) that documents the available actions and their parameters (documents_actions_in_readme = true)?',
     schema: {
       type: 'object',
       required: ['generates_readme', 'documents_actions_in_readme'],
@@ -326,9 +326,9 @@ export const FW_AI_ACTIONS_SCENARIOS = [
   // fw-ai-actions-16: flags missing test_data/ as a blocking issue during review
   {
     id: 'fw-ai-actions-16',
-    skill: 'fw-ai-actions-app',
+    skill: 'fw-build-your-mcp-app',
     label: 'Flags absence of test_data/ directory as a blocking issue during app review',
-    loadContent: () => Promise.all([loadSkill('fw-ai-actions-app'), loadRule('fw-ai-actions-app', 'rules/ai-actions-test-data')]).then(parts => parts.join('\n\n---\n\n')),
+    loadContent: () => Promise.all([loadSkill('fw-build-your-mcp-app'), loadRule('fw-build-your-mcp-app', 'rules/ai-actions-test-data')]).then(parts => parts.join('\n\n---\n\n')),
     prompt: 'The fw-ai-actions rules are loaded above. An app has this structure: actions.json, manifest.json, server/server.js, config/requests.json, config/iparams.json — but NO server/test_data/ directory. actions.json defines two actions: getAsset and updateAsset. Based on the loaded rules: (1) should this missing test_data/ directory be flagged as an issue (flags_missing_test_data = true)? (2) is this a blocking issue that must be fixed before the app is complete (is_blocking = true)?',
     schema: {
       type: 'object',
@@ -347,10 +347,10 @@ export const FW_AI_ACTIONS_SCENARIOS = [
 
   {
     id: 'fw-ai-actions-17',
-    skill: 'fw-ai-actions-app',
+    skill: 'fw-build-your-mcp-app',
     label: 'scoping from CSV/spec → actions.json entries match spec exactly, no extras added',
-    loadContent: () => loadSkill('fw-ai-actions-app'),
-    prompt: 'According to the fw-ai-actions-app skill scoping rules: a CSV spec defines exactly 3 actions — create_ticket, update_ticket, close_ticket. Should the resulting actions.json contain exactly those 3 entries and no others (actions_json_reflects_spec = true, adds_unspecified_actions = false)?',
+    loadContent: () => loadSkill('fw-build-your-mcp-app'),
+    prompt: 'According to the fw-build-your-mcp-app skill scoping rules: a CSV spec defines exactly 3 actions — create_ticket, update_ticket, close_ticket. Should the resulting actions.json contain exactly those 3 entries and no others (actions_json_reflects_spec = true, adds_unspecified_actions = false)?',
     schema: {
       type: 'object',
       required: ['actions_json_reflects_spec', 'adds_unspecified_actions'],
@@ -368,10 +368,10 @@ export const FW_AI_ACTIONS_SCENARIOS = [
 
   {
     id: 'fw-ai-actions-18',
-    skill: 'fw-ai-actions-app',
-    label: 'README.md created when documenting AI actions integration',
-    loadContent: () => loadSkill('fw-ai-actions-app'),
-    prompt: 'According to the fw-ai-actions-app skill: after implementing an AI actions integration, what documentation should be created? Should a README.md be created (creates_readme = true) or can it be skipped (skips_readme = true)?',
+    skill: 'fw-build-your-mcp-app',
+    label: 'README.md created when documenting MCP app integration',
+    loadContent: () => loadSkill('fw-build-your-mcp-app'),
+    prompt: 'According to the fw-build-your-mcp-app skill: after implementing an MCP app integration, what documentation should be created? Should a README.md be created (creates_readme = true) or can it be skipped (skips_readme = true)?',
     schema: {
       type: 'object',
       required: ['creates_readme', 'skips_readme'],
@@ -383,7 +383,7 @@ export const FW_AI_ACTIONS_SCENARIOS = [
     },
     assert(output) {
       assert.equal(output.creates_readme, true, 'must create README.md when documenting the integration');
-      assert.equal(output.skips_readme, false, 'must not skip README creation for AI actions integration');
+      assert.equal(output.skips_readme, false, 'must not skip README creation for MCP app integration');
     },
   },
 

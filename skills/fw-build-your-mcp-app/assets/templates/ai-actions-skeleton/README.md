@@ -1,8 +1,8 @@
-# AI Actions App (template)
+# Build your own MCP server (template)
 
-Generated layout for **Platform 3.0** AI Actions. Skill id for authoring and validation rules: **`fw-ai-actions-app`** — see **[AGENTS.md](../../../../../AGENTS.md)** and the skill **[README.md](../../../README.md)**.
+Generated layout for a Platform 3.0 MCP app. Skill id: **`fw-build-your-mcp-app`**.
 
-A Freshworks marketplace app that provides AI actions for external API integration.
+A Freshworks marketplace app that provides an MCP server for external API integration.
 
 ## Features
 
@@ -17,7 +17,7 @@ A Freshworks marketplace app that provides AI actions for external API integrati
    - API Key
    - API Base URL (e.g., api.example.com)
 
-## Actions Available
+## Tools
 
 - `getResource` - Retrieve a resource by ID
 - `createResource` - Create a new resource

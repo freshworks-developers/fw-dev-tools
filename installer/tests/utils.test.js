@@ -50,7 +50,7 @@ test('copySkills copies all 5 skill subdirectories', async () => {
   const tmp = await makeTmp();
   const dest = join(tmp, 'skills-out');
   await copySkills(dest);
-  const expected = ['fw-setup', 'fw-app-dev', 'fw-ai-actions-app', 'fw-review', 'fw-publish'];
+  const expected = ['fw-setup', 'fw-app-dev', 'fw-build-your-mcp-app', 'fw-review', 'fw-publish'];
   for (const skill of expected) {
     assert.ok(existsSync(join(dest, skill)), `${skill} should be copied`);
     assert.ok(existsSync(join(dest, skill, 'SKILL.md')), `${skill}/SKILL.md should exist`);
@@ -76,7 +76,7 @@ test('copySkills copies only installable skill names', async () => {
     .map((e) => e.name)
     .sort();
   const expected = [
-    'fw-ai-actions-app',
+    'fw-build-your-mcp-app',
     'fw-app-dev',
     'fw-publish',
     'fw-review',

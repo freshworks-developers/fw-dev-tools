@@ -1,5 +1,5 @@
 /**
- * AI Actions - Server Methods
+ * MCP app - Server Methods
  *
  * CRITICAL RULES:
  * 1. Function name MUST match actions.json key exactly (case-sensitive)

@@ -1,9 +1,9 @@
 ---
-description: "Run fdk validate after changes; fix blocking errors with limited iterations; ignore style-only noise for AI Actions apps."
+description: "Run fdk validate after changes; fix blocking errors with limited iterations; ignore style-only noise for MCP apps."
 globs: "**/actions.json,**/server/**/*.js,**/config/requests.json,**/config/iparams.json,**/manifest.json,**/README.md"
 ---
 
-# AI Actions Validation & Autofix
+# MCP app Validation & Autofix
 
 **CRITICAL:** After creating ALL app files, run `fdk validate` automatically and fix fatal errors.
 
@@ -22,7 +22,7 @@ fdk validate
 **IGNORE:** Lint warnings, code style suggestions
 
 ### Step 3: Present Results
-- If passes: "✅ AI Actions app generated and validated successfully!"
+- If passes: "✅ MCP app generated and validated successfully!"
 - If fails: List only FATAL errors with fix directions
 
 ## Validation Checklist

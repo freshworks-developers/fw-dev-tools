@@ -3,7 +3,7 @@ description: "server/test_data JSON fixtures: one file per action, keys match ac
 globs: "**/actions.json,**/server/**/*.js,**/config/requests.json,**/config/iparams.json,**/manifest.json,**/README.md"
 ---
 
-# AI Actions Test Data
+# MCP app Test Data
 
 Each action defined in `actions.json` must have a corresponding `server/test_data/<functionName>.json` test fixture. A missing `server/test_data/` directory or any missing fixture is a blocking issue.
 

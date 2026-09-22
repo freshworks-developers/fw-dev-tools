@@ -11,4 +11,4 @@ End-to-end **Platform 3.0** recipes: manifest + `config/requests.json` + `server
 
 **Also read:** `references/events/onTicketUpdate-payload-contract.md` for ticket event payloads; `rules/async-patterns.mdc` for `renderData` on async server methods.
 
-**AI Actions–first integrations** (`actions.json`, SMI, flat request schemas): use sibling skill **[fw-ai-actions-app](../../../fw-ai-actions-app/)** — routing **[AGENTS.md](../../../../AGENTS.md)** (**fw-ai-actions-app**).
+**MCP-app integrations** (`actions.json`, SMI, flat request schemas): use sibling skill **[fw-build-your-mcp-app](../../../fw-build-your-mcp-app/)** — routing **[AGENTS.md](../../../../AGENTS.md)** (**fw-build-your-mcp-app**).

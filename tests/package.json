@@ -10,6 +10,6 @@
     "eval:app-dev": "npm test && FW_EVAL_SKILL=fw-app-dev node --test eval/skill-eval-cli.js",
     "eval:review": "npm test && FW_EVAL_SKILL=fw-review node --test eval/skill-eval-cli.js",
     "eval:publish": "npm test && FW_EVAL_SKILL=fw-publish node --test eval/skill-eval-cli.js",
-    "eval:ai-actions": "npm test && FW_EVAL_SKILL=fw-ai-actions-app node --test eval/skill-eval-cli.js"
+    "eval:ai-actions": "npm test && FW_EVAL_SKILL=fw-build-your-mcp-app node --test eval/skill-eval-cli.js"
   }
 }

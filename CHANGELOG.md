@@ -6,6 +6,9 @@ All notable changes to `@freshworks/fw-dev-tools` are documented here.
 
 ## [Unreleased]
 
+### Changed
+- **fw-build-your-mcp-app:** renamed from `fw-ai-actions-app`. External developers see this as **build your own MCP server** (an MCP app). The app is still implemented with `actions.json` and SMI handlers. Install/update removes the old `fw-ai-actions-app` skill directory.
+
 ---
 
 ## [1.3.0] — 2026-07-30

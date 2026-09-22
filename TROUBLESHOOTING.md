@@ -17,13 +17,13 @@ This guide covers **real problems you'll actually encounter** when installing an
 **Cursor:**
 ```bash
 ls ~/.cursor/skills/
-# Should show: fw-app-dev  fw-ai-actions-app  fw-review  fw-setup  fw-publish (subset depends on what you installed)
+# Should show: fw-app-dev  fw-build-your-mcp-app  fw-review  fw-setup  fw-publish (subset depends on what you installed)
 ```
 
 **Claude Code:**
 ```bash
 claude plugin list
-# Should show entries for fw-setup, fw-app-dev, fw-ai-actions-app, fw-review, fw-publish
+# Should show entries for fw-setup, fw-app-dev, fw-build-your-mcp-app, fw-review, fw-publish
 
 ls ~/.fw-dev-tools/skills/fw-app-dev/SKILL.md
 # Authoritative skill copy for plugins (version in YAML frontmatter should match your install)
@@ -141,7 +141,7 @@ cp -r .claude-plugin ~/.fw-dev-tools/
 claude plugin marketplace add ~/.fw-dev-tools
 claude plugin install fw-setup@freshworks-dev-tools
 claude plugin install fw-app-dev@freshworks-dev-tools
-claude plugin install fw-ai-actions-app@freshworks-dev-tools
+claude plugin install fw-build-your-mcp-app@freshworks-dev-tools
 claude plugin install fw-review@freshworks-dev-tools
 claude plugin install fw-publish@freshworks-dev-tools
 

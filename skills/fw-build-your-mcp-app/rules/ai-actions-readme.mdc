@@ -1,18 +1,18 @@
 ---
-description: "README structure and sections for AI Actions marketplace apps (features, auth, setup, action list)."
+description: "README structure for an MCP app (features, auth, setup, tool list)."
 globs: "**/actions.json,**/server/**/*.js,**/config/requests.json,**/config/iparams.json,**/manifest.json,**/README.md"
 ---
 
-# AI Actions README Template
+# MCP app README Template
 
-**REQUIRED — every AI actions app must include a `README.md` at the app root. Absence of `README.md` is a blocking issue. Do not mark the app as complete without it.**
+**REQUIRED — every MCP app must include a `README.md` at the app root. Absence of `README.md` is a blocking issue. Do not mark the app as complete without it.**
 
-## Structure (Platform 3.0 AI Actions app)
+## Structure (Platform 3.0 MCP app)
 
 ```markdown
-# [App Name] AI Actions App
+# [App Name]
 
-A Freshworks marketplace app that provides AI actions for [integration/service].
+A Freshworks marketplace MCP app (build your own MCP server) for [integration/service].
 
 ## Features
 
@@ -26,7 +26,7 @@ A Freshworks marketplace app that provides AI actions for [integration/service].
 2. Configure credentials in app settings:
    - [List iparams: API Key, Base URL, etc.]
 
-## Actions Available
+## Tools
 
 - `actionName1` - Description
 - `actionName2` - Description

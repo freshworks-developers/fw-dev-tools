@@ -56,7 +56,7 @@ export async function install({ yes = false } = {}) {
 
   // Warn if old npx-skills-add workspace installs exist
   const workspaceSkillsDir = join(process.cwd(), '.agents', 'skills');
-  const OLD_SKILLS = ['fw-setup', 'fw-app-dev', 'fw-marketplace-app-dev', 'fw-ai-actions-app', 'fw-review', 'fw-publish'];
+  const OLD_SKILLS = ['fw-setup', 'fw-app-dev', 'fw-marketplace-app-dev', 'fw-ai-actions-app', 'fw-build-your-mcp-app', 'fw-review', 'fw-publish'];
   const foundWorkspace = OLD_SKILLS.filter(s => existsSync(join(workspaceSkillsDir, s)));
   if (foundWorkspace.length > 0) {
     console.log(`  ⚠  Found old workspace skills in ${workspaceSkillsDir}: ${foundWorkspace.join(', ')}`);

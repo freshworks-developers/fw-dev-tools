@@ -151,10 +151,10 @@ After each skill returns `done`, controller runs step 5: `session-write.sh` mile
 
 ### Orchestration chain
 
-1. **Classify & confirm** — restate intent; ask product (Freshdesk, Freshservice, etc.) and app type (standard app vs AI actions). **No file writes** until user confirms.
+1. **Classify & confirm** — restate intent; ask product (Freshdesk, Freshservice, etc.) and app type (standard app vs MCP app — build your own MCP server). **No file writes** until user confirms.
 2. **Session** — write `.fw-session.json`: `intent: create-new`, `progress.phase: discover`, then `setup` after confirm.
 3. **Toolchain** — invoke **fw-setup**; verify Node **v24** + FDK **v10**. Halt with setup guidance if missing.
-4. **Build** — invoke **fw-app-dev** (platform app) or **fw-ai-actions-app** (AI actions app) based on confirmed type. Set `progress.phase: build`.
+4. **Build** — invoke **fw-app-dev** (platform app) or **fw-build-your-mcp-app** (MCP app — build your own MCP server) based on confirmed type. Set `progress.phase: build`.
 5. **Validate milestone** — after successful `fdk validate`, append `validate_passed` to milestones; set `progress.phase: validate`.
 6. **Review (mandatory)** — invoke **fw-review**; append `review_passed` on pass; set `progress.phase: review`. **Never skip** even if user asks (see §guardrails).
 7. **Publish (opt-in)** — only after review pass, **offer** fw-publish in plain language. Run **fw-publish** only after explicit user consent ("yes" / "publish"). Set `progress.phase: publish` on submit.
@@ -181,7 +181,7 @@ If the user stops mid-chain, persist last completed phase and milestones in sess
 
 1. **Verify context** — confirm which app directory is active; set session `intent: add-feature`.
 2. **Read-before-write** — read the **entire** app tree (all source, config, manifest) before any Edit/Write. Document what exists.
-3. **Scoped build** — invoke **fw-app-dev** (or **fw-ai-actions-app** if actions app) limited to the requested feature — **no full regeneration**.
+3. **Scoped build** — invoke **fw-app-dev** (or **fw-build-your-mcp-app** if the app is an MCP app) limited to the requested feature — **no full regeneration**.
 4. **Validate** — run validation; on pass append `validate_passed`.
 5. **Review** — invoke **fw-review** when changes are substantial or before any publish offer.
 6. **Publish** — offer only after review pass; require explicit consent before **fw-publish**.

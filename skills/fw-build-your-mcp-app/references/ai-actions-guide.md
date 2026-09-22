@@ -1,20 +1,20 @@
 ---
-description: AI Actions in Freshworks Platform 3.0 - Comprehensive implementation guide for actions.json and server.js
+description: Build your own MCP server on Freshworks Platform 3.0. Implementation guide for actions.json and server.js.
 globs:
   - "**/actions.json"
   - "**/server/server.js"
 alwaysApply: false
 ---
 
-# AI Actions in Freshworks Platform 3.0 - Implementation Guide
+# Build your own MCP server — implementation guide
 
-**CRITICAL:** This guide provides comprehensive implementation details for AI Actions. For core concepts, see `ai-actions-core.md`. This guide is automatically loaded when working with `actions.json` or `server.js` files.
+**CRITICAL:** This guide is how an MCP app is implemented. For core concepts, see `ai-actions-core.md`. This guide is loaded when working with `actions.json` or `server.js` files.
 
 ---
 
-## What are AI Actions?
+## What is an MCP app?
 
-**Concept:** A declared function catalog exposed via `actions.json` where each action has:
+An MCP app is how you build your own MCP server on Platform 3.0. Each tool is an `actions.json` entry with:
 - A unique function name
 - Input JSON Schema (request parameters)
 - Response JSON Schema (output structure)
@@ -34,7 +34,7 @@ alwaysApply: false
 
 ## Supported Products
 
-AI Actions are available in:
+MCP apps are available in:
 - ✅ Freshdesk
 - ✅ Freshchat
 - ✅ Freshworks CRM
@@ -44,7 +44,7 @@ AI Actions are available in:
 
 ## File Structure
 
-AI Actions require two files:
+MCP apps require two files:
 
 ```
 app-root/

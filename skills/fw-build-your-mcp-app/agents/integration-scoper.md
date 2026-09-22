@@ -31,7 +31,7 @@ limits:
 primary_skill: ../SKILL.md
 ```
 
-**Credentials (non-negotiable):** Plans must assume **no hardcoded API keys, tokens, or secrets** in app code—**iparams** (`secure: true`) or **OAuth** only (**fw-ai-actions-app** `../rules/ai-actions-api-docs.mdc`).
+**Credentials (non-negotiable):** Plans must assume **no hardcoded API keys, tokens, or secrets** in app code—**iparams** (`secure: true`) or **OAuth** only (**fw-build-your-mcp-app** `../rules/ai-actions-api-docs.mdc`).
 
 ## Capabilities
 
@@ -70,7 +70,7 @@ primary_skill: ../SKILL.md
    - **Free trial / developer use:** What is available, how to get it, limitations or enablement steps. This answers **paid things required** and testing strategy.
    - **Actions table:** One row per action. Columns: #, Action name, Description (short), Method, Endpoint/behavior, Key inputs, Output. Use requirements for names/descriptions; vendor docs for endpoint/method/params.
    - **Feasibility and verification:** Bullet list or table: which actions are Possible / Verify / Not available; for each Verify or Not available, one sentence on what to confirm or do instead. This is where **blockers** and **important** items are explicit.
-   - **Implementation steps:** High-level only (e.g. request templates, iparams/oauth config, **actions.json** request schemas per **fw-ai-actions-app**—flat shape: **no nested objects**; **arrays of primitives** allowed when the API needs them; **no arrays of objects**; nested shapes belong in `server.js`), serverless handlers, test_data). If the project provides a modules/supported-modules source (path provided by user or project), note that the manifest must declare those modules as empty objects for this app. Do not write full code; reference platform patterns where relevant.
+   - **Implementation steps:** High-level only (e.g. request templates, iparams/oauth config, **actions.json** request schemas per **fw-build-your-mcp-app**—flat shape: **no nested objects**; **arrays of primitives** allowed when the API needs them; **no arrays of objects**; nested shapes belong in `server.js`), serverless handlers, test_data). If the project provides a modules/supported-modules source (path provided by user or project), note that the manifest must declare those modules as empty objects for this app. Do not write full code; reference platform patterns where relevant.
    - **References:** Links to vendor API docs and the requirements artifact (with row range).
 
 Keep the plan generic; avoid product-specific jargon except where the requirements or API require it. Use generic output paths (e.g. `plans/` or user-specified); do not hardcode repo-specific directory names.
@@ -124,7 +124,7 @@ When the user asks "what's possible" or "what do I need to verify," answer using
 **Invoke with:** requirements path + integration name (or clear pass-through from another agent).
 
 - **Use for:** discovery, API mapping, feasibility, paid/trial posture, implementation-ready **plans** (no code).
-- **Do not use for:** writing `actions.json` / `server.js` / templates → **integration-scope-implementer** or **fw-ai-actions-app** directly.
+- **Do not use for:** writing `actions.json` / `server.js` / templates → **integration-scope-implementer** or **fw-build-your-mcp-app** directly.
 - **UI-heavy marketplace apps:** prefer **`../../fw-app-dev/SKILL.md`**.
 
 Treat **`../SKILL.md`** as the source of truth for schema, engines, and security when planning handoff—**link** paths and section names; do not paste long rule excerpts into plans.

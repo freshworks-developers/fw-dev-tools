@@ -271,17 +271,17 @@ bash <skill-root>/scripts/upload-app.sh dist/<app>.zip /tmp/fw-upload-response.j
 
 Do **not** base64-encode the zip.
 
-### 9. Read manifest.json and detect AI Actions app
+### 9. Read manifest.json and detect MCP app
 
 Read `manifest.json` in the app directory. Extract:
 - `platform-version` (e.g. `"3.0"`)
 - `modules` keys (e.g. `["common", "support_ticket"]`)
 - `name` (if present) for `appName`
 
-**AI Actions detection:** Check if `actions.json` exists in the app directory.
+**MCP app detection:** Check if `actions.json` exists in the app directory.
 - If **found**, **STOP and ask the user — do not assume:**
   ```
-  Detected actions.json — this looks like an AI Actions app.
+  Detected actions.json — this looks like an MCP app (build your own MCP server).
   Should I include worksWith: ["ai_actions"] when publishing? (yes/no)
   ```
   **Do not proceed to step 10 until the user answers.**
@@ -310,7 +310,7 @@ Use the **publish-time choice from step 6**: **new** → **`submit_custom_app`**
 | `uploadId` | from step 7 |
 | `targetState` | `"test"` (only supported state — do not prompt the user) |
 | `zipFileName` | optional (e.g. `my-app.zip`) |
-| `worksWith` | from step 9 AI Actions detection — `["ai_actions"]` if confirmed, else omit |
+| `worksWith` | from step 9 MCP app detection — `["ai_actions"]` if confirmed, else omit |
 
 **Existing app** — **`add_app_version`** (when available on MCP):
 
@@ -322,7 +322,7 @@ Use the **publish-time choice from step 6**: **new** → **`submit_custom_app`**
 | `uploadId` | from step 7 |
 | `targetState` | `"test"` (only supported state — do not prompt the user) |
 | `zipFileName` | optional |
-| `worksWith` | from step 9 AI Actions detection — `["ai_actions"]` if confirmed, else omit |
+| `worksWith` | from step 9 MCP app detection — `["ai_actions"]` if confirmed, else omit |
 
 ### 11. Persist app identity (optional, local only)
 

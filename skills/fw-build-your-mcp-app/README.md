@@ -1,10 +1,10 @@
-# fw-ai-actions-app
+# Build your own MCP server
 
-Skill id: **`fw-ai-actions-app`** — Cursor / Claude skill for building **AI Actions** on Freshworks **Platform 3.0** (`actions.json`, SMI in `server/server.js`, request templates, manifest, validation). Canonical routing: **[AGENTS.md](../../AGENTS.md)** → **fw-ai-actions-app**.
+Skill id: **`fw-build-your-mcp-app`**. Developers know this as **build your own MCP server** — an **MCP app** on Freshworks **Platform 3.0**. The app is implemented with `actions.json`, SMI in `server/server.js`, request templates, and `manifest.json`. Canonical routing: **[AGENTS.md](../../AGENTS.md)** → **fw-build-your-mcp-app**.
 
 ## Overview
 
-**fw-ai-actions-app** complements **fw-app-dev**: it focuses on `actions.json`, serverless handlers, flat request schemas, and integration guardrails without covering full UI app locations. It does **not** install FDK or Node — use **fw-setup** for the toolchain.
+**fw-build-your-mcp-app** complements **fw-app-dev**: it focuses on `actions.json`, serverless handlers, flat request schemas, and integration guardrails without covering full UI app locations. It does **not** install FDK or Node — use **fw-setup** for the toolchain.
 
 ## Features
 
@@ -38,7 +38,7 @@ app-root/
 npx @freshworks/fw-dev-tools install
 ```
 
-Or copy this folder into `.cursor/skills/fw-ai-actions-app/` (or your tool’s skills directory).
+Or copy this folder into `.cursor/skills/fw-build-your-mcp-app/` (or your tool’s skills directory).
 
 ### Install as Claude plugin
 
@@ -51,14 +51,14 @@ claude plugin marketplace add freshworks-developers/fw-dev-tools
 **Step 2**
 
 ```bash
-claude plugin install fw-ai-actions-app@freshworks-developers
+claude plugin install fw-build-your-mcp-app@freshworks-developers
 ```
 
 ## Contents
 
 - **SKILL.md** — Orchestrator; points to rules and references
-- **agents/** — Integration scoper, scope implementer, AI action integration validator
-- **rules/** — Scoped `.mdc` rules (platform, schemas, server, requests, validation, test data, README, API docs). Full table in repo [`AGENTS.md`](../../AGENTS.md) (*Rules and slash commands* → **fw-ai-actions-app**).
+- **agents/** — Integration scoper, scope implementer, MCP app integration validator
+- **rules/** — Scoped `.mdc` rules (platform, schemas, server, requests, validation, test data, README, API docs). Full table in repo [`AGENTS.md`](../../AGENTS.md) (*Rules and slash commands* → **fw-build-your-mcp-app**).
 - **references/** — `ai-actions-guide.md`, quick reference, core constraints
 - **assets/templates/ai-actions-skeleton/** — Fuller template (manifest, sample actions, server handlers, test data)
 
@@ -68,7 +68,7 @@ claude plugin install fw-ai-actions-app@freshworks-developers
 
 ## Support
 
-- [AI Actions — Freshworks Developer Docs](https://developers.freshworks.com/docs/app-sdk/v3.0/common/actions/)
+- [MCP app — Freshworks Developer Docs](https://developers.freshworks.com/docs/app-sdk/v3.0/common/actions/)
 - [GitHub issues — fw-dev-tools](https://github.com/freshworks-developers/fw-dev-tools/issues)
 - [Issues — marketplace](https://github.com/freshworks-developers/marketplace/issues)
 

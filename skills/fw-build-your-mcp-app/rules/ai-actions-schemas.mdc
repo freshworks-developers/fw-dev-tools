@@ -3,7 +3,7 @@ description: "actions.json parameters and response JSON Schema rules: flat reque
 globs: "**/actions.json,**/server/**/*.js,**/config/requests.json,**/config/iparams.json,**/manifest.json,**/README.md"
 ---
 
-# AI Actions Schemas (actions.json)
+# MCP app Schemas (actions.json)
 
 ## Structure
 
@@ -116,7 +116,7 @@ If API requires nested object, accept flat params and build in server.js:
 }
 ```
 
-Keep **AI Actions constraints**: flat request parameters; **arrays of objects** in requests are not allowed — primitives and arrays of primitives only.
+Keep **MCP app constraints**: flat request parameters; **arrays of objects** in requests are not allowed — primitives and arrays of primitives only.
 
 ## Response Schema
 

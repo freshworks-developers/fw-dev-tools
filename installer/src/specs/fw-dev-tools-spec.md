@@ -41,12 +41,12 @@ user message
 | Goal | Skill |
 |---|---|
 | Build, fix, review, or migrate a Platform 3.0 app | `fw-app-dev` |
-| AI Actions integrations | `fw-ai-actions-app` |
+| Build your own MCP server (MCP app) | `fw-build-your-mcp-app` |
 | Structured app review | `fw-review` |
 | Install / upgrade FDK and Node | `fw-setup` |
 | Publish to marketplace | `fw-publish` |
 
-**End-to-end order:** fw-setup → fw-app-dev / fw-ai-actions-app → fw-review (MANDATORY) → fw-publish
+**End-to-end order:** fw-setup → fw-app-dev / fw-build-your-mcp-app → fw-review (MANDATORY) → fw-publish
 
 ## Intent routing (Tier 1 cues)
 

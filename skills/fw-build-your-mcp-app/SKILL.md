@@ -1,21 +1,34 @@
 ---
-name: fw-ai-actions-app
-description: Expert-level skill for AI Actions and integrations on Freshworks Platform 3.0. Use when (1) Creating actions.json and SMI functions (flat request, nested response), (2) Request templates and third-party API integration, (3) Pre-build validation (pricing, paywalls, account prerequisites), (4) Failure-case validation and test data guardrails, (5) Debugging broken endpoints, (6) Integration implementation checklist (auth, base URL, request body, trigger-friendly schema), (7) Scoping and planning new integrations (and comparing only when user asks).
+name: fw-build-your-mcp-app
+description: Build your own MCP server (an MCP app) on Freshworks Platform 3.0. Use when the developer asks to build an MCP app or MCP server, add tools, or fix an integration. Covers actions.json and SMI functions (flat request, nested response), request templates, third-party APIs, pre-build checks, failure cases, test data, debugging, and scoping. In every developer-facing message, call this "build your own MCP server" or an "MCP app". Implement it with actions.json, server/server.js, and config/requests.json.
 version: "1.3.0"
 compatibility: Freshworks Platform 3.0, FDK 10.x, Node.js 24.x
 ---
 
 ## Entry contract
 
-- **Invoked by:** controller when intent is AI Actions app (create, extend, or fix actions.json integrations)
+- **Invoked by:** controller when intent is build your own MCP server (create, extend, or fix an MCP app: `actions.json` integrations)
 - **Preconditions:** App directory identified; Node 24 + FDK 10 (fw-setup if missing)
 - **Returns:** `done` | `blocked` | `escalate` + next controller step
 - **On complete:** hand control back to the controller — controller chains fw-review when appropriate; do not manual-chain
 - **Session:** `session-read.sh` at start; `session-write.sh` on validate/review milestones
 
-# AI Actions Skill for Freshworks Platform 3.0
+# Build your own MCP server
 
-You are an AI Actions specialist for Freshworks Platform 3.0. **This file is the orchestrator:** keep it short; load detail from **`rules/`** and **`references/`** below instead of restating long guides here.
+You build an **MCP app** on Freshworks Platform 3.0. Refer to this skill as **build your own MCP server**. **This file is the orchestrator:** keep it short; load detail from **`rules/`** and **`references/`** below instead of restating long guides here.
+
+## Terminology
+
+In every message, README, and success line the developer sees, call the project an **MCP app** and this work **build your own MCP server**.
+
+The platform files stay as they are:
+
+| Developer-facing name | What you create |
+|---|---|
+| MCP app / build your own MCP server | `actions.json`, SMI handlers in `server/server.js`, `config/requests.json`, `manifest.json` |
+| Tool | One `actions.json` entry and the matching `server.js` export |
+
+The FDK test page labels tools as type `"actions"`. Marketplace publish uses `worksWith: ["ai_actions"]` after the developer confirms. Say "MCP app" when you ask.
 
 ## Core Rules
 
@@ -48,16 +61,17 @@ All paths below (`actions.json`, `manifest.json`, `server/server.js`, `config/*`
 
 ## App Architecture
 
-**AI actions apps do not need the app folder.** Use only:
+**MCP apps do not need the app folder.** Use only:
 
 ```
-fw-ai-actions-app/
+app-root/
 ├── actions.json
 ├── server/server.js
 ├── server/test_data/actionName.json
 ├── config/requests.json
 ├── config/iparams.json
-└── manifest.json
+├── manifest.json
+└── README.md
 ```
 
 **Manifest:** Declare **common** (`requests`, **functions**) plus supported product modules as empty objects (e.g. `"support_ticket": {}`). Do not strip module keys. **Engines:** `"node": "24.11.0"`, `"fdk": "10.0.0"` unless the project specifies otherwise (`rules/ai-actions-platform.mdc`).
@@ -66,7 +80,7 @@ fw-ai-actions-app/
 
 ## Modules / supported-modules source (when provided by the project)
 
-The project may supply a CSV/spec listing **Modules Supported** per app. Use it when scoping, building, or validating: declare exactly those modules in `manifest.json` (no `location` / `url` / `icon` for AI-only apps). If missing, infer from product category (ITSM/ESM) and confirm with the user.
+The project may supply a CSV/spec listing **Modules Supported** per app. Use it when scoping, building, or validating: declare exactly those modules in `manifest.json` (no `location` / `url` / `icon` on an MCP app). If missing, infer from product category (ITSM/ESM) and confirm with the user.
 
 **Scoping from CSV/spec:** `actions.json` must contain **exactly** the actions defined in the spec — **no extras**. Action definitions live in **`actions.json`** (and matching `server.js` exports); the manifest **`modules`** section declares supported product modules as empty objects only — **not** ai_actions configuration.
 
@@ -79,7 +93,7 @@ The project may supply a CSV/spec listing **Modules Supported** per app. Use it 
 3. **Server** — `renderData`, `$request.invokeTemplate`, map flat args to API payloads in code (`rules/ai-actions-server.mdc`).
 4. **Config** — `requests.json`, `iparams.json`, manifest (`rules/ai-actions-requests.mdc`, `rules/ai-actions-platform.mdc`).
 5. **Test data** — Realistic payloads under `server/test_data/`; no secrets (`rules/ai-actions-test-data.mdc`).
-6. **README.md** (**MANDATORY**) — Every AI actions app must include one. Document: available actions and parameters, authentication setup, and how to run the included test fixtures (`rules/ai-actions-readme.mdc`).
+6. **README.md** (**MANDATORY**) — Every MCP app must include one. Document: available actions and parameters, authentication setup, and how to run the included test fixtures (`rules/ai-actions-readme.mdc`).
 7. **Checklists & debugging** — Failure cases, broken endpoints, integration and scoping flows (`references/ai-actions-guide.md`).
 8. **Concepts** — Short primer (`references/ai-actions-core.md`).
 
@@ -97,7 +111,7 @@ app-root/
 ├── server/test_data/<functionName>.json
 ├── config/requests.json
 ├── config/iparams.json
-└── README.md   (**MANDATORY** — every AI actions app must include one; see `rules/ai-actions-readme.mdc`)
+└── README.md   (**MANDATORY** — every MCP app must include one; see `rules/ai-actions-readme.mdc`)
 ```
 
 **Flat request excerpt:**
@@ -129,9 +143,9 @@ app-root/
 
 ## When to use / not use
 
-**Use** for AI Actions, SMI, templates, integrations, validation, and scoping.
+**Use** to build your own MCP server: an MCP app with `actions.json`, SMI handlers, request templates, validation, and scoping.
 
-**Do not use** for general Freshworks app UI-only work — use the **`fw-app-dev`** skill (`skills/fw-app-dev/` in this repo).
+**Do not use** for a full Platform 3.0 UI app — use **`fw-app-dev`** (`skills/fw-app-dev/` in this repo).
 
 ---
 
@@ -156,10 +170,10 @@ app-root/
 
 ```bash
 bash ~/.fw-dev-tools/scripts/meta-init.sh <app-directory>
-bash ~/.fw-dev-tools/scripts/meta-update.sh <app-directory> fw-ai-actions-app \
+bash ~/.fw-dev-tools/scripts/meta-update.sh <app-directory> fw-build-your-mcp-app \
   invoked=1 skill_version=<version> validate_iterations=<n>
 # For each validation error category (repeat as needed — omit if none):
-bash ~/.fw-dev-tools/scripts/meta-update.sh <app-directory> fw-ai-actions-app \
+bash ~/.fw-dev-tools/scripts/meta-update.sh <app-directory> fw-build-your-mcp-app \
   validation_error_categories+=<category>
 ```
 

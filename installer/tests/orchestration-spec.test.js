@@ -20,7 +20,7 @@ test('spec file is present at expected path', async () => {
 test('spec file contains routing table for all 5 skills', async () => {
   const content = await readFile(SPEC_FILE, 'utf8');
   assert.ok(content.includes('fw-app-dev'), 'should route to fw-app-dev');
-  assert.ok(content.includes('fw-ai-actions-app'), 'should route to fw-ai-actions-app');
+  assert.ok(content.includes('fw-build-your-mcp-app'), 'should route to fw-build-your-mcp-app');
   assert.ok(content.includes('fw-review'), 'should route to fw-review');
   assert.ok(content.includes('fw-setup'), 'should route to fw-setup');
   assert.ok(content.includes('fw-publish'), 'should route to fw-publish');

@@ -262,7 +262,7 @@ export const FW_PUBLISH_SCENARIOS = [
     skill: 'fw-publish',
     label: 'actions.json present → ask about worksWith ai_actions before submit',
     loadContent: () => loadSkill('fw-publish'),
-    prompt: 'You are publishing an app that contains config/actions.json with AI Actions definitions. Before submit, should you automatically set worksWith: ai_actions in the marketplace listing, or must you ask the developer first?',
+    prompt: 'You are publishing an app that contains config/actions.json with MCP app definitions. Before submit, should you automatically set worksWith: ai_actions in the marketplace listing, or must you ask the developer first?',
     schema: {
       type: 'object',
       required: ['asks_developer_about_ai_actions', 'auto_sets_without_asking'],

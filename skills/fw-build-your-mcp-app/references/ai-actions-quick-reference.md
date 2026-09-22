@@ -1,4 +1,4 @@
-# AI Actions Quick Reference
+# MCP app Quick Reference
 
 ## File Structure
 
