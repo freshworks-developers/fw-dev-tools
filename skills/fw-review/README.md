@@ -4,7 +4,7 @@ Automated **Freshworks Platform 3.0** marketplace app audit: manifest and iparam
 
 ## Overview
 
-**fw-review** is a silent, pipeline-style skill. Agents follow `SKILL.md`, evaluate the rule IDs listed here, run mapped scripts from `scripts/` where specified, and emit output per `rules/report.md`. It does not install FDK; use **fw-setup** (`/fw-setup-status`) when the CLI may be absent. To fix findings, use **fw-app-dev** (full Platform 3.0 apps) or **fw-build-your-mcp-app** (MCP app) per **[AGENTS.md](../../AGENTS.md)**.
+**fw-review** is a silent, pipeline-style skill. Agents follow `SKILL.md`, evaluate the rule IDs listed here, run mapped scripts from `scripts/` where specified, and emit output per `rules/report.md`. It does not install FDK; use **fw-setup** (`/fw-setup-status`) when the CLI may be absent. To fix findings, use **fw-app-dev** (full Platform 3.0 apps) or **fw-build-your-mcp-server** (build your own MCP server) per **[AGENTS.md](../../AGENTS.md)**.
 
 ## Install
 

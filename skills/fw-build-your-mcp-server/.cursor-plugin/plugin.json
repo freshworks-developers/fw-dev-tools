@@ -1,14 +1,14 @@
 {
-  "name": "fw-build-your-mcp-app",
+  "name": "fw-build-your-mcp-server",
   "displayName": "Build your own MCP server",
   "version": "1.3.0",
-  "description": "Build your own MCP server (an MCP app) on Freshworks Platform 3.0: actions.json, SMI serverless handlers, request templates, validation, and integration checklists.",
+  "description": "Build your own MCP server on Freshworks Platform 3.0: actions.json, SMI serverless handlers, request templates, validation, and integration checklists.",
   "author": {
     "name": "Freshworks Developers",
     "email": "skills@dev-assist.freshservice.com"
   },
   "homepage": "https://github.com/freshworks-developers/fw-dev-tools",
-  "repository": "https://github.com/freshworks-developers/fw-dev-tools/tree/main/skills/fw-build-your-mcp-app",
+  "repository": "https://github.com/freshworks-developers/fw-dev-tools/tree/main/skills/fw-build-your-mcp-server",
   "license": "MIT",
   "category": "developer-tools",
   "strict": false,
@@ -22,7 +22,7 @@
   ],
   "interface": {
     "displayName": "Build your own MCP server",
-    "shortDescription": "MCP app: actions.json, SMI handlers, request templates, and third-party APIs.",
+    "shortDescription": "MCP server: actions.json, SMI handlers, request templates, and third-party APIs.",
     "longDescription": "Expert guidance for flat request parameters, nested responses in server.js, iparams/OAuth, fdk validate, test data, and integration scoping. Pair with fw-app-dev for full marketplace UI apps and fw-setup for the toolchain."
   },
   "tags": [

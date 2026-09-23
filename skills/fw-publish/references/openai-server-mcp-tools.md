@@ -61,7 +61,7 @@ Create a **new** custom app + first version (Platform **3.x** only). Target stat
 | `modules`         | string[] | yes      | Top-level `manifest.json` `modules` keys; ≥1 non-`common` module |
 | `uploadId`        | string   | yes      | From `create_app_upload_url` after PUT                           |
 | `zipFileName`     | string   | no       | e.g. `my-app.zip`                                                |
-| `worksWith`       | string[] | no       | e.g. `["ai_actions"]` for MCP apps                        |
+| `worksWith`       | string[] | no       | e.g. `["ai_actions"]` for MCP servers                        |
 
 
 **Returns:** `{ "message", "idempotentReplay"?, "idempotencyNote"?, "app": { ... includes latestVersion } }`

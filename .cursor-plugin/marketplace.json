@@ -1,7 +1,7 @@
 {
   "name": "freshworks-dev-tools",
   "displayName": "Freshworks Agentic Developer Toolkit",
-  "description": "Freshworks Platform 3.0 Cursor skills: FDK setup, app development, MCP app, automated app review, and marketplace publishing.",
+  "description": "Freshworks Platform 3.0 Cursor skills: FDK setup, app development, MCP server, automated app review, and marketplace publishing.",
   "version": "1.3.0",
   "logo": "assets/fw-logo.svg",
   "owner": {
@@ -70,8 +70,8 @@
       }
     },
     {
-      "name": "fw-build-your-mcp-app",
-      "description": "Build your own MCP server (an MCP app) on Platform 3.0: actions.json, SMI, request templates, schemas, validation, and integration workflows.",
+      "name": "fw-build-your-mcp-server",
+      "description": "Build your own MCP server on Platform 3.0: actions.json, SMI, request templates, schemas, validation, and integration workflows.",
       "author": {
         "name": "Freshworks Developers",
         "email": "skills@dev-assist.freshservice.com"
@@ -79,7 +79,7 @@
       "license": "MIT",
       "homepage": "https://github.com/freshworks-developers/fw-dev-tools",
       "repository": "https://github.com/freshworks-developers/fw-dev-tools",
-      "source": "./skills/fw-build-your-mcp-app",
+      "source": "./skills/fw-build-your-mcp-server",
       "category": "developer-tools",
       "strict": false,
       "version": "1.3.0",
@@ -91,7 +91,7 @@
         "serverless",
         "actions-json"
       ],
-      "rulesPath": "./skills/fw-build-your-mcp-app/rules",
+      "rulesPath": "./skills/fw-build-your-mcp-server/rules",
       "interface": {
         "displayName": "Build your own MCP server",
         "shortDescription": "actions.json, SMI handlers, request templates, and API integrations.",

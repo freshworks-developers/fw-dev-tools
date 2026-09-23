@@ -1,9 +1,9 @@
 ---
-description: "Run fdk validate after changes; fix blocking errors with limited iterations; ignore style-only noise for MCP apps."
+description: "Run fdk validate after changes; fix blocking errors with limited iterations; ignore style-only noise for MCP servers."
 globs: "**/actions.json,**/server/**/*.js,**/config/requests.json,**/config/iparams.json,**/manifest.json,**/README.md"
 ---
 
-# MCP app Validation & Autofix
+# MCP server Validation & Autofix
 
 **CRITICAL:** After creating ALL app files, run `fdk validate` automatically and fix fatal errors.
 
@@ -21,9 +21,27 @@ fdk validate
 **FIX:** JSON errors, missing files, manifest structure, request template errors, function name mismatch
 **IGNORE:** Lint warnings, code style suggestions
 
-### Step 3: Present Results
-- If passes: "✅ MCP app generated and validated successfully!"
-- If fails: List only FATAL errors with fix directions
+### Step 3: Run locally (only when validation passes)
+
+Do not ask the developer to start the server. From `<app-directory>`, start it in the background and leave it running:
+
+```bash
+cd <app-directory>
+fdk run
+```
+
+Read the URLs `fdk run` prints. Give the developer both links, using these labels:
+
+| Label | What they do | Default if `fdk run` does not print a URL |
+|---|---|---|
+| **Configure locally** | Enter installation parameters (API keys or OAuth) | `http://localhost:10001/custom_configs` |
+| **Execute locally** | Simulate tools: type `actions`, pick a tool, click **Simulate** | `https://localhost:10001/web/test` |
+
+Prefer the printed URLs over the defaults. Ask the developer to configure the app, then test each tool, and to paste any Simulate error. Local testing is not done until they reply. If `fdk run` fails to start, show the error and stop. If validation still has fatal errors, skip this step.
+
+### Step 4: Present Results
+- If passes: confirm validation, include the **Configure locally** and **Execute locally** links, and ask the developer to configure and test
+- If fails: List only FATAL errors with fix directions. Do not start `fdk run`
 
 ## Validation Checklist
 

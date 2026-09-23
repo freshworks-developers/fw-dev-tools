@@ -46,7 +46,7 @@ Prefer **small, focused diffs**. Match existing markdown and plugin patterns.
 
 | Path | Purpose |
 |------|---------|
-| **`skills/{fw-setup,fw-app-dev,fw-build-your-mcp-app,fw-review,fw-publish}/`** | Skill packages (`SKILL.md`, `rules/`, `commands/`, `references/`, `assets/`) |
+| **`skills/{fw-setup,fw-app-dev,fw-build-your-mcp-server,fw-review,fw-publish}/`** | Skill packages (`SKILL.md`, `rules/`, `commands/`, `references/`, `assets/`) |
 | **`skills/fw-review/scripts/*.js`** | Deterministic rule checks (mapped in `rules/script-check-rules.md`) |
 | **`skills/shared/`** | `.meta.template.json`, `scripts/meta-*.sh`, `check-update.sh` |
 | **`installer/`** | `npx @freshworks/fw-dev-tools` CLI (install, update, status, uninstall) |
@@ -109,9 +109,9 @@ Keep this list aligned when adding or renaming files.
 
 **Rules (`.mdc`):** `react-meta-patterns.mdc`, `app-building-blocking-gates.mdc`, `app-templates.mdc`, `async-patterns.mdc`, `complexity-reduction.mdc`, `confusion.mdc`, `freshworks-platform3.mdc`, `platform3-modules-locations.mdc`, `prerequisites-check.mdc`, `smart-prerequisites-check.mdc`, `security.mdc`, `validation-workflow.mdc`
 
-### fw-build-your-mcp-app — `skills/fw-build-your-mcp-app/`
+### fw-build-your-mcp-server — `skills/fw-build-your-mcp-server/`
 
-**Commands:** none (orchestration in `SKILL.md`; optional prompts under `agents/`).
+**Invocation:** `/fw-build-your-mcp-server` (skill id in `SKILL.md`). No extra command files. Optional prompts under `agents/`.
 
 **Rules (`.mdc`):** `ai-actions-api-docs.mdc`, `ai-actions-platform.mdc`, `ai-actions-readme.mdc`, `ai-actions-requests.mdc`, `ai-actions-schemas.mdc`, `ai-actions-server.mdc`, `ai-actions-test-data.mdc`, `ai-actions-validation.mdc`
 
@@ -133,7 +133,7 @@ Keep this list aligned when adding or renaming files.
 
 ## `.meta.json` — cross-skill metrics contract
 
-When editing skills that write metrics, keep this contract consistent across **`fw-setup`**, **`fw-app-dev`**, **`fw-build-your-mcp-app`**, **`fw-review`**, **`fw-publish`**.
+When editing skills that write metrics, keep this contract consistent across **`fw-setup`**, **`fw-app-dev`**, **`fw-build-your-mcp-server`**, **`fw-review`**, **`fw-publish`**.
 
 **Template:** `skills/shared/.meta.template.json` · **Scripts:** `skills/shared/scripts/meta-init.sh`, `meta-update.sh`, `meta-feedback.sh`, `meta-delete.sh`
 
@@ -147,7 +147,7 @@ When editing skills that write metrics, keep this contract consistent across **`
 |-------|-------------|---------------------|
 | **fw-setup** | `/fw-setup-install`, `/fw-setup-upgrade`, `/fw-setup-downgrade`, `/fw-setup-troubleshoot --fix` | `/fw-setup-status`, `/fw-setup-use`, troubleshoot without `--fix`, or no `manifest.json` in app dir |
 | **fw-app-dev** | After `fdk validate` completes (0 errors / 0 warnings) | — |
-| **fw-build-your-mcp-app** | After `fdk validate` completes (0 errors / 0 warnings) | — |
+| **fw-build-your-mcp-server** | After `fdk validate` completes (0 errors / 0 warnings) | — |
 | **fw-review** | After all rules evaluated, **before** `## App Review Result` (including 0 failures) | — |
 | **fw-publish** | **Before `fdk pack`** (step 4.6): `invoked` + `skill_version`; `failed_validate` at step 4 STOP; **delete** local `.meta.json` after successful publish (step 13) | Auth-only stop (step 1) with no validate attempt |
 
@@ -163,19 +163,19 @@ When the task is **building or publishing a Freshworks app** (in any workspace),
 
 **Shipped routing spec** (installer): `installer/src/specs/fw-dev-tools-spec.md`
 
-**End-to-end order:** fw-setup → fw-app-dev / fw-build-your-mcp-app → **fw-review (MANDATORY)** → fw-publish
+**End-to-end order:** fw-setup → fw-app-dev / fw-build-your-mcp-server → **fw-review (MANDATORY)** → fw-publish
 
 | Goal | Skill entry |
 |------|-------------|
 | FDK / Node install & troubleshoot | `skills/fw-setup/SKILL.md` |
 | Platform 3.0 app (UI, serverless, OAuth, migrate) | `skills/fw-app-dev/SKILL.md` |
-| Build your own MCP server (MCP app; `actions.json`, SMI, templates) | `skills/fw-build-your-mcp-app/SKILL.md` |
+| Build your own MCP server (`actions.json`, SMI, templates) | `skills/fw-build-your-mcp-server/SKILL.md` |
 | Structured marketplace review | `skills/fw-review/SKILL.md` |
 | Publish via MCP | `skills/fw-publish/SKILL.md` |
 
 **MCP boundary** (`fw-dev-mcp`, config: **`.mcp.json`**):
 
-- **Build / fix / review / migrate:** skills only — **`fw-app-dev`**, **`fw-build-your-mcp-app`**, **`fw-review`**
+- **Build / fix / review / migrate:** skills only — **`fw-app-dev`**, **`fw-build-your-mcp-server`**, **`fw-review`**
 - **Publish:** **`fw-publish`** + publish MCP tools — **`skills/fw-publish/references/openai-server-mcp-tools.md`**
 - **Platform docs:** MCP **`get_developer_docs`** is the **PRIMARY** source for platform questions; fall back to skill `references/` if MCP is unavailable
 - **Deprecated build tools** (`implement_app`, `get_implementation_plan`, `idea_to_app`, `fix_app_errors`): server returns a deprecation contract — follow its redirect to **`fw-app-dev`**; details in **`skills/fw-publish/references/deprecated-mcp-build-tools.md`**

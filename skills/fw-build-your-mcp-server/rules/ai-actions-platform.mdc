@@ -1,15 +1,15 @@
 ---
-description: "Freshworks Platform 3.0 MCP app manifest, modules, engines, and serverless app structure when editing actions or platform config."
+description: "Freshworks Platform 3.0 MCP server manifest, modules, engines, and serverless app structure when editing actions or platform config."
 globs: "**/actions.json,**/server/**/*.js,**/config/requests.json,**/config/iparams.json,**/manifest.json,**/README.md"
 ---
 
-# MCP app — Platform 3.0 reference
+# MCP server — Platform 3.0 reference
 
-**SELF-CONTAINED:** This skill has everything needed for MCP app development. No other skill required.
+**SELF-CONTAINED:** This skill has everything needed for MCP server development. No other skill required.
 
-## MCP App Structure
+## MCP server Structure
 
-MCP apps are **serverless-only** - NO frontend, NO locations, NO product events:
+MCP servers are **serverless-only** - NO frontend, NO locations, NO product events:
 
 ```
 app-root/
@@ -62,7 +62,7 @@ app-root/
 - ✅ `engines` block required with node and fdk versions
 - ❌ NO `product` block (use modules)
 - ❌ NO `whitelisted-domains`
-- ❌ NO locations, NO events (MCP apps are serverless-only)
+- ❌ NO locations, NO events (MCP servers are serverless-only)
 
 ### Product Module Mapping
 

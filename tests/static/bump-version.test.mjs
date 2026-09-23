@@ -14,7 +14,7 @@ import { test } from 'node:test';
 const execFileAsync = promisify(execFile);
 
 const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
-const SKILLS = ['fw-setup', 'fw-app-dev', 'fw-build-your-mcp-app', 'fw-review', 'fw-publish'];
+const SKILLS = ['fw-setup', 'fw-app-dev', 'fw-build-your-mcp-server', 'fw-review', 'fw-publish'];
 /** Isolated fixture version only — not the published fleet version. */
 const TEST_VERSION = '9.8.7';
 const BUMP_SCRIPT_REL = 'scripts/bump-version.mjs';

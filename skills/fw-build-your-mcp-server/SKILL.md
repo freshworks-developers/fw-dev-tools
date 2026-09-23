@@ -1,13 +1,13 @@
 ---
-name: fw-build-your-mcp-app
-description: Build your own MCP server (an MCP app) on Freshworks Platform 3.0. Use when the developer asks to build an MCP app or MCP server, add tools, or fix an integration. Covers actions.json and SMI functions (flat request, nested response), request templates, third-party APIs, pre-build checks, failure cases, test data, debugging, and scoping. In every developer-facing message, call this "build your own MCP server" or an "MCP app". Implement it with actions.json, server/server.js, and config/requests.json.
+name: fw-build-your-mcp-server
+description: Build your own MCP server on Freshworks Platform 3.0. Use when the developer asks to build an MCP server, add tools, or fix an integration. Covers actions.json and SMI functions (flat request, nested response), request templates, third-party APIs, pre-build checks, failure cases, test data, debugging, and scoping. In every developer-facing message, call this build your own MCP server. Implement it with actions.json, server/server.js, and config/requests.json.
 version: "1.3.0"
 compatibility: Freshworks Platform 3.0, FDK 10.x, Node.js 24.x
 ---
 
 ## Entry contract
 
-- **Invoked by:** controller when intent is build your own MCP server (create, extend, or fix an MCP app: `actions.json` integrations)
+- **Invoked by:** controller when intent is build your own MCP server (create, extend, or fix an MCP server: `actions.json` integrations)
 - **Preconditions:** App directory identified; Node 24 + FDK 10 (fw-setup if missing)
 - **Returns:** `done` | `blocked` | `escalate` + next controller step
 - **On complete:** hand control back to the controller — controller chains fw-review when appropriate; do not manual-chain
@@ -15,20 +15,20 @@ compatibility: Freshworks Platform 3.0, FDK 10.x, Node.js 24.x
 
 # Build your own MCP server
 
-You build an **MCP app** on Freshworks Platform 3.0. Refer to this skill as **build your own MCP server**. **This file is the orchestrator:** keep it short; load detail from **`rules/`** and **`references/`** below instead of restating long guides here.
+You build an **MCP server** on Freshworks Platform 3.0. Refer to this skill as **build your own MCP server**. **This file is the orchestrator:** keep it short; load detail from **`rules/`** and **`references/`** below instead of restating long guides here.
 
 ## Terminology
 
-In every message, README, and success line the developer sees, call the project an **MCP app** and this work **build your own MCP server**.
+In every message, README, and success line the developer sees, call the project an **MCP server** and this work **build your own MCP server**.
 
 The platform files stay as they are:
 
 | Developer-facing name | What you create |
 |---|---|
-| MCP app / build your own MCP server | `actions.json`, SMI handlers in `server/server.js`, `config/requests.json`, `manifest.json` |
+| MCP server / build your own MCP server | `actions.json`, SMI handlers in `server/server.js`, `config/requests.json`, `manifest.json` |
 | Tool | One `actions.json` entry and the matching `server.js` export |
 
-The FDK test page labels tools as type `"actions"`. Marketplace publish uses `worksWith: ["ai_actions"]` after the developer confirms. Say "MCP app" when you ask.
+The FDK test page labels tools as type `"actions"`. Marketplace publish uses `worksWith: ["ai_actions"]` after the developer confirms. Say "MCP server" when you ask.
 
 ## Core Rules
 
@@ -39,7 +39,7 @@ The FDK test page labels tools as type `"actions"`. Marketplace publish uses `wo
 - **Construct nested structures in `server.js`** — not in request schemas.
 - **Use request templates** — `$request.invokeTemplate` for external HTTP (`rules/ai-actions-requests.mdc`).
 - **Credentials** — never hardcode secrets; iparams (`secure: true`) or OAuth only (`rules/ai-actions-api-docs.mdc`).
-- **Validate before finalizing** — `fdk validate` and FDK test server (`rules/ai-actions-validation.mdc`).
+- **Validate, then run locally** — `fdk validate`, then on a clean result start `fdk run` and ask the developer to configure locally and execute locally (`rules/ai-actions-validation.mdc`).
 - **Toolchain before validate** — same gate as **`../fw-app-dev/SKILL.md`** (*Manifest + toolchain gate*): **`fw-setup`** when **Node 24.x + FDK 10.x** is missing; **`/fdk-migrate`** (or manual **2.x → 3.0**) before validate on legacy apps; align **`manifest.json`** engines upward on mismatch; **never** downgrade to **FDK 9 / Node 18** instead of setup/migrate (except **LAST RESORT** in **fw-app-dev** `SKILL.md`).
 - **Toolchain before creating files** — run **`/fw-setup-status`** (or offer **`fw-setup`**) **before creating any app files** when the toolchain has not been verified this session.
 - **Action descriptions** — keep each `actions.json` **`description`** under **200 characters** for reliable LLM tool selection; do not write long prose descriptions even if the developer asks.
@@ -61,7 +61,7 @@ All paths below (`actions.json`, `manifest.json`, `server/server.js`, `config/*`
 
 ## App Architecture
 
-**MCP apps do not need the app folder.** Use only:
+**MCP servers do not need the app folder.** Use only:
 
 ```
 app-root/
@@ -80,7 +80,7 @@ app-root/
 
 ## Modules / supported-modules source (when provided by the project)
 
-The project may supply a CSV/spec listing **Modules Supported** per app. Use it when scoping, building, or validating: declare exactly those modules in `manifest.json` (no `location` / `url` / `icon` on an MCP app). If missing, infer from product category (ITSM/ESM) and confirm with the user.
+The project may supply a CSV/spec listing **Modules Supported** per app. Use it when scoping, building, or validating: declare exactly those modules in `manifest.json` (no `location` / `url` / `icon` on an MCP server). If missing, infer from product category (ITSM/ESM) and confirm with the user.
 
 **Scoping from CSV/spec:** `actions.json` must contain **exactly** the actions defined in the spec — **no extras**. Action definitions live in **`actions.json`** (and matching `server.js` exports); the manifest **`modules`** section declares supported product modules as empty objects only — **not** ai_actions configuration.
 
@@ -93,9 +93,10 @@ The project may supply a CSV/spec listing **Modules Supported** per app. Use it 
 3. **Server** — `renderData`, `$request.invokeTemplate`, map flat args to API payloads in code (`rules/ai-actions-server.mdc`).
 4. **Config** — `requests.json`, `iparams.json`, manifest (`rules/ai-actions-requests.mdc`, `rules/ai-actions-platform.mdc`).
 5. **Test data** — Realistic payloads under `server/test_data/`; no secrets (`rules/ai-actions-test-data.mdc`).
-6. **README.md** (**MANDATORY**) — Every MCP app must include one. Document: available actions and parameters, authentication setup, and how to run the included test fixtures (`rules/ai-actions-readme.mdc`).
+6. **README.md** (**MANDATORY**) — Every MCP server must include one. Document: available actions and parameters, authentication setup, and how to run the included test fixtures (`rules/ai-actions-readme.mdc`).
 7. **Checklists & debugging** — Failure cases, broken endpoints, integration and scoping flows (`references/ai-actions-guide.md`).
 8. **Concepts** — Short primer (`references/ai-actions-core.md`).
+9. **Local test** — After `fdk validate` passes, start `fdk run` and hand the developer the configure-locally and execute-locally links (`rules/ai-actions-validation.mdc`).
 
 ---
 
@@ -111,7 +112,7 @@ app-root/
 ├── server/test_data/<functionName>.json
 ├── config/requests.json
 ├── config/iparams.json
-└── README.md   (**MANDATORY** — every MCP app must include one; see `rules/ai-actions-readme.mdc`)
+└── README.md   (**MANDATORY** — every MCP server must include one; see `rules/ai-actions-readme.mdc`)
 ```
 
 **Flat request excerpt:**
@@ -131,7 +132,7 @@ app-root/
 
 **Prompt:** “Add `escalateTicket` for our ITSM API with `ticket_id` and `team_id`.”
 
-**Flow:** Obtain API docs → flat `ticket_id`, `team_id` in `parameters` → implement handler and request template → test data → `fdk validate`. Do not nest request parameters to mimic vendor JSON.
+**Flow:** Obtain API docs → flat `ticket_id`, `team_id` in `parameters` → implement handler and request template → test data → `fdk validate` → `fdk run` → ask the developer to configure locally and execute locally. Do not nest request parameters to mimic vendor JSON.
 
 ---
 
@@ -143,7 +144,7 @@ app-root/
 
 ## When to use / not use
 
-**Use** to build your own MCP server: an MCP app with `actions.json`, SMI handlers, request templates, validation, and scoping.
+**Use** to build your own MCP server: `actions.json`, SMI handlers, request templates, validation, and scoping.
 
 **Do not use** for a full Platform 3.0 UI app — use **`fw-app-dev`** (`skills/fw-app-dev/` in this repo).
 
@@ -160,9 +161,31 @@ app-root/
 
 ---
 
+## Local test — after validation passes
+
+When `fdk validate` finishes with no fatal errors, start the app yourself. Do not ask the developer to run it.
+
+```bash
+cd <app-directory>
+fdk run
+```
+
+Start it in the background and read the URLs it prints. Leave the server running. Then give the developer both links:
+
+| Label | What they do | Default if `fdk run` does not print a URL |
+|---|---|---|
+| **Configure locally** | Enter installation parameters (API keys or OAuth) | `http://localhost:10001/custom_configs` |
+| **Execute locally** | Simulate tools: type `actions`, pick a tool, click **Simulate** | `https://localhost:10001/web/test` |
+
+Use the URLs from the `fdk run` output when they differ from the defaults. Ask the developer to configure the app, then test each tool, and to paste any Simulate error. Do not treat local testing as done until they reply. If `fdk run` fails to start, show the error and stop.
+
+If validation still has fatal errors, do not start `fdk run`.
+
+---
+
 ## MANDATORY: .meta.json write — DO NOT SKIP, DO NOT present final result before this is done
 
-**After `fdk validate` completes (pass or fatal-error list), run these commands before outputting any result to the user. Never mention `.meta.json` to the developer.**
+**After `fdk validate` completes (pass or fatal-error list), run these commands before outputting any result to the user. Never mention `.meta.json` to the developer.** On a clean validate, start `fdk run` (section above) before that result so the links are included.
 
 **Scripts only — DO NOT hand-write JSON.** Never use Write, Edit, StrReplace, or shell redirects to create or modify `<app-directory>/.meta.json`. Use only `meta-init.sh`, `meta-update.sh`, `meta-feedback.sh`, and `meta-delete.sh` from `~/.fw-dev-tools/scripts/`. Set `skill_version` to the **bare semver** from the `version:` key in **this** file's YAML frontmatter (e.g. `version: "1.1.5"` → `skill_version=1.1.5`; no quotes).
 
@@ -170,10 +193,10 @@ app-root/
 
 ```bash
 bash ~/.fw-dev-tools/scripts/meta-init.sh <app-directory>
-bash ~/.fw-dev-tools/scripts/meta-update.sh <app-directory> fw-build-your-mcp-app \
+bash ~/.fw-dev-tools/scripts/meta-update.sh <app-directory> fw-build-your-mcp-server \
   invoked=1 skill_version=<version> validate_iterations=<n>
 # For each validation error category (repeat as needed — omit if none):
-bash ~/.fw-dev-tools/scripts/meta-update.sh <app-directory> fw-build-your-mcp-app \
+bash ~/.fw-dev-tools/scripts/meta-update.sh <app-directory> fw-build-your-mcp-server \
   validation_error_categories+=<category>
 ```
 
@@ -183,4 +206,4 @@ Then present the final result to the user.
 
 ## Summary
 
-Flat requests; nested responses where needed; matching names; templates for HTTP; iparams/OAuth for secrets; validate and test before handoff.
+Flat requests; nested responses where needed; matching names; templates for HTTP; iparams/OAuth for secrets; validate, run locally, and ask the developer to configure and test before handoff.

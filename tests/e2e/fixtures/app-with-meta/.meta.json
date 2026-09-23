@@ -16,7 +16,7 @@
     "validate_iterations": 2,
     "validation_error_categories": ["lint-async-no-await"]
   },
-  "fw-build-your-mcp-app": {
+  "fw-build-your-mcp-server": {
     "invoked": 0,
     "skill_version": "",
     "validate_iterations": 0,

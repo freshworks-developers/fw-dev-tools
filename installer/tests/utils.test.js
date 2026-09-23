@@ -50,7 +50,7 @@ test('copySkills copies all 5 skill subdirectories', async () => {
   const tmp = await makeTmp();
   const dest = join(tmp, 'skills-out');
   await copySkills(dest);
-  const expected = ['fw-setup', 'fw-app-dev', 'fw-build-your-mcp-app', 'fw-review', 'fw-publish'];
+  const expected = ['fw-setup', 'fw-app-dev', 'fw-build-your-mcp-server', 'fw-review', 'fw-publish'];
   for (const skill of expected) {
     assert.ok(existsSync(join(dest, skill)), `${skill} should be copied`);
     assert.ok(existsSync(join(dest, skill, 'SKILL.md')), `${skill}/SKILL.md should exist`);
@@ -76,7 +76,7 @@ test('copySkills copies only installable skill names', async () => {
     .map((e) => e.name)
     .sort();
   const expected = [
-    'fw-build-your-mcp-app',
+    'fw-build-your-mcp-server',
     'fw-app-dev',
     'fw-publish',
     'fw-review',
@@ -107,11 +107,13 @@ test('removeFwSkillDirs removes fw-dev-tools skills but not unrelated dirs', asy
   const skillsRoot = join(tmp, 'skills');
   await mkdir(join(skillsRoot, 'fw-app-dev'), { recursive: true });
   await mkdir(join(skillsRoot, 'fw-marketplace-app-dev'), { recursive: true });
+  await mkdir(join(skillsRoot, 'fw-build-your-mcp-app'), { recursive: true });
   await mkdir(join(skillsRoot, 'other-skill'), { recursive: true });
   const removed = await removeFwSkillDirs(skillsRoot);
-  assert.equal(removed, 2);
+  assert.equal(removed, 3);
   assert.ok(!existsSync(join(skillsRoot, 'fw-app-dev')));
   assert.ok(!existsSync(join(skillsRoot, 'fw-marketplace-app-dev')));
+  assert.ok(!existsSync(join(skillsRoot, 'fw-build-your-mcp-app')));
   assert.ok(existsSync(join(skillsRoot, 'other-skill')));
   await rm(tmp, { recursive: true });
 });

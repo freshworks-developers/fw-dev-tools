@@ -8,13 +8,13 @@ alwaysApply: false
 
 # Build your own MCP server — implementation guide
 
-**CRITICAL:** This guide is how an MCP app is implemented. For core concepts, see `ai-actions-core.md`. This guide is loaded when working with `actions.json` or `server.js` files.
+**CRITICAL:** This guide is how an MCP server is implemented. For core concepts, see `ai-actions-core.md`. This guide is loaded when working with `actions.json` or `server.js` files.
 
 ---
 
-## What is an MCP app?
+## What is an MCP server?
 
-An MCP app is how you build your own MCP server on Platform 3.0. Each tool is an `actions.json` entry with:
+An MCP server on Platform 3.0 exposes tools the product can call. Each tool is an `actions.json` entry with:
 - A unique function name
 - Input JSON Schema (request parameters)
 - Response JSON Schema (output structure)
@@ -34,7 +34,7 @@ An MCP app is how you build your own MCP server on Platform 3.0. Each tool is an
 
 ## Supported Products
 
-MCP apps are available in:
+MCP servers are available in:
 - ✅ Freshdesk
 - ✅ Freshchat
 - ✅ Freshworks CRM
@@ -44,7 +44,7 @@ MCP apps are available in:
 
 ## File Structure
 
-MCP apps require two files:
+MCP servers require two files:
 
 ```
 app-root/
@@ -686,20 +686,25 @@ Create sample payload JSON files in `<app root>/server/test_data/`:
 
 ### Step 2: Run FDK Test Server
 
+After `fdk validate` passes, start the server from the app directory. Do not ask the developer to start it. Leave it running in the background and use the URLs it prints.
+
 ```bash
 cd <app-directory>
 fdk run
 ```
 
-### Step 3: Test in Browser
+### Step 3: Ask the developer to configure and test
 
-1. Open `https://localhost:10001/web/test`
-2. From **Select type**, choose `actions`
-3. In **Select an action**, choose the action to test
-4. Edit payload if needed
-5. Click **Simulate**
+1. **Configure locally** — open `http://localhost:10001/custom_configs` (or the configure URL `fdk run` printed) and enter installation parameters.
+2. **Execute locally** — open `https://localhost:10001/web/test` (or the execute URL `fdk run` printed).
+3. From **Select type**, choose `actions`.
+4. In **Select an action**, choose the action to test.
+5. Edit payload if needed.
+6. Click **Simulate**.
    - **Success**: Action worked
    - **Failed**: Invalid payload or implementation error
+
+Ask the developer to configure and test, and to paste any Simulate error. Local testing is not done until they reply.
 
 ---
 

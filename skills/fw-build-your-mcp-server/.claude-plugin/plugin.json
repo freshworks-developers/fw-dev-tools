@@ -1,13 +1,13 @@
 {
-  "name": "fw-build-your-mcp-app",
+  "name": "fw-build-your-mcp-server",
   "version": "1.3.0",
-  "description": "Build your own MCP server (an MCP app) on Platform 3.0: actions.json, SMI, request templates, schemas, validation, and integration workflows.",
+  "description": "Build your own MCP server on Platform 3.0: actions.json, SMI, request templates, schemas, validation, and integration workflows.",
   "author": {
     "name": "Freshworks Developers",
     "email": "skills@dev-assist.freshservice.com"
   },
   "homepage": "https://github.com/freshworks-developers/fw-dev-tools",
-  "repository": "https://github.com/freshworks-developers/fw-dev-tools/tree/main/skills/fw-build-your-mcp-app",
+  "repository": "https://github.com/freshworks-developers/fw-dev-tools/tree/main/skills/fw-build-your-mcp-server",
   "license": "MIT",
   "category": "developer-tools",
   "strict": false,

@@ -41,12 +41,12 @@ export const VERSION = _pkg.version;
 export const FW_SKILLS = [
   'fw-setup',
   'fw-app-dev',
-  'fw-build-your-mcp-app',
+  'fw-build-your-mcp-server',
   'fw-review',
   'fw-publish',
 ];
 
-export const FW_SKILLS_LEGACY = ['fw-marketplace-app-dev', 'fw-ai-actions-app'];
+export const FW_SKILLS_LEGACY = ['fw-marketplace-app-dev', 'fw-ai-actions-app', 'fw-build-your-mcp-app'];
 
 /** Tier 2 orchestration specs copied to ~/.fw-dev-tools/specs/ on install. */
 export const SHIPPED_SPECS = [

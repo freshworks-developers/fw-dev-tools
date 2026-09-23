@@ -1,7 +1,7 @@
 {
   "name": "freshworks-dev-tools",
   "displayName": "Freshworks Agentic Developer Toolkit",
-  "description": "Freshworks Platform 3.0 app development, MCP app, publishing, and FDK management skills. For MCP: add fw-dev-mcp in ~/.cursor/mcp.json. API key from https://developers.freshworks.com/developer/ - API key for Freddy AI Copilot for VS Code plugin & Agentic Developer Toolkit. or Connect to Developer MCP server (For MCP configuration)",
+  "description": "Freshworks Platform 3.0 app development, MCP server, publishing, and FDK management skills. For MCP: add fw-dev-mcp in ~/.cursor/mcp.json. API key from https://developers.freshworks.com/developer/ - API key for Freddy AI Copilot for VS Code plugin & Agentic Developer Toolkit. or Connect to Developer MCP server (For MCP configuration)",
   "version": "1.3.0",
   "logo": "assets/fw-logo.svg",
   "author": {
@@ -23,8 +23,8 @@
   ],
   "interface": {
     "displayName": "Freshworks Agentic Developer Toolkit",
-    "shortDescription": "FDK setup, Platform 3.0 apps, MCP app, and marketplace publish.",
-    "longDescription": "Cursor plugin root for Freshworks skills: fw-setup (FDK/nvm), fw-app-dev (Platform 3.0 apps), fw-build-your-mcp-app (MCP app), fw-publish (MCP). Copy **`.mcp.json`** from this repository into project **`.cursor/mcp.json`** and set **Authorization** to `Bearer <token>`. API key from https://developers.freshworks.com/developer/ - API key for Freddy AI Copilot for VS Code plugin & Agentic Developer Toolkit. or Connect to Developer MCP server (For MCP configuration)."
+    "shortDescription": "FDK setup, Platform 3.0 apps, MCP server, and marketplace publish.",
+    "longDescription": "Cursor plugin root for Freshworks skills: fw-setup (FDK/nvm), fw-app-dev (Platform 3.0 apps), fw-build-your-mcp-server (build your own MCP server), fw-publish (MCP). Copy **`.mcp.json`** from this repository into project **`.cursor/mcp.json`** and set **Authorization** to `Bearer <token>`. API key from https://developers.freshworks.com/developer/ - API key for Freddy AI Copilot for VS Code plugin & Agentic Developer Toolkit. or Connect to Developer MCP server (For MCP configuration)."
   },
   "skills": "./skills/"
 }

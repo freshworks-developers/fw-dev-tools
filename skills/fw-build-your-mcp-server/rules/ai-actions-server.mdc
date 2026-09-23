@@ -1,9 +1,9 @@
 ---
-description: "server.js SMI patterns: renderData, invokeTemplate, error handling, and safe error surfacing for an MCP app."
+description: "server.js SMI patterns: renderData, invokeTemplate, error handling, and safe error surfacing for an MCP server."
 globs: "**/actions.json,**/server/**/*.js,**/config/requests.json,**/config/iparams.json,**/manifest.json,**/README.md"
 ---
 
-# MCP app server.js Patterns
+# server.js patterns for an MCP server
 
 ## Platform 3.0 pattern
 

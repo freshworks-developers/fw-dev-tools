@@ -8,7 +8,7 @@ const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SKILLS = [
   'fw-setup',
   'fw-app-dev',
-  'fw-build-your-mcp-app',
+  'fw-build-your-mcp-server',
   'fw-review',
   'fw-publish',
 ];

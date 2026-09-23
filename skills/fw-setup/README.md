@@ -29,7 +29,7 @@
 
 ## Overview
 
-**fw-setup** installs and manages the Freshworks Development Kit (**FDK**) and **Node.js** via **nvm** on macOS, Windows, and Linux. Use it when the CLI is missing, the wrong major version, or broken across shells; marketplace publishing expects **FDK 10.x** on **Node 24.x**. Other skills in this repo: **fw-app-dev**, **fw-build-your-mcp-app**, **fw-review**, **fw-publish** — inventory **[AGENTS.md](../../AGENTS.md)**.
+**fw-setup** installs and manages the Freshworks Development Kit (**FDK**) and **Node.js** via **nvm** on macOS, Windows, and Linux. Use it when the CLI is missing, the wrong major version, or broken across shells; marketplace publishing expects **FDK 10.x** on **Node 24.x**. Other skills in this repo: **fw-app-dev**, **fw-build-your-mcp-server**, **fw-review**, **fw-publish** — inventory **[AGENTS.md](../../AGENTS.md)**.
 
 **Homebrew vs Chocolatey vs CDN (quick analogy)**  
 

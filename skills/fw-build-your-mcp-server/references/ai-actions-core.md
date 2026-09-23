@@ -1,11 +1,11 @@
 ---
-description: MCP app core concepts - Critical rules that apply when working with Freshworks Platform 3.0 actions
+description: MCP server core concepts - Critical rules that apply when working with Freshworks Platform 3.0 actions
 alwaysApply: true
 ---
 
-# MCP app core concepts
+# MCP server core concepts
 
-An MCP app (build your own MCP server) extends automation flows in Freshworks products (Freshdesk, Freshchat, CRM, Freshcaller).
+An MCP server extends automation flows in Freshworks products (Freshdesk, Freshchat, CRM, Freshcaller).
 
 ## Critical Constraints
 
@@ -116,8 +116,8 @@ app-root/
     └── server.js         # SMI function implementations
 ```
 
-## When working with an MCP app
+## When working with an MCP server
 
-For detailed implementation guidance, refer to the comprehensive MCP app guide which loads automatically when you open `actions.json` or `server.js` files.
+For detailed implementation guidance, refer to the comprehensive MCP server guide which loads automatically when you open `actions.json` or `server.js` files.
 
 Use the official Freshworks developer docs for platform details (e.g. [App SDK introduction](https://developers.freshworks.com/docs/app-sdk/v3.0/common/introduction/)).

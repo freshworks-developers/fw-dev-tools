@@ -1,18 +1,18 @@
 ---
-description: "README structure for an MCP app (features, auth, setup, tool list)."
+description: "README structure for an MCP server (features, auth, setup, tool list)."
 globs: "**/actions.json,**/server/**/*.js,**/config/requests.json,**/config/iparams.json,**/manifest.json,**/README.md"
 ---
 
-# MCP app README Template
+# MCP server README Template
 
-**REQUIRED — every MCP app must include a `README.md` at the app root. Absence of `README.md` is a blocking issue. Do not mark the app as complete without it.**
+**REQUIRED — every MCP server must include a `README.md` at the app root. Absence of `README.md` is a blocking issue. Do not mark the app as complete without it.**
 
-## Structure (Platform 3.0 MCP app)
+## Structure (Platform 3.0 MCP server)
 
 ```markdown
 # [App Name]
 
-A Freshworks marketplace MCP app (build your own MCP server) for [integration/service].
+A Freshworks marketplace MCP server for [integration/service].
 
 ## Features
 
@@ -36,7 +36,8 @@ A Freshworks marketplace MCP app (build your own MCP server) for [integration/se
 cd <app-directory>
 fdk run
 
-Open https://localhost:10001/web/test, select type "actions", and test each action.
+Configure locally: http://localhost:10001/custom_configs
+Execute locally: https://localhost:10001/web/test (select type "actions", then test each action)
 ```
 
 ## Rules
@@ -44,4 +45,4 @@ Open https://localhost:10001/web/test, select type "actions", and test each acti
 - Keep concise
 - List all actions with function names
 - Include setup steps for iparams
-- Add testing instructions (fdk run, web/test)
+- Add testing instructions (`fdk run`, configure locally, execute locally)

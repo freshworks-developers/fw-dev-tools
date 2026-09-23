@@ -1,9 +1,9 @@
 ---
-description: "config/requests.json templates, iparam placeholders, SOAP notes, and invokeTemplate usage for MCP apps."
+description: "config/requests.json templates, iparam placeholders, SOAP notes, and invokeTemplate usage for MCP servers."
 globs: "**/actions.json,**/server/**/*.js,**/config/requests.json,**/config/iparams.json,**/manifest.json,**/README.md"
 ---
 
-# MCP app Request Templates
+# MCP server Request Templates
 
 ## config/requests.json
 

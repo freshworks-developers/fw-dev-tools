@@ -1,9 +1,9 @@
 ---
-description: "Requires verified third-party API documentation and secure credential handling (iparams/OAuth) before implementing MCP app integrations."
+description: "Requires verified third-party API documentation and secure credential handling (iparams/OAuth) before implementing MCP server integrations."
 globs: "**/actions.json,**/server/**/*.js,**/config/requests.json,**/config/iparams.json,**/manifest.json,**/README.md"
 ---
 
-# MCP app - API Documentation Requirements
+# MCP server - API Documentation Requirements
 
 ## Core Rules (credentials)
 
@@ -11,7 +11,7 @@ globs: "**/actions.json,**/server/**/*.js,**/config/requests.json,**/config/ipar
 
 ## 🚨 BLOCKING RULE — 100% STRICT
 
-**Build the MCP app against verified third-party docs.** When an action integrates with a third-party API, **third-party docs API search is MANDATORY.**
+**Build the MCP server against verified third-party docs.** When an action integrates with a third-party API, **third-party docs API search is MANDATORY.**
 
 **Implementation is FORBIDDEN until official documentation is found via web search.**
 

@@ -1,4 +1,4 @@
-# MCP app Quick Reference
+# MCP server Quick Reference
 
 ## File Structure
 
@@ -157,17 +157,17 @@ renderData({
 ## Testing
 
 ```bash
-# Start FDK test server
+# After fdk validate passes, start the server (agent runs this; do not ask the developer to)
 fdk run
 
-# Open in browser
-https://localhost:10001/web/test
+# Configure locally — installation parameters
+http://localhost:10001/custom_configs
 
-# Select type: actions
-# Select action to test
-# Edit payload
-# Click Simulate
+# Execute locally — select type: actions, pick an action, edit payload, click Simulate
+https://localhost:10001/web/test
 ```
+
+Ask the developer to configure, then test, and to paste any Simulate error.
 
 ---
 

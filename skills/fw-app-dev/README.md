@@ -35,7 +35,7 @@ This skill does **not** install FDK or Node — use **fw-setup** for the toolcha
 
 ### Related Skills
 
-For **build your own MCP server** (`actions.json`, SMI, flat request schemas) without a full UI app focus, use sibling skill **[fw-build-your-mcp-app](../fw-build-your-mcp-app/)** — see **[AGENTS.md](../../AGENTS.md)**.
+For **build your own MCP server** (`actions.json`, SMI, flat request schemas) without a full UI app focus, use sibling skill **[fw-build-your-mcp-server](../fw-build-your-mcp-server/)** — see **[AGENTS.md](../../AGENTS.md)**.
 
 ## Features
 

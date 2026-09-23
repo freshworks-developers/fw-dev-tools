@@ -1,4 +1,4 @@
 ⚠️  If the previous version of this app included worksWith: ["ai_actions"],
     removing it in this version is not supported and may cause failures.
-    Only continue if you are sure the previous version was NOT an MCP app.
+    Only continue if you are sure the previous version was NOT an MCP server.
     Proceed? (yes/no)

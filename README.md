@@ -35,7 +35,7 @@
 
 - **Set up your development environment** — `fw-setup` installs and manages the Freshworks Development Kit (FDK) and Node.js.
 - **Scaffold a Platform 3.0 app** — `/fdk-fix` and `/fdk-migrate` get you from a blank folder or a legacy 2.x app to a passing `fdk validate` output.
-- **Connect third-party APIs** — `fw-build-your-mcp-app` builds your own MCP server (`actions.json`, SMI handlers, and request templates) for services like Slack or Google.
+- **Connect third-party APIs** — `fw-build-your-mcp-server` builds your own MCP server (`actions.json`, SMI handlers, and request templates) for services like Slack or Google.
 - **Catch issues before review** — `fw-review` runs the same checks marketplace reviewers use and outputs a structured report you can act on.
 - **Publish without leaving your IDE** — `fw-publish` guides you through `fdk validate → pack → upload → submit` via MCP, no browser required.
 
@@ -87,7 +87,7 @@ Each tool helps with a specific part of app development. Use them in the order b
 |------|--------------|
 | [**fw-setup**](https://github.com/freshworks-developers/fw-dev-tools/tree/main/skills/fw-setup) | Install and manage FDK (Freshworks Development Kit) and Node.js |
 | [**fw-app-dev**](https://github.com/freshworks-developers/fw-dev-tools/tree/main/skills/fw-app-dev) | Build complete marketplace apps with UI, OAuth, and integrations |
-| [**fw-build-your-mcp-app**](https://github.com/freshworks-developers/fw-dev-tools/tree/main/skills/fw-build-your-mcp-app) | Build your own MCP server and connect third-party services |
+| [**fw-build-your-mcp-server**](https://github.com/freshworks-developers/fw-dev-tools/tree/main/skills/fw-build-your-mcp-server) | Build your own MCP server and connect third-party services |
 | [**fw-review**](https://github.com/freshworks-developers/fw-dev-tools/tree/main/skills/fw-review) | Check your app for common issues before submission |
 | [**fw-publish**](https://github.com/freshworks-developers/fw-dev-tools/tree/main/skills/fw-publish) | Upload and publish your app to the Freshworks Marketplace |
 
@@ -116,9 +116,9 @@ Scaffold and develop a Platform 3.0 app with Crayons UI, OAuth, and serverless f
 
 > **Validation order:** fw-setup first (when Node/FDK is wrong) → `/fdk-migrate` (legacy apps) → `fdk validate`
 
-### 3. Build your own MCP server — [fw-build-your-mcp-app](https://github.com/freshworks-developers/fw-dev-tools/tree/main/skills/fw-build-your-mcp-app) _(optional)_
+### 3. Build your own MCP server — [fw-build-your-mcp-server](https://github.com/freshworks-developers/fw-dev-tools/tree/main/skills/fw-build-your-mcp-server) _(optional)_
 
-Connect to external APIs (Slack, Google, etc.) with an MCP app. The app is implemented with `actions.json`, SMI handlers, and request templates.
+Connect to external APIs (Slack, Google, etc.) with an MCP server. The app is implemented with `actions.json`, SMI handlers, and request templates.
 
 ### 4. Review before submitting — [fw-review](https://github.com/freshworks-developers/fw-dev-tools/tree/main/skills/fw-review)
 
@@ -138,7 +138,7 @@ Guides you through `fdk validate → pack → upload → submit` via MCP without
 
 Publishing uses the **fw-dev-mcp server**. This repo bundles `.mcp.json` at the repository root (URL + `Authorization` header). MCP token placement, copy-paste blocks, and tool names are documented in the publish skill under **[skills/fw-publish/](https://github.com/freshworks-developers/fw-dev-tools/tree/main/skills/fw-publish/)**.
 
-**MCP boundary:** Build, fix, review, and migrate through **skills** (`fw-app-dev`, `fw-build-your-mcp-app`, `fw-review`) — not MCP. MCP is for **publish** workflows and **`get_developer_docs`** (primary platform documentation). Legacy build tools (`implement_app`, `get_implementation_plan`, `idea_to_app`, `fix_app_errors`) are deprecated on the server; see **[deprecated-mcp-build-tools.md](https://github.com/freshworks-developers/fw-dev-tools/blob/main/skills/fw-publish/references/deprecated-mcp-build-tools.md)**.
+**MCP boundary:** Build, fix, review, and migrate through **skills** (`fw-app-dev`, `fw-build-your-mcp-server`, `fw-review`) — not MCP. MCP is for **publish** workflows and **`get_developer_docs`** (primary platform documentation). Legacy build tools (`implement_app`, `get_implementation_plan`, `idea_to_app`, `fix_app_errors`) are deprecated on the server; see **[deprecated-mcp-build-tools.md](https://github.com/freshworks-developers/fw-dev-tools/blob/main/skills/fw-publish/references/deprecated-mcp-build-tools.md)**.
 
 ---
 

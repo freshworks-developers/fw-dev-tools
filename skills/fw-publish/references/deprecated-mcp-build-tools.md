@@ -32,7 +32,7 @@ When any deprecated tool is invoked, the server returns a structured response (n
     "skill": "fw-app-dev",
     "skillPath": "skills/fw-app-dev/SKILL.md",
     "alternatives": {
-      "aiActions": "skills/fw-build-your-mcp-app/SKILL.md",
+      "aiActions": "skills/fw-build-your-mcp-server/SKILL.md",
       "review": "skills/fw-review/SKILL.md",
       "publish": "skills/fw-publish/SKILL.md"
     },
@@ -49,7 +49,7 @@ When any deprecated tool is invoked, the server returns a structured response (n
 | `message` | Human-readable deprecation notice |
 | `redirect.skill` | Primary skill to open (`fw-app-dev` for Platform 3.0 app work) |
 | `redirect.skillPath` | Relative path to the skill entry file |
-| `redirect.alternatives` | Related skills for an MCP app, review, or publish |
+| `redirect.alternatives` | Related skills for an MCP server, review, or publish |
 | `redirect.reason` | Why the redirect is required |
 | `sunset` | Optional ISO date after which the tool may be removed entirely; `null` during the buffer period |
 
@@ -58,8 +58,8 @@ When any deprecated tool is invoked, the server returns a structured response (n
 ## Agent behavior
 
 1. **Stop** — do not retry the deprecated tool or work around the contract.
-2. **Open** the skill named in `redirect.skill` (usually **fw-app-dev**; use **fw-build-your-mcp-app** for MCP-app work).
-3. **Follow** the skill end-to-end order: fw-setup → fw-app-dev / fw-build-your-mcp-app → **fw-review (mandatory)** → fw-publish.
+2. **Open** the skill named in `redirect.skill` (usually **fw-app-dev**; use **fw-build-your-mcp-server** for MCP server work).
+3. **Follow** the skill end-to-end order: fw-setup → fw-app-dev / fw-build-your-mcp-server → **fw-review (mandatory)** → fw-publish.
 4. **Use MCP only for:**
    - Publish workflow tools — see **`openai-server-mcp-tools.md`**
    - **`get_developer_docs`** — **PRIMARY** for platform documentation questions; fall back to skill `references/` if MCP is unavailable (doc lookup only — not app-building routing)

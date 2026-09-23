@@ -1,6 +1,6 @@
 # Build your own MCP server (template)
 
-Generated layout for a Platform 3.0 MCP app. Skill id: **`fw-build-your-mcp-app`**.
+Generated layout for a Platform 3.0 MCP server. Skill id: **`fw-build-your-mcp-server`**.
 
 A Freshworks marketplace app that provides an MCP server for external API integration.
 
@@ -29,4 +29,5 @@ cd <app-directory>
 fdk run
 ```
 
-Open https://localhost:10001/web/test, select type "actions", and test each action.
+Configure locally: http://localhost:10001/custom_configs
+Execute locally: https://localhost:10001/web/test — select type "actions", then test each action.

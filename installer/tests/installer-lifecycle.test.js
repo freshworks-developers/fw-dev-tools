@@ -21,7 +21,7 @@ const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const CLI = join(REPO_ROOT, 'installer', 'bin', 'cli.js');
 const PKG_VERSION = JSON.parse(await readFile(join(REPO_ROOT, 'package.json'), 'utf8')).version;
 
-const SKILLS = ['fw-setup', 'fw-app-dev', 'fw-build-your-mcp-app', 'fw-review', 'fw-publish'];
+const SKILLS = ['fw-setup', 'fw-app-dev', 'fw-build-your-mcp-server', 'fw-review', 'fw-publish'];
 const SCRIPT_NAMES = ['meta-init.sh', 'meta-update.sh', 'meta-feedback.sh', 'meta-delete.sh', 'check-update.sh'];
 
 /** Test-only Cursor/Codex roots (no leading dot — safe in restricted sandboxes). */

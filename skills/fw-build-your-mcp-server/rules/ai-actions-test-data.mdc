@@ -3,7 +3,7 @@ description: "server/test_data JSON fixtures: one file per action, keys match ac
 globs: "**/actions.json,**/server/**/*.js,**/config/requests.json,**/config/iparams.json,**/manifest.json,**/README.md"
 ---
 
-# MCP app Test Data
+# MCP server Test Data
 
 Each action defined in `actions.json` must have a corresponding `server/test_data/<functionName>.json` test fixture. A missing `server/test_data/` directory or any missing fixture is a blocking issue.
 
@@ -39,5 +39,6 @@ JSON object with keys matching parameter names from actions.json:
 
 1. Create `server/test_data/` directory
 2. Add `actionName.json` for each action
-3. Run `fdk run` → Open https://localhost:10001/web/test
-4. Select action → payload loads from test file → Edit if needed → Simulate
+3. After `fdk validate` passes, start `fdk run` (do not ask the developer to start it)
+4. **Configure locally** — `http://localhost:10001/custom_configs` (or the configure URL `fdk run` printed). Ask the developer to enter credentials
+5. **Execute locally** — `https://localhost:10001/web/test` (or the execute URL `fdk run` printed). Select the action → payload loads from the test file → edit if needed → Simulate. Ask the developer to test and report errors

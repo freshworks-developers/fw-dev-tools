@@ -39,7 +39,7 @@ const TEMPLATES_DIR = join(SKILLS_DIR, 'fw-app-dev', 'assets', 'templates');
 const SKILLS = [
   'fw-setup',
   'fw-app-dev',
-  'fw-build-your-mcp-app',
+  'fw-build-your-mcp-server',
   'fw-review',
   'fw-publish',
 ];
@@ -943,13 +943,13 @@ describe('PR#21 — AI-actions skeleton deduplication', () => {
   });
 
   test('5.2: SKILL.md references only assets/templates/ai-actions-skeleton', async () => {
-    const content = await readSkill('fw-build-your-mcp-app');
+    const content = await readSkill('fw-build-your-mcp-server');
     assert.ok(content.includes('assets/templates/ai-actions-skeleton'), 'must reference assets/templates skeleton');
     assert.ok(!content.includes('scripts/ai-actions-skeleton'), 'must not reference scripts skeleton');
   });
 
   test('5.4: ai-actions-skeleton server.js has no syntax errors', () => {
-    const serverPath = join(REPO_DIR, 'skills/fw-build-your-mcp-app/assets/templates/ai-actions-skeleton/server/server.js');
+    const serverPath = join(REPO_DIR, 'skills/fw-build-your-mcp-server/assets/templates/ai-actions-skeleton/server/server.js');
     assert.doesNotThrow(
       () => execSync(`node --check "${serverPath}"`, { encoding: 'utf8' }),
       'server.js must be valid JavaScript'
@@ -958,7 +958,7 @@ describe('PR#21 — AI-actions skeleton deduplication', () => {
 
   test('5.5: ai-actions server.js uses renderData and invokeTemplate patterns', async () => {
     const js = await readFile(
-      join(REPO_DIR, 'skills/fw-build-your-mcp-app/assets/templates/ai-actions-skeleton/server/server.js'),
+      join(REPO_DIR, 'skills/fw-build-your-mcp-server/assets/templates/ai-actions-skeleton/server/server.js'),
       'utf8'
     );
     assert.ok(js.includes('renderData'), 'must use renderData');
@@ -966,7 +966,7 @@ describe('PR#21 — AI-actions skeleton deduplication', () => {
   });
 
   test('5.6: ai-actions-skeleton iparams.json is valid JSON', async () => {
-    const j = await readJson('skills/fw-build-your-mcp-app/assets/templates/ai-actions-skeleton/config/iparams.json');
+    const j = await readJson('skills/fw-build-your-mcp-server/assets/templates/ai-actions-skeleton/config/iparams.json');
     assert.ok(typeof j === 'object' && j !== null);
   });
 });
@@ -1237,13 +1237,13 @@ describe('fw-setup docs/engine-matrix.md', () => {
 });
 
 // ---------------------------------------------------------------------------
-// fw-build-your-mcp-app actions.json template
+// fw-build-your-mcp-server actions.json template
 // ---------------------------------------------------------------------------
 
-describe('fw-build-your-mcp-app actions.json template', () => {
+describe('fw-build-your-mcp-server actions.json template', () => {
   const ACTIONS_JSON = join(
     SKILLS_DIR,
-    'fw-build-your-mcp-app',
+    'fw-build-your-mcp-server',
     'assets',
     'templates',
     'ai-actions-skeleton',
@@ -1251,7 +1251,7 @@ describe('fw-build-your-mcp-app actions.json template', () => {
   );
 
   test('actions.json exists', async () => {
-    assert.ok(await fileExists(ACTIONS_JSON), 'missing: skills/fw-build-your-mcp-app/assets/templates/ai-actions-skeleton/config/actions.json');
+    assert.ok(await fileExists(ACTIONS_JSON), 'missing: skills/fw-build-your-mcp-server/assets/templates/ai-actions-skeleton/config/actions.json');
   });
 
   test('actions.json is valid JSON', async () => {
@@ -1272,13 +1272,13 @@ describe('fw-build-your-mcp-app actions.json template', () => {
 });
 
 // ---------------------------------------------------------------------------
-// fw-build-your-mcp-app forbidden patterns in skeleton
+// fw-build-your-mcp-server forbidden patterns in skeleton
 // ---------------------------------------------------------------------------
 
-describe('fw-build-your-mcp-app forbidden patterns in skeleton', () => {
+describe('fw-build-your-mcp-server forbidden patterns in skeleton', () => {
   const SKELETON_DIR = join(
     SKILLS_DIR,
-    'fw-build-your-mcp-app',
+    'fw-build-your-mcp-server',
     'assets',
     'templates',
     'ai-actions-skeleton'
@@ -1331,8 +1331,8 @@ describe('fw-publish SKILL.md CDN tarball references', () => {
 
 });
 
-describe('fw-build-your-mcp-app skeleton has test_data directory', async () => {
-  const skeletonDir = join(SKILLS_DIR, 'fw-build-your-mcp-app', 'skeleton');
+describe('fw-build-your-mcp-server skeleton has test_data directory', async () => {
+  const skeletonDir = join(SKILLS_DIR, 'fw-build-your-mcp-server', 'skeleton');
   let skeletonExists = false;
   try {
     await readFile(join(skeletonDir, 'manifest.json'), 'utf8');
@@ -1345,7 +1345,7 @@ describe('fw-build-your-mcp-app skeleton has test_data directory', async () => {
   test('test_data directory exists in skeleton', async () => {
     const dirs = await readdir(skeletonDir, { withFileTypes: true });
     const hasTestData = dirs.some(d => d.isDirectory() && d.name === 'test_data');
-    assert.ok(hasTestData, 'fw-build-your-mcp-app skeleton must include test_data/ directory');
+    assert.ok(hasTestData, 'fw-build-your-mcp-server skeleton must include test_data/ directory');
   });
 });
 
@@ -1360,8 +1360,8 @@ describe('fw-setup SKILL.md workspace commands', async () => {
   });
 });
 
-describe('fw-build-your-mcp-app SKILL.md documents test_data requirement', async () => {
-  const skillPath = join(SKILLS_DIR, 'fw-build-your-mcp-app', 'SKILL.md');
+describe('fw-build-your-mcp-server SKILL.md documents test_data requirement', async () => {
+  const skillPath = join(SKILLS_DIR, 'fw-build-your-mcp-server', 'SKILL.md');
   let content = '';
   try { content = await readFile(skillPath, 'utf8'); } catch { return; }
 
