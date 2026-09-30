@@ -1,0 +1,44 @@
+---
+description: React Meta HTML shells, SDK bootstrap, and per-surface JSX entries for Freshworks Platform 3.0.
+globs: ["**/app/**/*.html", "**/app/**/*.jsx", "**/config/iparams.html"]
+alwaysApply: false
+---
+
+# React Meta frontend rules
+
+## Mandatory App SDK script
+
+Every HTML entry (including **`config/iparams.html`**) must include:
+
+```html
+<script src="{{{appclient}}}"></script>
+```
+
+Triple braces. Without it, **`window.app`** is undefined.
+
+## Bootstrap order
+
+1. Load **`{{{appclient}}}`**.
+2. Call **`window.app.initialized()`** and wait for the **client** before platform API usage or primary UI that depends on the client.
+3. Common pattern: assign **`window.client = client`** after init.
+
+## One surface = one HTML + one JSX entry
+
+- **`manifest`** **`location.url`** points to **`app/<filename>.html`**.
+- That HTML mounts **one** React tree via **`type="module"`** pointing at a **surface-specific** JSX file.
+- Do **not** load the full-page router bundle in **`ticket_sidebar`** or other compact surfaces.
+
+## metaConfig
+
+```json
+"metaConfig": { "framework": "react" }
+```
+
+## Routing
+
+- **Client-side routing** (e.g. React Router): **only** in **`full_page_app`** (or equivalent full-iframe surface).
+- Other surfaces: single-purpose UI.
+
+## Delegation
+
+**Request templates**, **OAuth**, **SMI**, **manifest** structure, **`fdk validate`** autofix, and **server** lint: follow **fw-app-dev** (`freshworks-platform3`, `validation-workflow`, etc.). This file is **not** a substitute for Platform 3.0 rules.

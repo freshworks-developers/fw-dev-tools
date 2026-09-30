@@ -1,0 +1,21 @@
+---
+description: Orchestration—use fw-app-dev for Platform 3.0 and fw-setup for toolchain when working with React Meta.
+globs: ["**/manifest.json", "**/server/**/*.js", "**/config/**"]
+alwaysApply: false
+---
+
+# React Meta orchestration
+
+## Toolchain
+
+- **Node 24.x** + **FDK 10.x** before **`fdk run`** / **`fdk validate`** / **`fdk pack`**.
+- Installing or upgrading **Node/FDK**: **fw-setup** skill—not this skill.
+
+## Platform semantics
+
+- **manifest**, **modules**, **requests.json ↔ manifest sync**, **OAuth**, **`renderData`**, **events**, **complexity ≤ 7**, **async/await**, **unused parameters**: **fw-app-dev** (or **app-dev** skill) is authoritative.
+- **React Meta** skills only add: **metaConfig**, **JSX/bundler** conventions, **HTML shells**, **migration** from vanilla UI.
+
+## Validation
+
+- An app is not "done" until **`fdk validate`**: **0 platform + 0 lint** (same bar as **fw-app-dev**).

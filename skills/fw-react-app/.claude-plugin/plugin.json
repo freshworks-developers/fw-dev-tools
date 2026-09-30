@@ -1,0 +1,45 @@
+{
+  "name": "fw-react-app",
+  "displayName": "Freshworks React Meta Apps",
+  "version": "1.0.0",
+  "description": "Creates and extends Freshworks Platform 3.0 apps using the React Meta framework (metaConfig.framework react, JSX, FDK bundler). Slash commands: /react-meta-scaffold, /react-meta-add-surface, /react-meta-validate. Platform rules and fdk validate depth live in fw-app-dev; use fw-setup for Node/FDK installation.",
+  "author": {
+    "name": "Freshworks Developers",
+    "email": "skills@dev-assist.freshservice.com"
+  },
+  "homepage": "https://github.com/freshworks-developers/fw-dev-tools",
+  "repository": "https://github.com/freshworks-developers/fw-dev-tools/tree/main/skills/fw-react-app",
+  "license": "MIT",
+  "category": "developer-tools",
+  "strict": false,
+  "keywords": [
+    "freshworks",
+    "platform-3.0",
+    "react-meta",
+    "fdk",
+    "marketplace",
+    "react"
+  ],
+  "interface": {
+    "displayName": "Freshworks React Meta Apps",
+    "shortDescription": "Scaffold React Meta apps, add placeholder surfaces, validate with FDK.",
+    "longDescription": "FDK react-starter-template workflows, HTML shells with {{{appclient}}}, per-surface JSX entries, and metaConfig. Defers manifest, requests, OAuth, and server lint rules to fw-app-dev."
+  },
+  "commands": [
+    {
+      "name": "react-meta-scaffold",
+      "description": "Create a new React Meta app using fdk create + react-starter-template",
+      "file": "commands/react-meta-scaffold.md"
+    },
+    {
+      "name": "react-meta-add-surface",
+      "description": "Add a new placeholder/HTML surface with a dedicated JSX entry",
+      "file": "commands/react-meta-add-surface.md"
+    },
+    {
+      "name": "react-meta-validate",
+      "description": "Run fdk validate and auto-fix loop for a React Meta app",
+      "file": "commands/react-meta-validate.md"
+    }
+  ]
+}
