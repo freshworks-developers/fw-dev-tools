@@ -67,7 +67,7 @@ source ~/.zshrc
 nvm use 24
 
 # Install FDK globally
-npm install https://cdn.freshdev.io/fdk/latest.tgz -g
+npm install https://cdn.freshdev.io/fdk/latest-v24.tgz -g
 
 # Verify
 fdk version
@@ -153,7 +153,7 @@ Then nvm will auto-switch when you `cd` into the directory (requires shell integ
 
 1. Check Node version: `node --version` (should be 24.x)
 2. Switch to Node 24: `nvm use 24`
-3. Reinstall FDK: `npm install https://cdn.freshdev.io/fdk/latest.tgz -g`
+3. Reinstall FDK: `npm install https://cdn.freshdev.io/fdk/latest-v24.tgz -g`
 4. Check npm global path: `npm config get prefix`
 5. Ensure PATH includes npm global bin: `echo $PATH | grep npm`
 

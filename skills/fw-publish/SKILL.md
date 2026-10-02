@@ -23,7 +23,7 @@ compatibility: "Freshworks Platform 3.0, MCP (fw-dev-mcp), Developer Portal JWT"
 
 ## Agent playbook (MCP tools)
 
-**Tool names and parameters** match Freshworks **`openai-server`** ([`references/openai-server-mcp-tools.md`](references/openai-server-mcp-tools.md)). Hosted MCP: **`https://mcp.freshworks.dev/mcp`**.
+**Tool names and parameters** match Freshworks **`openai-server`** (the MCP tools reference table below (step 10)). Hosted MCP: **`https://mcp.freshworks.dev/mcp`**.
 
 ### 1. Auth token preflight (MUST be step 1)
 
@@ -411,7 +411,5 @@ Tell the user: **app id**, **version state**, and where to install custom apps i
 For **updates**, **`list_custom_apps`** is part of **step 6** at **publish time** (developer selects **`appId`** before **`create_app_upload_url`**). You may also call it anytime to inspect apps on the account without publishing — that browse call is separate from the **publish-time** selection and **`appId`** handover to **`add_app_version`**.
 
 ## Links
-
-- **[`references/openai-server-mcp-tools.md`](references/openai-server-mcp-tools.md)** — MCP tools implemented in **`mp-openai`** **`openai-server`**
 
 - Developer Portal / MCP — API key from [developers.freshworks.com/developer/](https://developers.freshworks.com/developer/) - API key for Freddy AI Copilot for VS Code plugin & Agentic Developer Toolkit. or Connect to Developer MCP server (For MCP configuration)

@@ -1,56 +1,11 @@
 'use strict';
 
-const fs = require('fs/promises');
-const path = require('path');
-const { createRuleResult, runCli } = require('./common');
+const { createRuleResult, runCli, walkFiles } = require('./common');
 
 const RULE_ID = 'CR-05L';
 
-const IGNORED_DIRECTORIES = new Set([
-  '.cache',
-  '.cursor',
-  '.fdk',
-  '.git',
-  '.next',
-  'build',
-  'coverage',
-  'dist',
-  'node_modules'
-]);
-
 function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
-
-// Walk JS and TS source files across the app root so third-party imports can be compared against usage in the same file.
-async function walkFiles(rootDir, extensions) {
-  const files = [];
-
-  async function visit(currentDir) {
-    const entries = await fs.readdir(currentDir, { withFileTypes: true }).catch(() => []);
-    for (const entry of entries) {
-      const fullPath = path.join(currentDir, entry.name);
-      if (entry.isDirectory()) {
-        if (!IGNORED_DIRECTORIES.has(entry.name) && !entry.name.startsWith('.')) {
-          await visit(fullPath);
-        }
-        continue;
-      }
-
-      if (entry.isFile() && extensions.includes(path.extname(entry.name).toLowerCase())) {
-        const content = await fs.readFile(fullPath, 'utf8').catch(() => null);
-        if (content !== null) {
-          files.push({
-            relativePath: path.relative(rootDir, fullPath).split(path.sep).join('/'),
-            content
-          });
-        }
-      }
-    }
-  }
-
-  await visit(rootDir);
-  return files;
 }
 
 function createDetail(file, message, line, excerpt) {
@@ -81,11 +36,12 @@ async function run(targetDir) {
         const usagePattern = new RegExp(`\\b${escapeRegExp(identifier)}\\b`, 'g');
         const usages = file.content.match(usagePattern) || [];
         if (usages.length <= 1) {
+          const line = file.content.slice(0, match.index).split('\n').length;
           details.push(
             createDetail(
               file.relativePath,
               `Imported library "${source}" does not appear to be used.`,
-              undefined,
+              line,
               match[0]
             )
           );

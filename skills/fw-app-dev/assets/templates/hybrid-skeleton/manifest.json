@@ -3,6 +3,10 @@
   "app": {},
   "modules": {
     "common": {
+      "events": {
+        "onAppInstall": { "handler": "onAppInstallHandler" },
+        "onAppUninstall": { "handler": "onAppUninstallHandler" }
+      },
       "requests": {
         "externalApiCall": {}
       },
@@ -16,6 +20,9 @@
           "url": "index.html",
           "icon": "styles/images/icon.svg"
         }
+      },
+      "events": {
+        "onTicketCreate": { "handler": "onTicketCreateHandler" }
       }
     }
   },

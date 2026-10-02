@@ -8,7 +8,7 @@
 
 1. [Legacy Migration (FDK 9.x → 10)](#scenario-1-legacy-migration)
 2. [Existing Node Installation](#scenario-2-existing-node)
-3. [Downgrade to Legacy FDK](#scenario-3-downgrade-to-legacy)
+3. [Modernize Older App to Platform 3.0](#scenario-3-modernize-older-app-to-platform-30)
 4. [Troubleshooting Broken FDK](#scenario-4-troubleshooting)
 5. [Install Specific FDK Version](#scenario-5-install-specific-fdk-version)
 6. [Node PATH Mismatch](#scenario-6-node-path-mismatch)
@@ -66,7 +66,7 @@ DETECTION PHASE:
 
 PREPARATION PHASE:
 6. If nvm not installed:
-   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
    export NVM_DIR="$HOME/.nvm"
    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
@@ -92,7 +92,7 @@ FDK UPGRADE:
     npm uninstall @freshworks/fdk -g
 
 13. Install FDK 10.x:
-    npm install https://cdn.freshdev.io/fdk/latest.tgz -g
+    npm install https://cdn.freshdev.io/fdk/latest-v24.tgz -g
 
 14. Verify FDK installation:
     fdk version
@@ -139,7 +139,7 @@ ERROR HANDLING:
 
 ```
 Detected: FDK 9.8.2 on Node 18.20.0
-nvm installed: v0.39.0
+nvm installed: v0.40.1
 Node 24 installed: v24.11.0
 nvm alias 'fdk' set to 24.11.0
 FDK 9.x uninstalled
@@ -206,7 +206,7 @@ DETECTION:
 
 NVM INSTALLATION (Don't touch system Node):
 4. Install nvm:
-   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 
 5. Source nvm in current shell:
    export NVM_DIR="$HOME/.nvm"
@@ -249,7 +249,7 @@ FDK INSTALLATION:
     nvm use fdk
 
 13. Install FDK:
-    npm install https://cdn.freshdev.io/fdk/latest.tgz -g
+    npm install https://cdn.freshdev.io/fdk/latest-v24.tgz -g
 
 14. Verify FDK:
     fdk version
@@ -297,14 +297,21 @@ ERROR HANDLING:
 
 ---
 
-## Scenario 3: Downgrade to Legacy FDK
+## Scenario 3: Modernize Older App to Platform 3.0
 
 ### Context
 
-User needs to:
-- Work on legacy Platform 2.x app
-- Temporarily downgrade from FDK 10.x to 9.x
-- Preserve ability to upgrade back
+User has:
+- An older Freshworks app (pre-3.0 patterns, stale manifest, legacy event names)
+- FDK 10.x already installed with Node 24
+- Needs to modernize the app to follow current Platform 3.0 conventions
+
+### Goals
+
+- Migrate manifest to Platform 3.0 module structure
+- Replace deprecated event handlers with 3.0 equivalents
+- Update `engines` block to current Node 24 / FDK 10.x
+- Validate the modernized app with `fdk validate`
 
 ### Subagent Prompt
 
@@ -312,150 +319,125 @@ User needs to:
 Task({
   subagent_type: "shell",
   model: "fast",
-  description: "Downgrade FDK 10.x to 9.x for legacy app",
-  prompt: `Downgrade from FDK 10.x to FDK 9.8.2 for legacy app support.
+  description: "Modernize app to Platform 3.0 conventions",
+  prompt: `Modernize an older Freshworks app to Platform 3.0.
 
 CONTEXT:
-- User has FDK 10.x with Node 24
-- Needs FDK 9.x for legacy Platform 2.x app
-- Should preserve ability to upgrade back
+- User has an app with outdated patterns
+- FDK 10.x + Node 24 already installed
+- App must use Platform 3.0 manifest, events, and conventions
 
-WARNING TO USER:
-echo "WARNING: FDK 9.x is DEPRECATED and for legacy apps only."
-echo "WARNING: Platform 3.0 apps require FDK 10.x."
-echo "WARNING: You can upgrade back anytime with: /fw-setup-upgrade or /fw-setup-install"
-echo ""
-read -p "Continue with downgrade? (y/N): " confirm
-if [[ $confirm != [yY] ]]; then
-  echo "Downgrade cancelled."
-  exit 0
-fi
-
-CURRENT SETUP DETECTION:
+DETECTION PHASE:
 1. Check current FDK:
    fdk version
 
-2. Check current Node:
+2. Verify Node 24:
    node --version
 
-3. Check nvm:
-   nvm --version
+3. Read current manifest:
+   cat manifest.json
 
-NODE 18 INSTALLATION:
-4. Check if Node 18 already installed:
-   nvm list | grep v18
+4. Identify issues:
+   - Missing "platform-version": "3.0"
+   - Missing "modules" structure (common, product-specific)
+   - Old "engines" block (Node <24, FDK <10)
+   - Deprecated event names or patterns
 
-5. Install Node 18 if not present:
-   nvm install 18
+MANIFEST MODERNIZATION:
+5. Ensure manifest has Platform 3.0 structure:
+   - Top-level "platform-version": "3.0"
+   - "modules" object with "common" and product modules
+   - Events under the correct module (product events under product module, lifecycle under common)
+   - "engines": { "node": "24.11.0", "fdk": "10.0.1" }
 
-6. Create fdk alias:
-   nvm alias fdk 18
+6. Example 3.0 manifest structure:
+   {
+     "platform-version": "3.0",
+     "app": {},
+     "modules": {
+       "common": {
+         "events": {
+           "onAppInstall": { "handler": "onAppInstallHandler" },
+           "onAppUninstall": { "handler": "onAppUninstallHandler" }
+         },
+         "requests": {},
+         "functions": {}
+       },
+       "support_ticket": {
+         "location": {
+           "ticket_sidebar": {
+             "url": "index.html",
+             "icon": "styles/images/icon.svg"
+           }
+         },
+         "events": {
+           "onTicketCreate": { "handler": "onTicketCreateHandler" }
+         }
+       }
+     },
+     "engines": {
+       "node": "24.11.0",
+       "fdk": "10.0.1"
+     }
+   }
 
-FDK 10.x COMPLETE UNINSTALLATION (IMPROVED):
-7. Switch to Node 24:
-   nvm use 24
+SERVER CODE MODERNIZATION:
+7. Ensure server/server.js uses 3.0 patterns:
+   - exports = { handlerName: async function(args) { ... } }
+   - All handlers call renderData() on completion
+   - Event handlers receive args with args.data context
+   - SMI functions return renderData(null, result) or renderData(error, null)
 
-8. Completely uninstall FDK 10.x:
-   echo "Completely removing FDK 10..."
-   
-   # Uninstall npm package
-   npm uninstall @freshworks/fdk -g
-   
-   # Remove FDK cache and config
-   rm -rf ~/.fdk
-   
-   # Clean npm cache
-   npm cache clean --force
-   
-   # Remove binary if still exists
-   NPM_PREFIX=$(npm config get prefix)
-   rm -f "$NPM_PREFIX/bin/fdk"
-   rm -rf "$NPM_PREFIX/lib/node_modules/@freshworks/fdk"
+8. Check for deprecated patterns:
+   - No Platform 2.x app.initialized() in server code
+   - No direct HTTP from server (use request templates in config/requests.json)
+   - No global state across handler invocations
 
-9. Verify complete removal:
-   fdk version 2>&1 | grep "command not found" && echo "FDK 10.x completely removed"
-   [ ! -d ~/.fdk ] && echo "~/.fdk directory removed"
+VALIDATION:
+9. Run validation:
+   fdk validate
 
-FDK 9.8.2 INSTALLATION:
-10. Switch to Node 18:
-    nvm use 18
+10. Fix any reported issues
 
-11. Install FDK 9.8.2 (CDN tarball; same pattern as `/fw-setup-upgrade --to 9.8.2`):
-    npm install -g "https://cdn.freshdev.io/fdk/v9.8.2.tgz"
+11. Test locally:
+    fdk run
 
-12. Verify installation:
-    fdk version
-
-GLOBAL VERSION SWITCH (IMPROVED):
-13. Update default nvm alias to Node 18:
-    nvm alias default 18
-    nvm alias fdk 18
-
-14. Update shell config for global switch:
-    SHELL_RC="$HOME/.zshrc"
-    [ -f "$HOME/.bashrc" ] && SHELL_RC="$HOME/.bashrc"
-    
-    # Backup shell config
-    cp "$SHELL_RC" "$SHELL_RC.bak.$(date +%Y%m%d_%H%M%S)"
-    
-    # Remove old FDK references
-    sed -i.tmp '/# FDK version/d' "$SHELL_RC"
-    sed -i.tmp '/nvm use fdk/d' "$SHELL_RC"
-    rm -f "$SHELL_RC.tmp"
-    
-    # Add new FDK 9.x reference
-    echo "" >> "$SHELL_RC"
-    echo "# FDK 9.8.2 (downgraded on $(date +%Y-%m-%d))" >> "$SHELL_RC"
-    echo "nvm use 18 > /dev/null 2>&1" >> "$SHELL_RC"
-
-15. Source shell and verify global switch:
-    source "$SHELL_RC"
-    
-    # Test in new shell
-    bash -c 'fdk version' || zsh -c 'fdk version'
-    echo "FDK 9.8.2 set as global active version"
-
-VERIFICATION:
-16. Test FDK 9.x:
-    fdk version
-    node --version
-    fdk validate --help
-
-DOWNGRADE REPORT:
+MODERNIZATION REPORT:
 Print summary:
-FDK 10.x completely uninstalled (npm package + ~/.fdk + cache)
-Node 18 installed
-FDK 9.8.2 installed
-Global version switched to FDK 9.8.2 on Node 18
-nvm default set to Node 18
-Shell configuration updated
-Active in all terminals (current + new)
+Manifest: Updated to Platform 3.0
+Modules: [list modules]
+Events: [list events]
+Engines: Node 24.11.0, FDK 10.0.1
+Validation: passed / failed
 
-IMPORTANT NOTES:
-- FDK 9.x is for Platform 2.x apps only
-- Platform 3.0 apps will NOT work with FDK 9
-- Node 24 still available: nvm use 24
-- Previous FDK 10.x completely removed (no conflicts)
-
-ACTIVE GLOBALLY:
-- Current terminal: Verified
-- New terminals: Verified
-- System-wide: Verified
-
-TO UPGRADE BACK TO FDK 10.x:
-  nvm use 24
-  npm install https://cdn.freshdev.io/fdk/latest.tgz -g
-  nvm alias default 24
-  echo "nvm use fdk > /dev/null 2>&1" >> ~/.zshrc
+REMAINING STEPS:
+- Test all event handlers locally
+- Verify request templates work
+- Run fdk validate before publishing
 
 ERROR HANDLING:
-- If FDK 10.x uninstall fails: Use npm uninstall --force, manual removal
-- If ~/.fdk removal fails: Check permissions, use sudo
-- If FDK 9.x install fails: Check npm registry access
-- If Node 18 install fails: Check nvm installation
-- If global switch fails: Manually edit shell config
+- If manifest has unknown keys: Remove or migrate them
+- If events are in wrong module: Move to correct product module
+- If fdk validate fails: Fix reported issues
+- If server code uses deprecated APIs: Rewrite to 3.0 patterns
 `
 })
+```
+
+### Expected Output
+
+```
+Detected: FDK 10.11.0 on Node 24.11.0
+
+Modernization:
+  manifest.json → Platform 3.0 module structure
+  engines → Node 24.11.0, FDK 10.0.1
+  Events moved to correct modules
+  Server handlers updated to 3.0 patterns
+
+Validation: fdk validate passed
+
+App modernized to Platform 3.0!
 ```
 
 ---
@@ -585,7 +567,7 @@ echo "Performing clean FDK installation..."
    node --version
 
 2. Install FDK:
-   npm install https://cdn.freshdev.io/fdk/latest.tgz -g
+   npm install https://cdn.freshdev.io/fdk/latest-v24.tgz -g
 
 3. Verify installation:
    which fdk
@@ -868,7 +850,7 @@ STEPS:
 
 3. Install FDK on Node 24:
    nvm use 24
-   npm install https://cdn.freshdev.io/fdk/latest.tgz -g
+   npm install https://cdn.freshdev.io/fdk/latest-v24.tgz -g
 
 4. Create .nvmrc files for projects:
 
@@ -948,7 +930,7 @@ ERROR HANDLING:
 |----------|-------|---------|-------|
 | 1. Legacy Migration (FDK 9.x→10) | Supported | Supported | Supported |
 | 2. Existing Node | Supported | Supported | Supported |
-| 3. Downgrade | Supported | Supported | Supported |
+| 3. Modernize to 3.0 | Supported | Supported | Supported |
 | 4. Troubleshooting | Supported | Supported | Supported |
 | 5. Specific Version | Supported | Supported | Supported |
 | 6. Node PATH Mismatch | Supported | Supported | Supported |
@@ -962,7 +944,7 @@ ERROR HANDLING:
 |------|--------------|
 | Upgrade from FDK 9.x to 10 | Scenario 1 |
 | Already have Node installed | Scenario 2 |
-| Downgrade to legacy FDK | Scenario 3 (use /fw-setup-downgrade) |
+| Modernize older app to Platform 3.0 | Scenario 3 |
 | FDK not working | Scenario 4 |
 | Install specific FDK version | Scenario 5 |
 | Node PATH issues | Scenario 6 |
