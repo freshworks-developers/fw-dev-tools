@@ -1,7 +1,7 @@
 'use strict';
 
 const { spawn } = require('child_process');
-const { createRuleResult, runCli } = require('./common');
+const { createRuleResult, runCli } = require('../runners/common');
 
 const RULE_ID = 'GN-02L';
 const MAX_REPORTED_ISSUES = 10;

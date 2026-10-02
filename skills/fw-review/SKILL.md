@@ -28,7 +28,7 @@ This is an automated pipeline. **After the app directory is determined (Q1 pre-f
 3. If **one folder**: Use that directory.
 4. If **none**: Inform the user and stop.
 
-All app files in the workflow below are relative to that directory (the folder containing `manifest.json`). Run deterministic check scripts from this skill’s **`scripts/`** against `<app-directory>` (see [README.md](README.md)).
+All app files in the workflow below are relative to that directory (the folder containing `manifest.json`). Run deterministic rule checks from this skill’s **`checks/`** against `<app-directory>`; shared CLI/result plumbing lives in **`runners/common.js`** (see [README.md](README.md)).
 
 ## Workflow
 
@@ -50,7 +50,7 @@ The **Freshworks FDK CLI** (`fdk`) is **not** bundled with this repository and i
 
 1. **Structure** — Read `manifest.json` in the app directory first for platform version, modules, requests, events, and install flow.
 2. **Installation parameters** — In the app directory, review `config/iparams.json` or custom `config/iparams.html` / `config/assets/iparams.js` using [rules/iparam-rules.md](rules/iparam-rules.md). Follow the discovery order in that file.
-3. **Deterministic script checks** — For each script-backed rule ID in [rules/script-check-rules.md](rules/script-check-rules.md), run the mapped JS file from this skill’s `scripts/` against `<app-directory>`. Treat any returned internal metadata such as `internal.rule_id` as internal only.
+3. **Deterministic script checks** — For each script-backed rule ID in [rules/script-check-rules.md](rules/script-check-rules.md), run the mapped JS file from this skill’s `checks/` against `<app-directory>`. Treat any returned internal metadata such as `internal.rule_id` as internal only.
 4. **Frontend logical checks** — Review [rules/frontend-files-rules.md](rules/frontend-files-rules.md) for FF-* rules that do not have a one-to-one script.
 
 ## Rules
@@ -58,7 +58,7 @@ The **Freshworks FDK CLI** (`fdk`) is **not** bundled with this repository and i
 - Do **not** invent rule IDs or Pass/Fail criteria beyond the **Rule ID summary** in this file and the criteria defined in the linked `rules/*.md` files for those IDs.
 - Every rule ID **in the Rule ID summary** below must be evaluated to Pass, Fail, or Not Applicable.
 - Emit the **App Review Result** block exactly as specified in [rules/report.md](rules/report.md):
-  - **Exclusive deliverable:** The user-facing reply for the review **must contain only** that block—begin with `## App Review Result`; do **not** add lines above it or below it (aside from what `report.md` defines inside the block: heading, then `successful` or the numbered list). No rule IDs (`GN-*`, `IP-*`, `FF-*`, `FFS-*`, `CR-*`), no internal filenames (`script-check-rules.md`, other `rules/*.md`, `scripts/*.js`), and no citations to skill paths.
+  - **Exclusive deliverable:** The user-facing reply for the review **must contain only** that block—begin with `## App Review Result`; do **not** add lines above it or below it (aside from what `report.md` defines inside the block: heading, then `successful` or the numbered list). No rule IDs (`GN-*`, `IP-*`, `FF-*`, `FFS-*`, `CR-*`), no internal filenames (`script-check-rules.md`, other `rules/*.md`, `checks/*.js`, `runners/*.js`), and no citations to skill paths.
   - The output is **rendered Markdown**. Do **not** wrap the final report in a code fence (no `\`\`\`text` around the whole block); emit the Markdown directly so headings, lists, and links render in the chat client.
   - Heading is always the level-2 Markdown heading `## App Review Result` with no suffix. Below it: the word `successful` alone on its own line when there are zero failures; when there are failures, omit `successful` and emit the numbered list per [rules/report.md](rules/report.md).
   - Each failure is one numbered list entry with two paragraphs:
@@ -97,7 +97,7 @@ Then emit the `## App Review Result` block.
 - [rules/report.md](rules/report.md) — Output format for the final **App Review Result** block only.
 - [rules/iparam-rules.md](rules/iparam-rules.md) — IP-04A, IP-05A, IP-06A.
 - [rules/frontend-files-rules.md](rules/frontend-files-rules.md) — All FF-* rules.
-- [rules/script-check-rules.md](rules/script-check-rules.md) — Script-backed rule IDs mapped to `scripts/*.js`.
+- [rules/script-check-rules.md](rules/script-check-rules.md) — Script-backed rule IDs mapped to `checks/*.js` (with shared CLI/result plumbing in `runners/common.js`).
 
 ## Rule ID summary (authoritative list of evaluated rule IDs)
 

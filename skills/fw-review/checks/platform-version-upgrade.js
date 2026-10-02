@@ -2,7 +2,7 @@
 
 const fs = require('fs/promises');
 const path = require('path');
-const { createRuleResult, runCli } = require('./common');
+const { createRuleResult, runCli } = require('../runners/common');
 
 const RULE_ID = 'GN-12L';
 

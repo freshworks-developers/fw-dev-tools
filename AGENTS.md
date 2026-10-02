@@ -47,7 +47,7 @@ Prefer **small, focused diffs**. Match existing markdown and plugin patterns.
 | Path | Purpose |
 |------|---------|
 | **`skills/{fw-setup,fw-app-dev,fw-ai-actions-app,fw-review,fw-publish}/`** | Skill packages (`SKILL.md`, `rules/`, `commands/`, `references/`, `assets/`) |
-| **`skills/fw-review/scripts/*.js`** | Deterministic rule checks (mapped in `rules/script-check-rules.md`) |
+| **`skills/fw-review/checks/*.js`** | Deterministic rule checks, one per script-backed rule ID (mapped in `rules/script-check-rules.md`); shared CLI/result plumbing in **`skills/fw-review/runners/common.js`** |
 | **`skills/shared/`** | `.meta.template.json`, `scripts/meta-*.sh`, `check-update.sh` |
 | **`installer/`** | `npx @freshworks/fw-dev-tools` CLI (install, update, status, uninstall) |
 | **`installer/src/specs/fw-dev-tools-spec.md`** | **Shipped** routing spec (~28 lines) → Cursor rule / Codex `AGENTS.md` block |

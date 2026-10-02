@@ -9,7 +9,7 @@ For every **Fail**, cite file path and line (or block) from the script output an
 
 **Inspect**
 
-- Run `scripts/external-import-sources.js`.
+- Run `checks/external-import-sources.js`.
 
 **Pass**
 
@@ -34,7 +34,7 @@ For every **Fail**, cite file path and line (or block) from the script output an
 
 **Inspect**
 
-- Run `scripts/https-imports.js`.
+- Run `checks/https-imports.js`.
 
 **Pass**
 
@@ -59,7 +59,7 @@ For every **Fail**, cite file path and line (or block) from the script output an
 
 **Inspect**
 
-- Run `scripts/image-resolution.js`.
+- Run `checks/image-resolution.js`.
 
 **Pass**
 
@@ -84,7 +84,7 @@ For every **Fail**, cite file path and line (or block) from the script output an
 
 **Inspect**
 
-- Run `scripts/oauth-config-usage.js`.
+- Run `checks/oauth-config-usage.js`.
 
 **Pass**
 
@@ -109,7 +109,7 @@ For every **Fail**, cite file path and line (or block) from the script output an
 
 **Inspect**
 
-- Run `scripts/unused-library-imports.js`.
+- Run `checks/unused-library-imports.js`.
 
 **Pass**
 
@@ -134,7 +134,7 @@ For every **Fail**, cite file path and line (or block) from the script output an
 
 **Inspect**
 
-- Run `scripts/freshworks-css-only.js`.
+- Run `checks/freshworks-css-only.js`.
 
 **Pass**
 
@@ -159,7 +159,7 @@ For every **Fail**, cite file path and line (or block) from the script output an
 
 **Inspect**
 
-- Run `scripts/fdk-errors-warnings.js`.
+- Run `checks/fdk-errors-warnings.js`.
 
 **Pass**
 
@@ -184,7 +184,7 @@ For every **Fail**, cite file path and line (or block) from the script output an
 
 **Inspect**
 
-- Run `scripts/platform-version-upgrade.js`.
+- Run `checks/platform-version-upgrade.js`.
 
 **Pass**
 

@@ -2,9 +2,9 @@
 
 const fs = require('fs/promises');
 const path = require('path');
-const { createRuleResult, runCli } = require('./common');
+const { createRuleResult, runCli } = require('../runners/common');
 
-const RULE_ID = 'FFS-04L';
+const RULE_ID = 'GN-08L';
 
 const IGNORED_DIRECTORIES = new Set([
   '.cache',
@@ -18,7 +18,15 @@ const IGNORED_DIRECTORIES = new Set([
   'node_modules'
 ]);
 
-// Walk app text files with matching extensions across the whole app root so insecure import URLs can be found.
+const BLOCKED_FILES = [
+  'freshdesk.css',
+  'freshmarketer.css',
+  'freshsales.css',
+  'freshservice.css',
+  'freshteam.css'
+];
+
+// Walk HTML and CSS files across the app root so linked or imported stylesheet assets can be checked.
 async function walkFiles(rootDir, extensions) {
   const files = [];
 
@@ -49,22 +57,8 @@ async function walkFiles(rootDir, extensions) {
   return files;
 }
 
-function collectMatches(content, regex) {
-  const matcher = new RegExp(regex.source, regex.flags.includes('g') ? regex.flags : `${regex.flags}g`);
-  const matches = [];
-  let match;
-
-  while ((match = matcher.exec(content)) !== null) {
-    const line = content.slice(0, match.index).split('\n').length;
-    const excerpt = (content.split('\n')[line - 1] || '').trim();
-    matches.push({ line, excerpt });
-  }
-
-  return matches;
-}
-
-function createDetail(file, message, line, excerpt) {
-  return { file, message, line, excerpt };
+function createDetail(file, message) {
+  return { file, message };
 }
 
 function createResult(passed, summary, details = []) {
@@ -72,31 +66,32 @@ function createResult(passed, summary, details = []) {
 }
 
 async function run(targetDir) {
-  const files = await walkFiles(targetDir, ['.css', '.html', '.js', '.json', '.jsx', '.ts', '.tsx']);
+  const files = await walkFiles(targetDir, ['.css', '.html']);
   const details = [];
-  const patterns = [
-    /(?:src|href)\s*=\s*["']http:\/\/[^"']+/gi,
-    /(?:url|@import)\s*\(\s*["']?http:\/\/[^"')]+/gi
-  ];
+  const linkPattern = /<link[^>]+href\s*=\s*["']([^"']+\.css)["']/gi;
+  const importPattern = /@import\s+(?:url\()?\s*["']([^"']+\.css)["']/gi;
 
   for (const file of files) {
-    for (const pattern of patterns) {
-      for (const hit of collectMatches(file.content, pattern)) {
-        details.push(
-          createDetail(
-            file.relativePath,
-            'Import URLs must use HTTPS instead of HTTP.',
-            hit.line,
-            hit.excerpt
-          )
-        );
+    for (const pattern of [linkPattern, importPattern]) {
+      let match;
+      pattern.lastIndex = 0;
+      while ((match = pattern.exec(file.content)) !== null) {
+        const href = match[1].toLowerCase();
+        if (BLOCKED_FILES.some((cssFile) => href.includes(cssFile))) {
+          details.push(
+            createDetail(
+              file.relativePath,
+              `Only Freshworks.css should be used here, but found ${match[1]}.`
+            )
+          );
+        }
       }
     }
   }
 
   return details.length === 0
-    ? createResult(true, 'All external imports use HTTPS.')
-    : createResult(false, 'Some external imports still use HTTP.', details);
+    ? createResult(true, 'Only Freshworks.css references were detected.')
+    : createResult(false, 'Product-specific CSS files were detected.', details);
 }
 
 module.exports = { run };

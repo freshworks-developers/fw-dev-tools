@@ -60,7 +60,7 @@ fw-dev-tools/
 │   │   ├── references/       # Documentation loaded on-demand
 │   │   └── assets/           # Templates and resources
 │   ├── fw-ai-actions-app/    # AI Actions + third-party integrations (skill id: fw-ai-actions-app; actions.json, SMI)
-│   ├── fw-review/            # Automated app review (rules + scripts, structured report)
+│   ├── fw-review/            # Automated app review (rules + checks/ + runners/, structured report)
 │   ├── fw-setup/             # FDK + Node install / lifecycle (nvm)
 │   └── fw-publish/           # Marketplace publish (MCP) guidance
 ├── scripts/                  # Build and utility scripts

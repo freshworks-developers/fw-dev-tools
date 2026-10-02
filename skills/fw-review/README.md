@@ -1,10 +1,10 @@
 # fw-review
 
-Automated **Freshworks Platform 3.0** marketplace app audit: manifest and iparams review, frontend rules, deterministic `scripts/*.js` checks, and a fixed **App Review Result** report format.
+Automated **Freshworks Platform 3.0** marketplace app audit: manifest and iparams review, frontend rules, deterministic `checks/*.js` rule checks (with shared CLI/result plumbing in `runners/common.js`), and a fixed **App Review Result** report format.
 
 ## Overview
 
-**fw-review** is a silent, pipeline-style skill. Agents follow `SKILL.md`, evaluate the rule IDs listed here, run mapped scripts from `scripts/` where specified, and emit output per `rules/report.md`. It does not install FDK; use **fw-setup** (`/fw-setup-status`) when the CLI may be absent. To fix findings, use **fw-app-dev** (full Platform 3.0 apps) or **fw-ai-actions-app** (AI Actions) per **[AGENTS.md](../../AGENTS.md)**.
+**fw-review** is a silent, pipeline-style skill. Agents follow `SKILL.md`, evaluate the rule IDs listed here, run mapped rule scripts from `checks/` (each importing shared plumbing from `runners/common.js`) where specified, and emit output per `rules/report.md`. It does not install FDK; use **fw-setup** (`/fw-setup-status`) when the CLI may be absent. To fix findings, use **fw-app-dev** (full Platform 3.0 apps) or **fw-ai-actions-app** (AI Actions) per **[AGENTS.md](../../AGENTS.md)**.
 
 ## Install
 
@@ -41,27 +41,27 @@ claude plugin install fw-review@freshworks-developers
 | IP-04A | Installation parameters | `rules/iparam-rules.md` | Protocol must not be accepted in domain or host fields. |
 | IP-05A | Installation parameters | `rules/iparam-rules.md` | Installation inputs must have thorough validation. |
 | IP-06A | Installation parameters | `rules/iparam-rules.md` | Validation failures must show helpful, specific messages. |
-| FFS-02L | File and folder structure | `rules/script-check-rules.md`, `scripts/external-import-sources.js` | External imports must use allowlisted hosts. |
-| FFS-04L | File and folder structure | `rules/script-check-rules.md`, `scripts/https-imports.js` | External imports must use HTTPS. |
-| FFS-05L | File and folder structure | `rules/script-check-rules.md`, `scripts/image-resolution.js` | Image assets must meet baseline resolution expectations. |
+| FFS-02L | File and folder structure | `rules/script-check-rules.md`, `checks/external-import-sources.js` | External imports must use allowlisted hosts. |
+| FFS-04L | File and folder structure | `rules/script-check-rules.md`, `checks/https-imports.js` | External imports must use HTTPS. |
+| FFS-05L | File and folder structure | `rules/script-check-rules.md`, `checks/image-resolution.js` | Image assets must meet baseline resolution expectations. |
 | FF-01L | Frontend | `rules/frontend-files-rules.md` | Client API calls must use request templates instead of raw Ajax/fetch/HTTP clients. |
-| FF-07L | Frontend | `rules/frontend-files-rules.md`, `rules/script-check-rules.md`, `scripts/oauth-config-usage.js` | OAuth client IDs, secrets, and tokens must stay in secure configuration. |
+| FF-07L | Frontend | `rules/frontend-files-rules.md`, `rules/script-check-rules.md`, `checks/oauth-config-usage.js` | OAuth client IDs, secrets, and tokens must stay in secure configuration. |
 | FF-02M | Frontend | `rules/frontend-files-rules.md` | SMI must not be used when request templates are sufficient. |
 | FF-03A | Frontend | `rules/frontend-files-rules.md` | API secrets must appear in request headers, not URLs. |
 | FF-04A | Frontend | `rules/frontend-files-rules.md` | API errors must be handled and reported to users. |
 | FF-05A | Frontend | `rules/frontend-files-rules.md` | List API calls must use pagination when supported. |
 | FF-06A | Frontend | `rules/frontend-files-rules.md` | Source code must not hardcode credentials or secrets. |
-| CR-05L | Code readability | `rules/script-check-rules.md`, `scripts/unused-library-imports.js` | Imported third-party libraries must be used. |
-| GN-02L | Miscellaneous | `rules/script-check-rules.md`, `scripts/fdk-errors-warnings.js` | FDK validation must not report errors or warnings. |
-| GN-08L | Miscellaneous | `rules/script-check-rules.md`, `scripts/freshworks-css-only.js` | Only Freshworks CSS should be referenced. |
-| GN-12L | Miscellaneous | `rules/script-check-rules.md`, `scripts/platform-version-upgrade.js` | App must target the expected platform version. |
+| CR-05L | Code readability | `rules/script-check-rules.md`, `checks/unused-library-imports.js` | Imported third-party libraries must be used. |
+| GN-02L | Miscellaneous | `rules/script-check-rules.md`, `checks/fdk-errors-warnings.js` | FDK validation must not report errors or warnings. |
+| GN-08L | Miscellaneous | `rules/script-check-rules.md`, `checks/freshworks-css-only.js` | Only Freshworks CSS should be referenced. |
+| GN-12L | Miscellaneous | `rules/script-check-rules.md`, `checks/platform-version-upgrade.js` | App must target the expected platform version. |
 
 ## Script Output Contract
 
-Script-backed checks are deterministic Node CLIs. Each script takes an app root path and prints JSON:
+Script-backed checks are deterministic Node CLIs. Each rule check lives in `checks/` and uses the shared CLI/result plumbing in `runners/common.js`. Each script takes an app root path and prints JSON:
 
 ```bash
-node scripts/<script-name>.js /path/to/app
+node checks/<script-name>.js /path/to/app
 ```
 
 Each script returns a JSON object with this shape:
@@ -84,7 +84,7 @@ Important:
 - The user-facing review output must not show `internal.rule_id`.
 - `passed`, `summary`, and `details` are intended for downstream evaluation and report generation.
 
-Shared helper in `scripts/common.js`:
+Shared helper in `runners/common.js` (imported by every file in `checks/` as `require('../runners/common')`):
 
 - `createRuleResult(ruleId, passed, summary, details)` wraps the script result and stores the rule ID under `internal.rule_id`.
 - `runCli(run)` resolves the target directory from `process.argv[2] || process.cwd()`, runs the checker, prints formatted JSON, and sets the process exit code to `0` for pass and `1` for fail.
@@ -154,7 +154,7 @@ Installation-time configuration review is scoped to `manifest.json`, default ipa
 
 #### FFS-02L - Dependencies From External Sources Must Use Allowlisted Hosts
 
-**Implemented by:** `scripts/external-import-sources.js`
+**Implemented by:** `checks/external-import-sources.js`
 
 **File types scanned:** `.css`, `.html`, `.js`, `.json`, `.jsx`, `.ts`, `.tsx`
 
@@ -206,7 +206,7 @@ Installation-time configuration review is scoped to `manifest.json`, default ipa
 
 #### FFS-04L - Imports Must Use HTTPS
 
-**Implemented by:** `scripts/https-imports.js`
+**Implemented by:** `checks/https-imports.js`
 
 **Implementation details:**
 
@@ -231,7 +231,7 @@ Installation-time configuration review is scoped to `manifest.json`, default ipa
 
 #### FFS-05L - Images Must Meet Baseline Resolution Expectations
 
-**Implemented by:** `scripts/image-resolution.js`
+**Implemented by:** `checks/image-resolution.js`
 
 **Implementation details:**
 
@@ -273,7 +273,7 @@ Installation-time configuration review is scoped to `manifest.json`, default ipa
 
 #### FF-07L - OAuth Client ID And Secrets Only In OAuth / Secure Config
 
-**Implemented by:** `scripts/oauth-config-usage.js` plus frontend review criteria.
+**Implemented by:** `checks/oauth-config-usage.js` plus frontend review criteria.
 
 **Implementation details:**
 
@@ -379,7 +379,7 @@ Installation-time configuration review is scoped to `manifest.json`, default ipa
 
 #### CR-05L - Imported Third-Party Libraries Must Be Used
 
-**Implemented by:** `scripts/unused-library-imports.js`
+**Implemented by:** `checks/unused-library-imports.js`
 
 **Implementation details:**
 
@@ -410,7 +410,7 @@ Installation-time configuration review is scoped to `manifest.json`, default ipa
 
 #### GN-02L - FDK Validation Must Not Report Errors Or Warnings
 
-**Implemented by:** `scripts/fdk-errors-warnings.js`
+**Implemented by:** `checks/fdk-errors-warnings.js`
 
 **Implementation details:**
 
@@ -436,7 +436,7 @@ Installation-time configuration review is scoped to `manifest.json`, default ipa
 
 #### GN-08L - Only Freshworks CSS Should Be Referenced
 
-**Implemented by:** `scripts/freshworks-css-only.js`
+**Implemented by:** `checks/freshworks-css-only.js`
 
 **Implementation details:**
 
@@ -464,7 +464,7 @@ Installation-time configuration review is scoped to `manifest.json`, default ipa
 
 #### GN-12L - App Must Target The Expected Platform Version
 
-**Implemented by:** `scripts/platform-version-upgrade.js`
+**Implemented by:** `checks/platform-version-upgrade.js`
 
 **Implementation details:**
 
@@ -491,14 +491,15 @@ Installation-time configuration review is scoped to `manifest.json`, default ipa
 |------|---------|
 | `SKILL.md` | Workflow, authoritative rule ID summary, prerequisites |
 | `rules/` | Detailed criteria for iparam, frontend, script-backed checks, and report output |
-| `scripts/` | Node CLIs for script-backed checks listed in the rule inventory |
+| `checks/` | One Node CLI per script-backed rule ID listed in the rule inventory |
+| `runners/` | Shared CLI/result plumbing (`runners/common.js` exporting `createRuleResult` and `runCli`) imported by every check |
 | `.claude-plugin/` / `.cursor-plugin/` | Plugin metadata for marketplace installs |
 
 ## Requirements
 
 - Target app: Platform 3.0 marketplace layout (`manifest.json`, `config/`, `app/`, etc.)
 - **FDK** on `PATH` when phases require `fdk` (otherwise install via **fw-setup**)
-- **Node.js** to run `scripts/*.js` (same machine as the audit)
+- **Node.js** to run `checks/*.js` (same machine as the audit)
 
 ## Support
 

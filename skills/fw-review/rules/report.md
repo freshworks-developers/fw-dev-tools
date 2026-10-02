@@ -84,7 +84,7 @@ Rules:
 - Each failure is a single numbered list entry. The first paragraph is the issue line ending with the bracketed location link. The second paragraph (indented 3 spaces) starts with `**Fix:**`.
 - Separate the issue paragraph and the Fix paragraph with one blank line. Separate consecutive numbered entries with one blank line.
 - Do **not** include internal **rule IDs** (e.g. `GN-02L`, `IP-04A`, `FFS-04L`, `FF-07L`, `CR-05L`), **area labels** shown to the user (`Iparams`, `Miscellaneous`), severity labels, or internal JSON metadata such as `internal.rule_id` anywhere in emitted output—including any line intended for the developer reading the chat.
-- Do **not** cite this skill’s **markdown or script paths** in emitted output (`script-check-rules.md`, `iparam-rules.md`, other `rules/*.md`, `scripts/*.js`).
+- Do **not** cite this skill’s **markdown or script paths** in emitted output (`script-check-rules.md`, `iparam-rules.md`, other `rules/*.md`, `checks/*.js`, `runners/*.js`).
 - Do **not** wrap the final report in triple backticks.
 
 ## Writing style
@@ -168,7 +168,7 @@ successful
 
 ### Preamble or footnote exposing rule IDs or skill files
 
-Invalid (anything before `## App Review Result` that names a rule ID, cites `rules/*.md` / `scripts/*.js`, or explains Pass/N/A omissions):
+Invalid (anything before `## App Review Result` that names a rule ID, cites `rules/*.md` / `checks/*.js` / `runners/*.js`, or explains Pass/N/A omissions):
 
 ```markdown
 GN-02L is Not applicable when FDK is missing on PATH (per `script-check-rules.md`); …
